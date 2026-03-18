@@ -1241,8 +1241,9 @@ function getSeasonKey(month) {
   return "fall";
 }
 
-function perFamilyNight(weeklyPrice) {
-  return Math.round(weeklyPrice / 4 / 7);
+function perFamilyNight(weeklyPrice, families) {
+  const f = families || 3;
+  return Math.round(weeklyPrice / f / 7);
 }
 
 function getPostDate(gapDates, weeksOut) {
@@ -1260,13 +1261,10 @@ function generateAllPosts() {
   const gaps = DATA.weeks.filter(w => w.gap);
   const posts = [];
 
-  // Helper: format week date range
   function weekRange(g) {
-    const s = new Date(g.start);
-    const e = new Date(g.end);
-    const mo = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    return `${mo[s.getMonth()]} ${s.getDate()}\u2013${mo[e.getMonth()]} ${e.getDate()}`;
+    return g.dates26;
   }
+  const LINK = "https://www.cottagesincanada.com/32361";
 
   const springGaps = gaps.filter(g => g.month === "May" || g.month === "Jun");
   const summerGaps = gaps.filter(g => g.month === "Jul" || g.month === "Aug");
@@ -1280,8 +1278,8 @@ function generateAllPosts() {
   if (springGaps.length > 0) {
     const g = springGaps[0];
     posts.push({ icp: "families", tone: "emotional", season: getSeasonKey(g.month),
-      copy: `There\u2019s a moment every parent waits for.\n\nYour little one standing ankle-deep in warm, sandy shallows\u2026 squealing because a minnow just tickled their toes.\n\nIsland View Retreat sits on a private sandy beach with the gentlest water entry on Big Gull Lake. No boats roaring past. No crowds. Just your family (or a few families together) on 1.2 acres of lakefront with a screened porch for nap time and a firepit for after bedtime.\n\nSleeps 16. Two canoes, two paddleboards, two fishing kayaks included. Camp\u2019s Bay Marina next door for ice cream runs.\n\nSpring weeks from $${g.now.toLocaleString()}/week \u2014 that\u2019s ~$${perFamilyNight(g.now, 3)}/night per family if you split three ways.\n\n\uD83D\uDC49 ${g.link}\n\n34 five-star reviews. 5th season. The kind of place where kids ask to come back.`,
-      postDate: getPostDate(g, -21), promotes: weekRange(g)
+      copy: `There\u2019s a moment every parent waits for.\n\nYour little one standing ankle-deep in warm, sandy shallows\u2026 squealing because a minnow just tickled their toes.\n\nIsland View Retreat sits on a private sandy beach with the gentlest water entry on Big Gull Lake. No boats roaring past. No crowds. Just your family (or a few families together) on 1.2 acres of lakefront with a screened porch for nap time and a firepit for after bedtime.\n\nSleeps 16. Two canoes, two paddleboards, two fishing kayaks included. Camp\u2019s Bay Marina next door for ice cream runs.\n\nSpring weeks from $${g.now.toLocaleString()}/week \u2014 that\u2019s ~$${perFamilyNight(g.now, 3)}/night per family if you split three ways.\n\n\uD83D\uDC49 ${LINK}\n\n34 five-star reviews. 5th season. The kind of place where kids ask to come back.`,
+      postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
@@ -1295,14 +1293,14 @@ function generateAllPosts() {
   if (summerGaps.length > 0) {
     const g = summerGaps[0];
     posts.push({ icp: "families", tone: "experiential", season: "summer",
-      copy: `Day 1: They\u2019re glued to the iPad.\nDay 2: They\u2019re catching frogs off the dock.\nDay 3: They\u2019re building a \u201Cfort\u201D out of driftwood and declaring it their kingdom.\n\nBig Gull Lake has 30+ islands to explore by canoe, 88 km of wild shoreline, and exactly zero waterslides. The entertainment is the lake itself.\n\nIsland View Retreat \u2014 5 bedrooms, private sandy beach, sleeps 16. Everything you need for a week where the kids actually play outside.\n\n${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${g.link}`,
-      postDate: getPostDate(g, -28), promotes: weekRange(g)
+      copy: `Day 1: They\u2019re glued to the iPad.\nDay 2: They\u2019re catching frogs off the dock.\nDay 3: They\u2019re building a \u201Cfort\u201D out of driftwood and declaring it their kingdom.\n\nBig Gull Lake has 30+ islands to explore by canoe, 88 km of wild shoreline, and exactly zero waterslides. The entertainment is the lake itself.\n\nIsland View Retreat \u2014 5 bedrooms, private sandy beach, sleeps 16. Everything you need for a week where the kids actually play outside.\n\n${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${LINK}`,
+      postDate: getPostDate(g.dates26, 4), promotes: weekRange(g)
     });
   }
 
   // Testimonial — families
   posts.push({ icp: "families", tone: "testimonial", season: "summer",
-    copy: `\u201C${REVIEWS[0]}\u201D\n\nThat\u2019s from one of 34 five-star reviews.\n\nIsland View Retreat is the kind of cottage where three families show up as friends and leave as the people who \u201Calways do that lake trip together.\u201D\n\nPrivate sandy beach. Screened porch. Fire pit under the stars. Room for 16.\n\nWe\u2019ve been hosting families for 5 seasons. The ones who come back? They usually book their next year before they leave.\n\nSpring & early summer weeks still open \u2014 starting at $2,950/week.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    copy: `\u201C${REVIEWS[0].quote}\u201D\n\u2014 ${REVIEWS[0].guest}, ${REVIEWS[0].date}\n\nThat\u2019s from one of 34 five-star reviews.\n\nIsland View Retreat is the kind of cottage where three families show up as friends and leave as the people who \u201Calways do that lake trip together.\u201D\n\nPrivate sandy beach. Screened porch. Fire pit under the stars. Room for 16.\n\nWe\u2019ve been hosting families for 5 seasons. The ones who come back? They usually book their next year before they leave.\n\nSpring & early summer weeks still open \u2014 starting at $2,950/week.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
     postDate: new Date(2026, 3, 1), promotes: "All gap weeks"
   });
 
@@ -1320,8 +1318,8 @@ function generateAllPosts() {
   if (springGaps.length > 0) {
     const g = springGaps[0];
     posts.push({ icp: "anglers", tone: "emotional", season: "spring",
-      copy: `4:47 AM. Coffee\u2019s already on.\n\nYou step onto the dock and the lake is glass. Not a boat. Not a sound. Just mist lifting off 21 km of Canadian Shield water and the quiet knowledge that the walleye are stacked on the shoals.\n\nBig Gull Lake is one of Eastern Ontario\u2019s best-kept fishing lakes. Walleye, smallmouth, pike, perch \u2014 all within casting distance of your dock.\n\nIsland View Retreat sleeps up to 16, sits on a private sandy beach, and has Camp\u2019s Bay Marina right next door for boats, bait, fuel, and a fish cleaning station.\n\nBring your crew. ${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${g.link}`,
-      postDate: getPostDate(g, -21), promotes: weekRange(g)
+      copy: `4:47 AM. Coffee\u2019s already on.\n\nYou step onto the dock and the lake is glass. Not a boat. Not a sound. Just mist lifting off 21 km of Canadian Shield water and the quiet knowledge that the walleye are stacked on the shoals.\n\nBig Gull Lake is one of Eastern Ontario\u2019s best-kept fishing lakes. Walleye, smallmouth, pike, perch \u2014 all within casting distance of your dock.\n\nIsland View Retreat sleeps up to 16, sits on a private sandy beach, and has Camp\u2019s Bay Marina right next door for boats, bait, fuel, and a fish cleaning station.\n\nBring your crew. ${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${LINK}`,
+      postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
@@ -1335,8 +1333,8 @@ function generateAllPosts() {
   if (springGaps.length > 0) {
     const g = springGaps[springGaps.length - 1];
     posts.push({ icp: "anglers", tone: "urgency", season: "spring",
-      copy: `Spring walleye season on Big Gull Lake.\n\nThe water\u2019s warming. The shoals are active. And ${weekRange(g)} is still open.\n\n$${g.now.toLocaleString()}/week for a 5-bedroom lakefront cottage that sleeps 16. Dock fits 4 boats. Camp\u2019s Bay Marina next door \u2014 14\u2019 fisherman boats from $99/day, fuel, bait, tackle, cleaning station.\n\nThis is the week your crew has been talking about.\n\n\uD83D\uDC49 ${g.link}`,
-      postDate: getPostDate(g, -14), promotes: weekRange(g)
+      copy: `Spring walleye season on Big Gull Lake.\n\nThe water\u2019s warming. The shoals are active. And ${weekRange(g)} is still open.\n\n$${g.now.toLocaleString()}/week for a 5-bedroom lakefront cottage that sleeps 16. Dock fits 4 boats. Camp\u2019s Bay Marina next door \u2014 14\u2019 fisherman boats from $99/day, fuel, bait, tackle, cleaning station.\n\nThis is the week your crew has been talking about.\n\n\uD83D\uDC49 ${LINK}`,
+      postDate: getPostDate(g.dates26, 2), promotes: weekRange(g)
     });
   }
 
@@ -1360,8 +1358,8 @@ function generateAllPosts() {
   if (summerGaps.length > 0) {
     const g = summerGaps[0];
     posts.push({ icp: "nature", tone: "experiential", season: "summer",
-      copy: `Morning: Coffee on the dock. A heron standing motionless in the shallows.\n\nMid-morning: Kayak to the closest island. Find a granite ledge. Read for an hour with your feet in the water.\n\nAfternoon: Canoe deeper into the lake. 30+ islands to explore. Some with campsites, some completely untouched. An osprey circling overhead.\n\nEvening: Back at the cottage. Fire pit. The Milky Way coming into focus. A loon somewhere across the bay.\n\nIsland View Retreat on Big Gull Lake. ${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${g.link}`,
-      postDate: getPostDate(g, -21), promotes: weekRange(g)
+      copy: `Morning: Coffee on the dock. A heron standing motionless in the shallows.\n\nMid-morning: Kayak to the closest island. Find a granite ledge. Read for an hour with your feet in the water.\n\nAfternoon: Canoe deeper into the lake. 30+ islands to explore. Some with campsites, some completely untouched. An osprey circling overhead.\n\nEvening: Back at the cottage. Fire pit. The Milky Way coming into focus. A loon somewhere across the bay.\n\nIsland View Retreat on Big Gull Lake. ${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${LINK}`,
+      postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
@@ -1383,7 +1381,7 @@ function generateAllPosts() {
 
   // Testimonial — reunion
   posts.push({ icp: "reunion", tone: "testimonial", season: "summer",
-    copy: `\u201C${REVIEWS[1]}\u201D\n\n\u201C${REVIEWS[2]}\u201D\n\nIsland View Retreat has hosted families, friend groups, and reunions for 5 seasons. 34 reviews. All five stars.\n\nThe cottage sleeps 16 on a private sandy beach. Big Gull Lake stretches 21 km through the Canadian Shield with 30+ islands to explore.\n\nThe families who book here don\u2019t just come once.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    copy: `\u201C${REVIEWS[1].quote}\u201D\n\u2014 ${REVIEWS[1].guest}, ${REVIEWS[1].date}\n\n\u201C${REVIEWS[2].quote}\u201D\n\u2014 ${REVIEWS[2].guest}, ${REVIEWS[2].date}\n\nIsland View Retreat has hosted families, friend groups, and reunions for 5 seasons. 34 reviews. All five stars.\n\nThe cottage sleeps 16 on a private sandy beach. Big Gull Lake stretches 21 km through the Canadian Shield with 30+ islands to explore.\n\nThe families who book here don\u2019t just come once.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
     postDate: new Date(2026, 3, 20), promotes: "All gap weeks"
   });
 
@@ -1395,8 +1393,8 @@ function generateAllPosts() {
   if (springGaps.length > 0) {
     const g = springGaps[0];
     posts.push({ icp: "value", tone: "factual", season: "spring",
-      copy: `Cottage math:\n\nMuskoka lakefront (sleeps 8): $5,000\u2013$8,000/week\nPrince Edward County (sleeps 6): $3,500\u2013$6,000/week\nIsland View Retreat, Big Gull Lake (sleeps 16): $${g.now.toLocaleString()}/week\n\n\u2705 5 bedrooms + waterfront bunkie\n\u2705 Private sandy beach\n\u2705 2 canoes, 2 SUPs, 2 kayaks included\n\u2705 A/C, WiFi, Smart TVs, laundry\n\u2705 21 km lake, 30+ islands, Camp\u2019s Bay Marina next door\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\nSplit 4 families = ~$${perFamilyNight(g.now, 4)}/night each.\n\nSame lake. Same stars. Twice the space. Half the price.\n\n\uD83D\uDC49 ${g.link}`,
-      postDate: getPostDate(g, -21), promotes: weekRange(g)
+      copy: `Cottage math:\n\nMuskoka lakefront (sleeps 8): $5,000\u2013$8,000/week\nPrince Edward County (sleeps 6): $3,500\u2013$6,000/week\nIsland View Retreat, Big Gull Lake (sleeps 16): $${g.now.toLocaleString()}/week\n\n\u2705 5 bedrooms + waterfront bunkie\n\u2705 Private sandy beach\n\u2705 2 canoes, 2 SUPs, 2 kayaks included\n\u2705 A/C, WiFi, Smart TVs, laundry\n\u2705 21 km lake, 30+ islands, Camp\u2019s Bay Marina next door\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\nSplit 4 families = ~$${perFamilyNight(g.now, 4)}/night each.\n\nSame lake. Same stars. Twice the space. Half the price.\n\n\uD83D\uDC49 ${LINK}`,
+      postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
@@ -1410,8 +1408,8 @@ function generateAllPosts() {
   if (springGaps.length > 1) {
     const g = springGaps[springGaps.length - 1];
     posts.push({ icp: "value", tone: "urgency", season: "spring",
-      copy: `Last spring weeks at off-peak pricing.\n\n${weekRange(g)}: $${g.now.toLocaleString()}/week for a 5-bedroom lakefront cottage on Big Gull Lake.\n\nSummer rates are $5,850\u2013$7,850/week for the same cottage. This is 40\u201362% less.\n\n3 families splitting = ~$${perFamilyNight(g.now, 3)}/night each.\n\nPrivate sandy beach. 16 beds. 30+ islands. Camp\u2019s Bay Marina next door.\n\n\uD83D\uDC49 ${g.link}`,
-      postDate: getPostDate(g, -10), promotes: weekRange(g)
+      copy: `Last spring weeks at off-peak pricing.\n\n${weekRange(g)}: $${g.now.toLocaleString()}/week for a 5-bedroom lakefront cottage on Big Gull Lake.\n\nSummer rates are $5,850\u2013$7,850/week for the same cottage. This is 40\u201362% less.\n\n3 families splitting = ~$${perFamilyNight(g.now, 3)}/night each.\n\nPrivate sandy beach. 16 beds. 30+ islands. Camp\u2019s Bay Marina next door.\n\n\uD83D\uDC49 ${LINK}`,
+      postDate: getPostDate(g.dates26, 1), promotes: weekRange(g)
     });
   }
 
@@ -1429,8 +1427,8 @@ function generateAllPosts() {
   if (fallGaps.length > 0) {
     const g = fallGaps[0];
     posts.push({ icp: "disconnect", tone: "experiential", season: "fall",
-      copy: `48 hours at Island View Retreat:\n\nFriday evening: Arrive. Unload. Open the door to the screened porch and hear the lake for the first time. Pour something. Sit.\n\nSaturday morning: Coffee on the dock. Mist on the water. Paddle a kayak to the nearest island. Come back when you\u2019re hungry.\n\nSaturday afternoon: Read on the beach. Swim. Nap in the bunkie with the window open.\n\nSaturday night: Fire pit. Stars you forgot existed. The Milky Way reflected on the lake.\n\nSunday: One more coffee on the dock. Drive home feeling like it\u2019s been a week.\n\nFall colour weeks available. ${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${g.link}`,
-      postDate: getPostDate(g, -21), promotes: weekRange(g)
+      copy: `48 hours at Island View Retreat:\n\nFriday evening: Arrive. Unload. Open the door to the screened porch and hear the lake for the first time. Pour something. Sit.\n\nSaturday morning: Coffee on the dock. Mist on the water. Paddle a kayak to the nearest island. Come back when you\u2019re hungry.\n\nSaturday afternoon: Read on the beach. Swim. Nap in the bunkie with the window open.\n\nSaturday night: Fire pit. Stars you forgot existed. The Milky Way reflected on the lake.\n\nSunday: One more coffee on the dock. Drive home feeling like it\u2019s been a week.\n\nFall colour weeks available. ${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${LINK}`,
+      postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
@@ -1442,8 +1440,8 @@ function generateAllPosts() {
     const pri = g.pri;
     if (pri === "CRITICAL" || pri === "HIGH") {
       posts.push({ icp: "value", tone: "urgency", season: sk,
-        copy: `${weekRange(g)} on Big Gull Lake.\n\n$${g.now.toLocaleString()}/week for a 5-bedroom, 16-person lakefront cottage with a private sandy beach.\n\nIncludes: 2 canoes, 2 SUPs, 2 fishing kayaks, fire pit, BBQ, screened porch, A/C, WiFi, Smart TVs, laundry.\n\nCamp\u2019s Bay Marina next door: boat rentals from $99/day, fuel, bait, tackle, fish cleaning station, ice cream.\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\n\n34 five-star reviews. 5th season.\n\n\uD83D\uDC49 ${g.link}`,
-        postDate: getPostDate(g, -14), promotes: weekRange(g)
+        copy: `${weekRange(g)} on Big Gull Lake.\n\n$${g.now.toLocaleString()}/week for a 5-bedroom, 16-person lakefront cottage with a private sandy beach.\n\nIncludes: 2 canoes, 2 SUPs, 2 fishing kayaks, fire pit, BBQ, screened porch, A/C, WiFi, Smart TVs, laundry.\n\nCamp\u2019s Bay Marina next door: boat rentals from $99/day, fuel, bait, tackle, fish cleaning station, ice cream.\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\n\n34 five-star reviews. 5th season.\n\n\uD83D\uDC49 ${LINK}`,
+        postDate: getPostDate(g.dates26, 2), promotes: weekRange(g)
       });
     }
   });
@@ -1474,314 +1472,7 @@ function generateAllPosts() {
     return da - db;
   });
 }
-  const summerGaps = gaps.filter(g => g.month === "Jul" || g.month === "Aug");
-  const fallGaps = gaps.filter(g => g.month === "Sep" || g.month === "Oct");
 
-  if (springGaps.length > 0) {
-    const minPrice = Math.min(...springGaps.map(g => g.now));
-    posts.push({
-      type: "campaign", badge: "Campaign", badgeClass: "badge-campaign",
-      target: "All Groups", photo: "Multi-photo (beach + dock + firepit + interior)",
-      postDate: "Mar 23", sortDate: new Date(2026, 2, 23),
-      promotes: "All May & June gap weeks",
-      priority: "HIGH",
-      copy: `Still trying to coordinate a group cottage trip? This one sleeps 16 on the lake.
-
-Planning a cottage getaway for a few families is hard \u2014 finding one big enough, in a good spot, at a price that works for everyone.
-
-Island View Retreat on Big Gull Lake checks all three.
-
-5 bedrooms, 2 baths, private sandy beach, dock, and all the gear you need \u2014 canoes, paddleboards, fishing kayaks.
-
-When you split the cost across 3\u20134 families, you\u2019re looking at roughly $${perFamilyNight(minPrice)}\u2013$160 per family per night for May & June stays. That\u2019s up to 60% less than peak summer.
-
-One of our guests put it perfectly:
-\u201c${REVIEWS[0].quote.substring(0, 120)}...\u201d \u2014 ${REVIEWS[0].guest}, ${REVIEWS[0].date}
-
-About 3 hours from the GTA, 2 hours from Ottawa or Kingston.
-
-34 five-star reviews. 5.0 rating.
-
-Details & availability:
-https://www.cottagesincanada.com/32361
-
-Message me directly if you want help picking dates.`
-    });
-  }
-
-  if (summerGaps.length > 0) {
-    const review = REVIEWS[1];
-    posts.push({
-      type: "campaign", badge: "Campaign", badgeClass: "badge-campaign",
-      target: "All Groups", photo: "Multi-photo (beach + sunset + kids on dock + firepit evening)",
-      postDate: "Apr 19", sortDate: new Date(2026, 3, 19),
-      promotes: "All July & August gap weeks",
-      priority: "CRITICAL",
-      copy: `A few prime summer weeks just opened up at Island View Retreat on Big Gull Lake.
-
-If you\u2019ve been meaning to get a group together at the cottage this summer \u2014 a few families, a reunion, a big birthday \u2014 this is one of the few places that actually fits everyone.
-
-Sleeps 16. Private sandy beach. Dock. Canoes, paddleboards, fishing kayaks \u2014 all included.
-
-The kids fish off the dock (one caught 9 in a single day last summer). The adults relax on the deck overlooking the lake. Evenings end at the firepit with Muskoka chairs and stars.
-
-\u201c${review.quote.substring(0, 100)}...\u201d \u2014 ${review.guest}, ${review.date}
-
-About 3 hours from the GTA, 2 hours from Ottawa or Kingston.
-
-We still have select weeks available in July and August. 34 five-star reviews.
-
-https://www.cottagesincanada.com/32361
-
-Message me to check dates.`
-    });
-  }
-
-  if (fallGaps.length > 0) {
-    const minFallPrice = Math.min(...fallGaps.map(g => g.now));
-    posts.push({
-      type: "campaign", badge: "Campaign", badgeClass: "badge-campaign",
-      target: "All Groups + Fishing Groups", photo: "Single photo (fall colours from water)",
-      postDate: "Aug 2", sortDate: new Date(2026, 7, 2),
-      promotes: "All Sep & Oct gap weeks",
-      priority: "MODERATE",
-      copy: `Fall really is one of the best times to be at Island View Retreat.
-
-The trees around Big Gull Lake are bursting with colour, the fishing is still great, there are no bugs, and the lake feels quiet and peaceful.
-
-Our 5-bedroom lakefront cottage sleeps up to 16, with a private beach, dock, canoes, paddleboards, and fishing kayaks.
-
-Fall stays start at $${minFallPrice.toLocaleString()}/week \u2014 roughly $${perFamilyNight(minFallPrice)} per family per night when split across a few families.
-
-Perfect for a relaxed group getaway, a fishing trip, or a Thanksgiving weekend with the whole family.
-
-About 3 hours from the GTA, 2 hours from Ottawa or Kingston.
-
-https://www.cottagesincanada.com/32361
-
-Message me if you\u2019re thinking about fall dates.`
-    });
-  }
-
-  // 2. GAP-WEEK SPOTLIGHT POSTS (one per gap week)
-  for (const gap of gaps) {
-    const season = SEASON_CONTEXT[getSeasonKey(gap.month)];
-    const pfn = perFamilyNight(gap.now);
-    const review = REVIEWS[Math.floor(Math.random() * 1000) % REVIEWS.length];
-    const postDateStr = getPostDate(gap.dates26, 5);
-
-    posts.push({
-      type: "spotlight", badge: "Spotlight", badgeClass: "badge-spotlight",
-      target: "All Groups", photo: gap.month === "May" || gap.month === "Oct" || gap.month === "Sep" ? "Single photo (link preview \u2014 lake/dock shot)" : "Multi-photo (3\u20135 images)",
-      postDate: postDateStr,
-      sortDate: (() => { const parts = gap.dates26.split("-")[0].trim().split(" "); const mMap = {May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9}; const dt = new Date(2026, mMap[parts[0]]||5, parseInt(parts[1])||1); dt.setDate(dt.getDate() - 35); return dt; })(),
-      promotes: `${gap.period} (${gap.dates26})`,
-      priority: gap.pri,
-      copy: `${gap.dates26} on Big Gull Lake \u2014 ${gap.period.toLowerCase().includes("may") || gap.month === "May" ? "spring at its finest" : gap.month === "Jun" ? "early summer before the crowds" : gap.month === "Jul" ? "prime cottage season" : gap.month === "Aug" ? "the best of late summer" : "fall colours and quiet water"}.
-
-${season.vibe}
-
-Island View Retreat sleeps 16 in 5 bedrooms on a private sandy beach. Everything\u2019s included \u2014 canoes, paddleboards, fishing kayaks, firepit, BBQ, WiFi.
-
-This week is $${gap.now.toLocaleString()} \u2014 about $${pfn} per family per night when a few families share the cost.
-
-\u201c${review.quote.substring(0, 110)}...\u201d \u2014 ${review.guest}
-
-34 five-star reviews. 5.0 rating.
-
-https://www.cottagesincanada.com/32361
-
-Message me directly for this week.`
-    });
-  }
-
-  // 3. LAST-MINUTE / URGENCY POSTS (one per gap week, timed 2 weeks out)
-  for (const gap of gaps) {
-    const pfn = perFamilyNight(gap.now);
-    const discount = Math.round((gap.list - gap.now) / gap.list * 100);
-    const postDateStr = getPostDate(gap.dates26, 2);
-
-    posts.push({
-      type: "urgency", badge: "Last-Minute", badgeClass: "badge-urgency",
-      target: "All Groups + Marketplace", photo: "Single photo (link preview \u2014 hero exterior shot)",
-      postDate: postDateStr,
-      sortDate: (() => { const parts = gap.dates26.split("-")[0].trim().split(" "); const mMap = {May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9}; const dt = new Date(2026, mMap[parts[0]]||5, parseInt(parts[1])||1); dt.setDate(dt.getDate() - 14); return dt; })(),
-      promotes: `${gap.period} (${gap.dates26})`,
-      priority: gap.pri,
-      copy: `${gap.dates26} is still available at Island View Retreat on Big Gull Lake.
-
-${discount > 0 ? `This week is currently $${gap.now.toLocaleString()} \u2014 ${discount}% below our listed rate.` : `This week is $${gap.now.toLocaleString()}.`}
-
-Split across 3\u20134 families, that\u2019s about $${pfn}/family/night for a private lakefront cottage that sleeps 16.
-
-Private sandy beach, dock, canoes, paddleboards, fishing kayaks, huge firepit, fully equipped kitchen, A/C, WiFi.
-
-34 five-star reviews \u2022 5.0 rating
-
-https://www.cottagesincanada.com/32361
-
-Message me if you want it \u2014 this week won\u2019t sit long.`
-    });
-  }
-
-  // 4. REVIEW / TESTIMONIAL POSTS (4 rotating, not tied to specific dates)
-  const testimonialDates = [
-    { postDate: "Mar 29", sortDate: new Date(2026, 2, 29) },
-    { postDate: "Apr 12", sortDate: new Date(2026, 3, 12) },
-    { postDate: "May 3", sortDate: new Date(2026, 4, 3) },
-    { postDate: "Jun 7", sortDate: new Date(2026, 5, 7) }
-  ];
-  for (let i = 0; i < 4; i++) {
-    const review = REVIEWS[i];
-    const td = testimonialDates[i];
-    posts.push({
-      type: "testimonial", badge: "Testimonial", badgeClass: "badge-testimonial",
-      target: "All Groups", photo: "Single photo (beach or dock view)",
-      postDate: td.postDate, sortDate: td.sortDate,
-      promotes: "Brand awareness / trust building",
-      priority: "LOW",
-      copy: `\u201c${review.quote}\u201d
-
-\u2014 ${review.guest}, ${review.date}
-
-Island View Retreat on Big Gull Lake. 34 five-star reviews.
-
-5 bedrooms, sleeps 16. Private sandy beach, dock, canoes, paddleboards, fishing kayaks.
-
-About 3 hours from the GTA, 2 hours from Ottawa or Kingston.
-
-May through October dates available.
-
-https://www.cottagesincanada.com/32361`
-    });
-  }
-
-  // 5. EXPERIENCE / LIFESTYLE POSTS (3 rotating)
-  const expPosts = [
-    {
-      postDate: "Apr 5", sortDate: new Date(2026, 3, 5),
-      copy: `Morning coffee on the dock.
-Kids building sandcastles on the beach.
-A canoe trip around the islands after lunch.
-Fresh fish tacos for dinner on the deck.
-S\u2019mores at the firepit under a sky full of stars.
-
-That\u2019s a day at Island View Retreat on Big Gull Lake.
-
-Sleeps 16. Private beach. Everything included.
-
-May & June dates available \u2014 best pricing of the year.
-
-https://www.cottagesincanada.com/32361`
-    },
-    {
-      postDate: "May 10", sortDate: new Date(2026, 4, 10),
-      copy: `The thing about Big Gull Lake that people don\u2019t expect \u2014 it\u2019s quiet.
-
-No marina noise. No busy waterways. Just 20km of lake, 30+ islands to explore, and clear water you can see the bottom of.
-
-Our cottage sits on a private sandy beach with a dock, canoes, paddleboards, and fishing kayaks. The kids catch fish right off the dock.
-
-It\u2019s 3 hours from the GTA, 2 from Ottawa, and it feels like another world.
-
-We still have summer weeks open.
-
-https://www.cottagesincanada.com/32361`
-    },
-    {
-      postDate: "Jun 14", sortDate: new Date(2026, 5, 14),
-      copy: `You know that feeling when you pull into the cottage driveway and the stress just\u2026 leaves?
-
-That\u2019s what Island View Retreat does. Every time.
-
-Sandy beach. Warm lake. A dock full of kayaks and paddleboards. A firepit that makes every evening feel like a celebration.
-
-This is the kind of place where four families become one big one for a week.
-
-Select summer weeks still available.
-
-https://www.cottagesincanada.com/32361
-
-Message me if you want to make it happen.`
-    }
-  ];
-  for (const ep of expPosts) {
-    posts.push({
-      type: "experience", badge: "Experience", badgeClass: "badge-experience",
-      target: "All Groups", photo: "Multi-photo or short Reel (walkthrough / day-in-the-life)",
-      postDate: ep.postDate, sortDate: ep.sortDate,
-      promotes: "Brand warmth / engagement",
-      priority: "LOW",
-      copy: ep.copy
-    });
-  }
-
-  // 6. FISHING-SPECIFIC POSTS (3 targeted)
-  const fishPosts = [
-    {
-      postDate: "Apr 1", sortDate: new Date(2026, 3, 1),
-      promotes: "May & June shoulder weeks",
-      copy: `Planning a spring fishing trip? Big Gull Lake is one of the best-kept secrets in Eastern Ontario.
-
-Walleye, smallmouth bass, largemouth bass, northern pike \u2014 and a 20km spring-fed lake with 30+ islands and 75km of rocky shoreline.
-
-Island View Retreat sits right on the water with a private dock that fits up to 4 boats. The cottage sleeps 16 across 5 bedrooms \u2014 bring the whole crew.
-
-Included: 2 fishing kayaks, 2 canoes, 2 paddleboards. Camp\u2019s Bay Marina is right next door for boat rentals, fuel, and bait.
-
-Spring weeks from $2,250/week. The fishing is best before the summer crowds arrive.
-
-https://www.cottagesincanada.com/32361
-
-Message me to book your trip.`
-    },
-    {
-      postDate: "May 17", sortDate: new Date(2026, 4, 17),
-      promotes: "June gap weeks",
-      copy: `The walleye are biting on Big Gull Lake.
-
-If you\u2019re looking for a fishing base that fits your whole group \u2014 our lakefront cottage sleeps 16 with a private dock, 2 fishing kayaks, and Camp\u2019s Bay Marina right next door for boat rentals and bait.
-
-The kids fish off the dock all day (rock bass, sunfish, perch) while the adults head out for walleye and pike.
-
-One of our guests\u2019 kids caught 9 fish in a single day off the dock.
-
-June weeks still available at pre-summer pricing.
-
-https://www.cottagesincanada.com/32361`
-    },
-    {
-      postDate: "Aug 16", sortDate: new Date(2026, 7, 16),
-      promotes: "Fall fishing season (Sep & Oct weeks)",
-      copy: `Fall fishing on Big Gull Lake \u2014 some of the best conditions of the year.
-
-The water cools down, the walleye move shallow, and you have the lake practically to yourself.
-
-Island View Retreat is a 5-bedroom lakefront cottage that sleeps 16. Private dock (fits 4 boats), 2 fishing kayaks, 2 canoes, and Camp\u2019s Bay Marina next door.
-
-Fall weeks from $1,950 \u2014 about $70 per person per night if you fill the place.
-
-September and October dates open.
-
-https://www.cottagesincanada.com/32361
-
-Message me to book your fall trip.`
-    }
-  ];
-  for (const fp of fishPosts) {
-    posts.push({
-      type: "fishing", badge: "Fishing", badgeClass: "badge-fishing",
-      target: "Fishing Groups", photo: "Single photo (dock/lake fishing shot)",
-      postDate: fp.postDate, sortDate: fp.sortDate,
-      promotes: fp.promotes,
-      priority: "MODERATE",
-      copy: fp.copy
-    });
-  }
-
-  posts.sort((a, b) => a.sortDate - b.sortDate);
-  return posts;
-}
 
 let postsRendered = false;
 let currentIcpFilter = "all";
