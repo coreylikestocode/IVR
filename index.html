@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Island View Retreat — 2026 Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1419;
+    --surface: #1a2332;
+    --surface2: #243044;
+    --border: #2d3f56;
+    --text: #e8edf3;
+    --text-dim: #8899aa;
+    --booked: #10b981;
+    --booked-bg: rgba(16, 185, 129, 0.12);
+    --personal: #3b82f6;
+    --personal-bg: rgba(59, 130, 246, 0.12);
+    --open: #ef4444;
+    --open-bg: rgba(239, 68, 68, 0.10);
+    --critical: #f59e0b;
+    --critical-bg: rgba(245, 158, 11, 0.15);
+    --high: #f97316;
+    --moderate: #8b5cf6;
+    --low: #6b7280;
+    --accent: #f59e0b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 2rem;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+  h1 span { color: var(--accent); }
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .stat-card .label { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-card .value { font-size: 1.8rem; font-weight: 700; margin-top: 0.25rem; }
+  .stat-card .sub { color: var(--text-dim); font-size: 0.8rem; margin-top: 0.15rem; }
+  .stat-card.highlight { border-color: var(--accent); }
+  .stat-card.highlight .value { color: var(--accent); }
+  .stat-card.danger { border-color: var(--open); }
+  .stat-card.danger .value { color: var(--open); }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .legend-dot {
+    width: 12px; height: 12px; border-radius: 3px;
+  }
+  .legend-dot.booked { background: var(--booked); }
+  .legend-dot.personal { background: var(--personal); }
+  .legend-dot.open { background: var(--open); }
+  .legend-dot.gap-critical { background: var(--critical); }
+
+  .grid-container { overflow-x: auto; margin-bottom: 2rem; }
+  table.booking-grid {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.82rem;
+  }
+  table.booking-grid th {
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.75rem 0.6rem;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-bottom: 2px solid var(--border);
+  }
+  table.booking-grid th:first-child { border-radius: 8px 0 0 0; }
+  table.booking-grid th:last-child { border-radius: 0 8px 0 0; }
+  table.booking-grid th.year-2026 { color: var(--accent); border-bottom-color: var(--accent); }
+
+  table.booking-grid td {
+    padding: 0.55rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    white-space: nowrap;
+  }
+  table.booking-grid tr:last-child td { border-bottom: none; }
+  table.booking-grid td.period-cell {
+    font-weight: 700;
+    color: var(--text);
+    min-width: 110px;
+    background: var(--surface);
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
+  table.booking-grid td.dates-cell {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    min-width: 85px;
+  }
+
+  .cell-booked { background: var(--booked-bg); border-left: 3px solid var(--booked); }
+  .cell-personal { background: var(--personal-bg); border-left: 3px solid var(--personal); }
+  .cell-open { background: transparent; border-left: 3px solid transparent; }
+  .cell-gap { background: var(--open-bg); border-left: 3px solid var(--open); }
+  .cell-gap-critical { background: var(--critical-bg); border-left: 3px solid var(--critical); }
+
+  .cell-guest { font-weight: 500; display: block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+  .cell-revenue { color: var(--booked); font-weight: 700; font-size: 0.78rem; }
+  .cell-revenue.personal { color: var(--personal); }
+  .cell-revenue.none { color: var(--text-dim); }
+  .cell-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    margin-top: 0.2rem;
+  }
+  .tag-critical { background: rgba(245,158,11,0.2); color: var(--critical); }
+  .tag-high { background: rgba(249,115,22,0.2); color: var(--high); }
+  .tag-moderate { background: rgba(139,92,246,0.2); color: var(--moderate); }
+  .tag-low { background: rgba(107,114,128,0.2); color: var(--low); }
+
+  .gap-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .gap-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .gap-card:hover { border-color: var(--accent); }
+  .gap-card.priority-CRITICAL { border-left: 4px solid var(--critical); }
+  .gap-card.priority-HIGH { border-left: 4px solid var(--high); }
+  .gap-card.priority-MODERATE { border-left: 4px solid var(--moderate); }
+  .gap-card.priority-LOW { border-left: 4px solid var(--low); }
+  .gap-card .gc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .gap-card .gc-period { font-weight: 700; font-size: 1rem; }
+  .gap-card .gc-dates { color: var(--text-dim); font-size: 0.8rem; }
+  .gap-card .gc-list-rate { color: var(--text-dim); font-size: 0.85rem; }
+  .gap-card .gc-list-rate strong { color: var(--text); }
+  .gap-card .gc-history { margin-top: 0.5rem; }
+  .gc-history-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .gc-history-row:last-child { border-bottom: none; }
+  .gc-history-row .yr { color: var(--text-dim); width: 40px; }
+  .gc-history-row .guest { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gc-history-row .rev { font-weight: 600; min-width: 65px; text-align: right; }
+  .gc-history-row .rev.paid { color: var(--booked); }
+  .gc-history-row .rev.zero { color: var(--text-dim); }
+  .gc-stats { display: flex; gap: 1rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+  .gc-stat { text-align: center; flex: 1; }
+  .gc-stat .val { font-size: 1.1rem; font-weight: 700; }
+  .gc-stat .lbl { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* Pricing Section */
+  .pricing-section {
+    margin-top: 2rem;
+  }
+  .pricing-summary-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .pricing-summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+    text-align: center;
+  }
+  .pricing-summary-card .ps-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+  }
+  .pricing-summary-card .ps-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  .pricing-summary-card .ps-sub {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+  .pricing-summary-card.savings .ps-value { color: var(--booked); }
+  .pricing-summary-card.total-now .ps-value { color: var(--accent); }
+
+  .pricing-table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  table.pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .pricing-table thead th {
+    background: var(--surface2);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+  }
+  .pricing-table thead th:nth-child(n+3) { text-align: right; }
+  .pricing-table tbody td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: middle;
+  }
+  .pricing-table tbody td:nth-child(n+3) { text-align: right; }
+  .pricing-table tbody tr:last-child td { border-bottom: none; }
+  .pricing-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  .pricing-table .pt-period {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .pricing-table .pt-dates {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .pt-list-price {
+    color: var(--text-dim);
+    text-decoration: line-through;
+    font-size: 0.85rem;
+  }
+  .pt-now-price {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--booked);
+  }
+  .pt-avg-paid {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+  .pt-savings {
+    font-weight: 600;
+    color: var(--booked);
+    font-size: 0.85rem;
+  }
+  .pt-discount-badge {
+    display: inline-block;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--booked);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .pt-discount-badge.deep {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--open);
+  }
+
+  .pricing-table tfoot td {
+    padding: 0.85rem 1rem;
+    border-top: 2px solid var(--border);
+    font-weight: 700;
+    background: var(--surface2);
+  }
+  .pricing-table tfoot td:nth-child(n+3) { text-align: right; }
+  .pricing-table tfoot .ps-total-now { color: var(--accent); font-size: 1.05rem; }
+  .pricing-table tfoot .ps-total-save { color: var(--booked); }
+
+  .pricing-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 100px;
+    margin-left: auto;
+  }
+  .pricing-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--surface2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .pricing-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--booked);
+    transition: width 0.4s ease;
+  }
+  .pricing-bar-fill.deep { background: var(--open); }
+
+  .pricing-note {
+    margin-top: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .pricing-note strong { color: var(--text); }
+
+  .summary-bar {
+    display: flex;
+    gap: 0;
+    height: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .summary-bar .seg {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 700; color: white;
+    transition: flex 0.3s;
+  }
+  .seg-booked { background: var(--booked); }
+  .seg-personal { background: var(--personal); }
+  .seg-open { background: var(--open); }
+  .bar-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); }
+
+  /* Navigation */
+  .nav-bar {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .nav-tab {
+    padding: 0.85rem 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: -2px;
+    letter-spacing: 0.01em;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .nav-tab .tab-icon {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+  }
+  .page-view { display: none; }
+  .page-view.active { display: block; }
+
+  /* Market Research Styles */
+  .mr-content { max-width: 960px; }
+  .mr-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .mr-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .mr-content h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+  }
+  .mr-content h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .mr-content p {
+    margin-bottom: 0.85rem;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .mr-content strong { color: #fff; }
+  .mr-content a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+    transition: border-color 0.2s;
+  }
+  .mr-content a:hover { border-bottom-color: var(--accent); }
+  .mr-content ul, .mr-content ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  .mr-content li {
+    margin-bottom: 0.4rem;
+    line-height: 1.6;
+  }
+  .mr-content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+  .mr-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+  }
+  .mr-content thead th {
+    background: var(--surface2);
+    padding: 0.7rem 0.85rem;
+    text-align: left;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  .mr-content tbody td {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .mr-content tbody tr:hover { background: rgba(255,255,255,0.03); }
+  .mr-content blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    background: var(--surface);
+    border-radius: 0 8px 8px 0;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  .mr-content code {
+    background: var(--surface2);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  .mr-content em { color: var(--text-dim); }
+
+  @media (max-width: 800px) {
+    body { padding: 1rem; }
+    h1 { font-size: 1.5rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .gap-detail-grid { grid-template-columns: 1fr; }
+    .nav-tab { padding: 0.7rem 1rem; font-size: 0.82rem; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Island View Retreat <span>2026</span></h1>
+<p class="subtitle">Operations Dashboard &bull; Generated Mar 18, 2026</p>
+
+<nav class="nav-bar">
+  <button class="nav-tab active" onclick="switchTab('bookings')"><span class="tab-icon">&#9744;</span>Booking Gap Analysis</button>
+  <button class="nav-tab" onclick="switchTab('research')"><span class="tab-icon">&#9783;</span>Market Research</button>
+</nav>
+
+<div id="page-bookings" class="page-view active">
+  <div id="app"></div>
+</div>
+
+<div id="page-research" class="page-view">
+  <div id="research-content" class="mr-content">Loading market research...</div>
+</div>
+
+<script>
+const DATA = {
+  yearly: {
+    2022: { revenue: 70900, potential: 196100, bookings: 15, personal: 5 },
+    2023: { revenue: 71344, potential: 200550, bookings: 14, personal: 4 },
+    2024: { revenue: 89060, potential: 123500, bookings: 17, personal: 2 },
+    2025: { revenue: 86329, potential: 119700, bookings: 18, personal: 3 },
+    2026: { revenue: 35250, potential: 134850, bookings: 8, personal: 2 }
+  },
+  weeks: [
+    {
+      pos: 1, period: "Mid-May Wk1", dates26: "May 10-16", month: "May", list: 3250,
+      y: {
+        2022: { g: "Chris Vachon", r: 0, s: "personal" },
+        2023: { g: "Fareeha Amded", r: 2250, s: "booked" },
+        2024: { g: "Jennifer Srigley", r: 2250, s: "booked" },
+        2025: { g: "Gilson Rockey", r: 2250, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 75, avg: 2250, pri: "HIGH", now: 2250
+    },
+    {
+      pos: 2, period: "Mid-May Wk2", dates26: "May 17-23", month: "May", list: 3250,
+      y: {
+        2022: { g: null, r: 0, s: "open" },
+        2023: { g: null, r: 0, s: "open" },
+        2024: { g: null, r: 0, s: "open" },
+        2025: { g: "Walter Falleiro", r: 1850, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 25, avg: 1850, pri: "LOW", now: 2250
+    },
+    {
+      pos: 3, period: "Late May", dates26: "May 24-30", month: "May", list: 3250,
+      y: {
+        2022: { g: null, r: 0, s: "open" },
+        2023: { g: null, r: 0, s: "open" },
+        2024: { g: "Pete Wiebe", r: 2950, s: "booked" },
+        2025: { g: "Corey Shelson", r: 0, s: "personal" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 25, avg: 2950, pri: "LOW", now: 2450
+    },
+    {
+      pos: 4, period: "Early Jun Wk1", dates26: "May 31-Jun 6", month: "Jun", list: 4750,
+      y: {
+        2022: { g: null, r: 0, s: "open" },
+        2023: { g: "Rich Liddle", r: 3000, s: "booked" },
+        2024: { g: "Jocelyn Use", r: 0, s: "personal" },
+        2025: { g: "Michelle Donovan", r: 2350, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 50, avg: 2675, pri: "MODERATE", now: 2950
+    },
+    {
+      pos: 5, period: "Early Jun Wk2", dates26: "Jun 7-13", month: "Jun", list: 4750,
+      y: {
+        2022: { g: "Faisal Ashraf", r: 2500, s: "booked" },
+        2023: { g: "Hellam (2wk)", r: 8450, s: "booked" },
+        2024: { g: null, r: 0, s: "open" },
+        2025: { g: null, r: 0, s: "open" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 50, avg: 5475, pri: "MODERATE", now: 3450
+    },
+    {
+      pos: 6, period: "Mid-Jun", dates26: "Jun 14-20", month: "Jun", list: 4750,
+      y: {
+        2022: { g: "Michelle Elia", r: 4950, s: "booked" },
+        2023: { g: "Hellam (cont.)", r: 0, s: "booked" },
+        2024: { g: "Bryan Hellam", r: 7750, s: "booked" },
+        2025: { g: "Hellam (cont.)", r: 0, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 50, avg: 6350, pri: "MODERATE", now: 3950
+    },
+    {
+      pos: 7, period: "Late Jun", dates26: "Jun 21-27", month: "Jun", list: 7850,
+      y: {
+        2022: { g: "Shelson Family", r: 0, s: "personal" },
+        2023: { g: "Joshua Blunn", r: 3450, s: "booked" },
+        2024: { g: "Len Graham", r: 3600, s: "booked" },
+        2025: { g: "Bryan Hellam", r: 8450, s: "booked" },
+        2026: { g: "Nancy Lea", r: 4700, s: "booked" }
+      },
+      gap: false
+    },
+    {
+      pos: 8, period: "Canada Day", dates26: "Jun 28-Jul 4", month: "Jul", list: 7850,
+      y: {
+        2022: { g: "Shelson Family", r: 0, s: "personal" },
+        2023: { g: "Shelson Family", r: 0, s: "personal" },
+        2024: { g: "Judy Murray", r: 7450, s: "booked" },
+        2025: { g: "George Robertson", r: 7450, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 50, avg: 7450, pri: "CRITICAL", now: 6450
+    },
+    {
+      pos: 9, period: "Early Jul", dates26: "Jul 5-11", month: "Jul", list: 7850,
+      y: {
+        2022: { g: "Mark Gasparotto", r: 7500, s: "booked" },
+        2023: { g: "Corey & Jocelyn", r: 0, s: "personal" },
+        2024: { g: "Anas Daoud", r: 3000, s: "booked" },
+        2025: { g: "Carly Speck", r: 7450, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 75, avg: 5983, pri: "HIGH", now: 6450
+    },
+    {
+      pos: 10, period: "Mid-Jul Wk1", dates26: "Jul 12-18", month: "Jul", list: 7850,
+      y: {
+        2022: { g: "Michael Gadacz", r: 7950, s: "booked" },
+        2023: { g: "Evan Watts", r: 7244, s: "booked" },
+        2024: { g: "Jarvis+Chaudhry", r: 9800, s: "booked" },
+        2025: { g: "Nick Vergeer", r: 7700, s: "booked" },
+        2026: { g: "Corey Vacation", r: 0, s: "personal" }
+      },
+      gap: false
+    },
+    {
+      pos: 11, period: "Mid-Jul Wk2", dates26: "Jul 19-25", month: "Jul", list: 7850,
+      y: {
+        2022: { g: "Catherine Lowrey", r: 7950, s: "booked" },
+        2023: { g: "Kevin & Jaclyn", r: 0, s: "personal" },
+        2024: { g: "Marissa Muilwyk", r: 7450, s: "booked" },
+        2025: { g: "Shelson Vacation", r: 0, s: "personal" },
+        2026: { g: "Shelly Irvine", r: 8100, s: "booked" }
+      },
+      gap: false
+    },
+    {
+      pos: 12, period: "Late Jul", dates26: "Jul 26-Aug 1", month: "Jul", list: 7850,
+      y: {
+        2022: { g: "Kathy Lyle Group", r: 7950, s: "booked" },
+        2023: { g: "C. Dellacherie", r: 7950, s: "booked" },
+        2024: { g: "Shelson Family", r: 0, s: "personal" },
+        2025: { g: "Anne Bull", r: 7450, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 75, avg: 7783, pri: "CRITICAL", now: 6450
+    },
+    {
+      pos: 13, period: "Early Aug", dates26: "Aug 2-8", month: "Aug", list: 7850,
+      y: {
+        2022: { g: "Shelson Family", r: 0, s: "personal" },
+        2023: { g: "Patti Burke", r: 8000, s: "booked" },
+        2024: { g: "Patti Burke", r: 8000, s: "booked" },
+        2025: { g: "Debra Hill", r: 7450, s: "booked" },
+        2026: { g: "Shelson Family", r: 0, s: "personal" }
+      },
+      gap: false
+    },
+    {
+      pos: 14, period: "Mid-Aug Wk1", dates26: "Aug 9-15", month: "Aug", list: 7850,
+      y: {
+        2022: { g: "Susan Bezaire", r: 7950, s: "booked" },
+        2023: { g: "Mark Gasparotto", r: 7500, s: "booked" },
+        2024: { g: "Mark Gasparotto", r: 7450, s: "booked" },
+        2025: { g: "Judy Murray", r: 7450, s: "booked" },
+        2026: { g: "Kathy Lyle", r: 7700, s: "booked" }
+      },
+      gap: false
+    },
+    {
+      pos: 15, period: "Mid-Aug Wk2", dates26: "Aug 16-22", month: "Aug", list: 7850,
+      y: {
+        2022: { g: "Anna Primus", r: 7950, s: "booked" },
+        2023: { g: "Susan Bezaire", r: 8450, s: "booked" },
+        2024: { g: "Bob Burmaster", r: 7450, s: "booked" },
+        2025: { g: "Bhangoo+Muilwyk", r: 7700, s: "booked" },
+        2026: { g: "Didier Le Goff", r: 8100, s: "booked" }
+      },
+      gap: false
+    },
+    {
+      pos: 16, period: "Late Aug", dates26: "Aug 23-29", month: "Aug", list: 7850,
+      y: {
+        2022: { g: "Shelson Family", r: 0, s: "personal" },
+        2023: { g: "Sunil George", r: 2100, s: "booked" },
+        2024: { g: "Ben Green", r: 7450, s: "booked" },
+        2025: { g: "Simon Dupuis", r: 7700, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 75, avg: 5750, pri: "CRITICAL", now: 5950
+    },
+    {
+      pos: 17, period: "Labour Day", dates26: "Aug 30-Sep 5", month: "Sep", list: 7850,
+      y: {
+        2022: { g: null, r: 0, s: "open" },
+        2023: { g: "Mohammed Fawaz", r: 3250, s: "booked" },
+        2024: { g: "Greg Papadopoulos", r: 2950, s: "booked" },
+        2025: { g: "Amybelle Gabino", r: 3200, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 75, avg: 3133, pri: "HIGH", now: 3950
+    },
+    {
+      pos: 18, period: "Early Sep", dates26: "Sep 6-12", month: "Sep", list: 4750,
+      y: {
+        2022: { g: "Bart Jedrocha", r: 3500, s: "booked" },
+        2023: { g: null, r: 0, s: "open" },
+        2024: { g: "Joanne Boss", r: 2600, s: "booked" },
+        2025: { g: "Brad Howe", r: 2754, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 75, avg: 2951, pri: "HIGH", now: 2950
+    },
+    {
+      pos: 19, period: "Mid-Sep", dates26: "Sep 13-19", month: "Sep", list: 4750,
+      y: {
+        2022: { g: "Michael Vorich", r: 1800, s: "booked" },
+        2023: { g: null, r: 0, s: "open" },
+        2024: { g: "Yana Verbitskaia", r: 2000, s: "booked" },
+        2025: { g: "Shelson/Brock", r: 250, s: "personal" },
+        2026: { g: "Walter Falleiro", r: 2250, s: "booked" }
+      },
+      gap: false
+    },
+    {
+      pos: 20, period: "Late Sep", dates26: "Sep 20-26", month: "Sep", list: 4750,
+      y: {
+        2022: { g: "Shelson Family", r: 0, s: "personal" },
+        2023: { g: null, r: 0, s: "open" },
+        2024: { g: null, r: 0, s: "open" },
+        2025: { g: "Rone Johny", r: 2000, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 25, avg: 2000, pri: "LOW", now: 2250
+    },
+    {
+      pos: 21, period: "Sep/Oct", dates26: "Sep 27-Oct 3", month: "Oct", list: 4750,
+      y: {
+        2022: { g: "Janelle Labelle", r: 2500, s: "booked" },
+        2023: { g: "Robert Dombaj", r: 1950, s: "booked" },
+        2024: { g: "Tammy Dumas", r: 2250, s: "booked" },
+        2025: { g: null, r: 0, s: "open" },
+        2026: { g: "Josie Ricciardi", r: 2450, s: "booked" }
+      },
+      gap: false
+    },
+    {
+      pos: 22, period: "Early Oct", dates26: "Oct 4-10", month: "Oct", list: 2750,
+      y: {
+        2022: { g: "Shelson Fishing", r: 0, s: "personal" },
+        2023: { g: null, r: 0, s: "open" },
+        2024: { g: "Jennifer Srigley", r: 2500, s: "booked" },
+        2025: { g: "Sergio Homsy", r: 2875, s: "booked" },
+        2026: { g: null, r: 0, s: "open" }
+      },
+      gap: true, pct: 50, avg: 2688, pri: "HIGH", now: 1950
+    },
+    {
+      pos: 23, period: "Thanksgiving", dates26: "Oct 11-17", month: "Oct", list: 2750,
+      y: {
+        2022: { g: "Adam Sidi", r: 2325, s: "booked" },
+        2023: { g: null, r: 0, s: "open" },
+        2024: { g: "Cottage Closer", r: 0, s: "personal" },
+        2025: { g: "Cottage Closer", r: 0, s: "personal" },
+        2026: { g: "Cottage Closer", r: 0, s: "personal" }
+      },
+      gap: false
+    }
+  ]
+};
+
+function fmt(n) {
+  if (n === 0) return "—";
+  return "$" + n.toLocaleString();
+}
+
+function render() {
+  const app = document.getElementById("app");
+  const gaps = DATA.weeks.filter(w => w.gap);
+  const totalGapPotential = gaps.reduce((s, w) => s + w.avg, 0);
+  const totalNow = gaps.reduce((s, w) => s + w.now, 0);
+  const bookedWeeks26 = DATA.weeks.filter(w => w.y[2026].s === "booked").length;
+  const personalWeeks26 = DATA.weeks.filter(w => w.y[2026].s === "personal").length;
+  const openWeeks26 = DATA.weeks.filter(w => w.y[2026].s === "open").length;
+  const totalWeeks = DATA.weeks.length;
+
+  let html = "";
+
+  // Stats cards
+  html += `<div class="stats-row">
+    <div class="stat-card highlight"><div class="label">2026 Revenue</div><div class="value">$${DATA.yearly[2026].revenue.toLocaleString()}</div><div class="sub">of $${DATA.yearly[2026].potential.toLocaleString()} potential</div></div>
+    <div class="stat-card"><div class="label">Paid Bookings</div><div class="value">${bookedWeeks26}</div><div class="sub">of ${totalWeeks} season weeks</div></div>
+    <div class="stat-card danger"><div class="label">Open Gap Weeks</div><div class="value">${openWeeks26}</div><div class="sub">${gaps.filter(g=>g.pri==="CRITICAL").length} critical priority</div></div>
+    <div class="stat-card highlight"><div class="label">Gap Revenue Potential</div><div class="value">~$${totalNow.toLocaleString()}</div><div class="sub">at optimized listing prices</div></div>
+    <div class="stat-card"><div class="label">Target if Filled</div><div class="value">~$${(DATA.yearly[2026].revenue + totalNow).toLocaleString()}</div><div class="sub">vs 2025: $${DATA.yearly[2025].revenue.toLocaleString()}</div></div>
+  </div>`;
+
+  // Occupancy bar
+  html += `<div class="summary-bar">
+    <div class="seg seg-booked" style="flex:${bookedWeeks26}">${bookedWeeks26} booked</div>
+    <div class="seg seg-personal" style="flex:${personalWeeks26}">${personalWeeks26} personal</div>
+    <div class="seg seg-open" style="flex:${openWeeks26}">${openWeeks26} open</div>
+  </div>
+  <div class="bar-labels"><span>${totalWeeks} season weeks total</span><span>${Math.round(bookedWeeks26/totalWeeks*100)}% booked occupancy</span></div>`;
+
+  // 5-Year comparison grid
+  html += `<div class="section-title">5-Year Booking Comparison Grid</div>`;
+  html += `<div class="legend">
+    <div class="legend-item"><div class="legend-dot booked"></div>Paid Booking</div>
+    <div class="legend-item"><div class="legend-dot personal"></div>Personal Use</div>
+    <div class="legend-item"><div class="legend-dot open"></div>2026 Gap Week</div>
+    <div class="legend-item"><div class="legend-dot gap-critical"></div>Critical Priority Gap</div>
+  </div>`;
+
+  html += `<div class="grid-container"><table class="booking-grid"><thead><tr>
+    <th>Period</th><th>2026 Dates</th>
+    <th>2022</th><th>2023</th><th>2024</th><th>2025</th><th class="year-2026">2026</th><th>Priority</th>
+  </tr></thead><tbody>`;
+
+  let prevMonth = "";
+  for (const w of DATA.weeks) {
+    const is2026Gap = w.gap;
+    const rowClass = is2026Gap ? (w.pri === "CRITICAL" ? "gap-row-critical" : "gap-row") : "";
+
+    html += `<tr>`;
+    html += `<td class="period-cell">${w.period}</td>`;
+    html += `<td class="dates-cell">${w.dates26}</td>`;
+
+    for (const yr of [2022, 2023, 2024, 2025, 2026]) {
+      const d = w.y[yr];
+      let cellClass = "";
+      if (yr === 2026 && is2026Gap) {
+        cellClass = w.pri === "CRITICAL" ? "cell-gap-critical" : "cell-gap";
+      } else if (d.s === "booked") {
+        cellClass = "cell-booked";
+      } else if (d.s === "personal") {
+        cellClass = "cell-personal";
+      } else {
+        cellClass = "cell-open";
+      }
+
+      const guestLabel = d.g || (d.s === "open" ? "—" : "");
+      const revClass = d.r > 0 ? "paid" : (d.s === "personal" ? "personal" : "none");
+      const revLabel = d.r > 0 ? "$" + d.r.toLocaleString() : (d.s === "personal" ? "Personal" : "—");
+
+      html += `<td class="${cellClass}"><span class="cell-guest">${guestLabel}</span><span class="cell-revenue ${revClass}">${revLabel}</span></td>`;
+    }
+
+    if (is2026Gap) {
+      const tagClass = `tag-${w.pri.toLowerCase()}`;
+      html += `<td><span class="cell-tag ${tagClass}">${w.pri}</span></td>`;
+    } else {
+      html += `<td></td>`;
+    }
+    html += `</tr>`;
+  }
+
+  html += `</tbody></table></div>`;
+
+  // Year-over-year summary
+  html += `<div class="section-title">Year-over-Year Revenue Summary</div>`;
+  html += `<div class="stats-row">`;
+  for (const yr of [2022, 2023, 2024, 2025, 2026]) {
+    const d = DATA.yearly[yr];
+    const pct = Math.round(d.revenue / d.potential * 100);
+    const cls = yr === 2026 ? "highlight" : "";
+    html += `<div class="stat-card ${cls}">
+      <div class="label">${yr}${yr === 2026 ? " (YTD)" : ""}</div>
+      <div class="value">$${d.revenue.toLocaleString()}</div>
+      <div class="sub">${pct}% capture &bull; ${d.bookings} bookings</div>
+    </div>`;
+  }
+  html += `</div>`;
+
+  // Gap week detail cards
+  html += `<div class="section-title">Gap Week Detail — Historical Benchmarks</div>`;
+  html += `<div class="gap-detail-grid">`;
+  for (const w of gaps) {
+    html += `<div class="gap-card priority-${w.pri}">
+      <div class="gc-header">
+        <div><div class="gc-period">${w.period}</div><div class="gc-dates">${w.dates26} &bull; Wk 26-${(w.pos + 19)}</div></div>
+        <span class="cell-tag tag-${w.pri.toLowerCase()}">${w.pri}</span>
+      </div>
+      <div class="gc-list-rate">List rate: <strong>$${w.list.toLocaleString()}</strong></div>
+      <div class="gc-history">`;
+    for (const yr of [2022, 2023, 2024, 2025]) {
+      const d = w.y[yr];
+      const revCls = d.r > 0 ? "paid" : "zero";
+      const label = d.g || (d.s === "open" ? "No booking" : "—");
+      html += `<div class="gc-history-row">
+        <span class="yr">${yr}</span>
+        <span class="guest">${label}</span>
+        <span class="rev ${revCls}">${d.r > 0 ? "$" + d.r.toLocaleString() : (d.s === "personal" ? "Personal" : "—")}</span>
+      </div>`;
+    }
+    html += `</div>
+      <div class="gc-stats">
+        <div class="gc-stat"><div class="val">${w.pct}%</div><div class="lbl">Hist. Book Rate</div></div>
+        <div class="gc-stat"><div class="val">${fmt(w.avg)}</div><div class="lbl">Avg Revenue</div></div>
+        <div class="gc-stat"><div class="val">$${w.list.toLocaleString()}</div><div class="lbl">2026 List</div></div>
+      </div>
+    </div>`;
+  }
+  html += `</div>`;
+
+  // Optimized Pricing Breakdown
+  const totalList = gaps.reduce((s, w) => s + w.list, 0);
+  const totalSavings = totalList - totalNow;
+  const avgDiscount = Math.round(totalSavings / totalList * 100);
+  const totalAvgHist = gaps.reduce((s, w) => s + w.avg, 0);
+
+  html += `<div class="pricing-section">`;
+  html += `<div class="section-title">Optimized Listing Price Breakdown</div>`;
+
+  html += `<div class="pricing-summary-row">
+    <div class="pricing-summary-card">
+      <div class="ps-label">Current List Total</div>
+      <div class="ps-value" style="text-decoration:line-through;color:var(--text-dim)">$${totalList.toLocaleString()}</div>
+      <div class="ps-sub">14 gap weeks at posted rates</div>
+    </div>
+    <div class="pricing-summary-card total-now">
+      <div class="ps-label">Optimized Total</div>
+      <div class="ps-value">$${totalNow.toLocaleString()}</div>
+      <div class="ps-sub">market-aligned pricing</div>
+    </div>
+    <div class="pricing-summary-card savings">
+      <div class="ps-label">Guest Savings</div>
+      <div class="ps-value">$${totalSavings.toLocaleString()}</div>
+      <div class="ps-sub">${avgDiscount}% avg discount from list</div>
+    </div>
+    <div class="pricing-summary-card">
+      <div class="ps-label">Hist. Avg Total</div>
+      <div class="ps-value">$${totalAvgHist.toLocaleString()}</div>
+      <div class="ps-sub">what guests actually paid</div>
+    </div>
+    <div class="pricing-summary-card total-now">
+      <div class="ps-label">If All Fill at "Now"</div>
+      <div class="ps-value">$${(DATA.yearly[2026].revenue + totalNow).toLocaleString()}</div>
+      <div class="ps-sub">2026 projected total</div>
+    </div>
+  </div>`;
+
+  html += `<div class="pricing-table-wrap"><table class="pricing-table"><thead><tr>
+    <th>Period</th><th>Dates</th><th>List Price</th><th>Now Price</th><th>Discount</th><th>Savings</th><th>Hist. Avg Paid</th><th>Priority</th><th></th>
+  </tr></thead><tbody>`;
+
+  for (const w of gaps) {
+    const disc = Math.round((w.list - w.now) / w.list * 100);
+    const save = w.list - w.now;
+    const deepDiscount = disc >= 35;
+    const tagClass = `tag-${w.pri.toLowerCase()}`;
+    const barPct = Math.min(disc, 60);
+    html += `<tr>
+      <td class="pt-period">${w.period}</td>
+      <td class="pt-dates">${w.dates26}</td>
+      <td class="pt-list-price">$${w.list.toLocaleString()}</td>
+      <td class="pt-now-price">$${w.now.toLocaleString()}</td>
+      <td><span class="pt-discount-badge${deepDiscount ? ' deep' : ''}">${disc}% OFF</span></td>
+      <td class="pt-savings">$${save.toLocaleString()}</td>
+      <td class="pt-avg-paid">${fmt(w.avg)}</td>
+      <td><span class="cell-tag ${tagClass}">${w.pri}</span></td>
+      <td><div class="pricing-bar-wrap"><div class="pricing-bar"><div class="pricing-bar-fill${deepDiscount ? ' deep' : ''}" style="width:${barPct * 1.67}%"></div></div></div></td>
+    </tr>`;
+  }
+
+  html += `</tbody><tfoot><tr>
+    <td colspan="2" style="text-align:left"><strong>TOTALS</strong></td>
+    <td style="text-decoration:line-through;color:var(--text-dim)">$${totalList.toLocaleString()}</td>
+    <td class="ps-total-now">$${totalNow.toLocaleString()}</td>
+    <td><span class="pt-discount-badge">${avgDiscount}% AVG</span></td>
+    <td class="ps-total-save">$${totalSavings.toLocaleString()}</td>
+    <td class="pt-avg-paid">$${totalAvgHist.toLocaleString()}</td>
+    <td colspan="2"></td>
+  </tr></tfoot></table></div>`;
+
+  html += `<div class="pricing-note">
+    <strong>Pricing Strategy:</strong> "Now" prices follow a smooth seasonal bell curve based on 4 years of actual booking data. 
+    <strong>Shoulder weeks</strong> (May, late Sep, Oct) sit at $1,950–$2,450 — priced to attract any booking during historically 
+    soft periods. <strong>Building weeks</strong> (Jun) step up gradually from $2,950 to $3,950 as demand increases. 
+    <strong>Peak weeks</strong> (Canada Day through late Aug) hold a consistent $5,950–$6,450 tier — no jarring drops between 
+    consecutive prime weeks. <strong>Wind-down</strong> (Labour Day through Sep) steps down $3,950 → $2,950 → $2,250 as the 
+    season closes. All prices are anchored to historical averages to remain competitive and realistic.
+  </div>`;
+
+  html += `</div>`;
+
+  app.innerHTML = html;
+}
+
+render();
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+  if (tab === 'bookings') {
+    document.querySelectorAll('.nav-tab')[0].classList.add('active');
+    document.getElementById('page-bookings').classList.add('active');
+  } else {
+    document.querySelectorAll('.nav-tab')[1].classList.add('active');
+    document.getElementById('page-research').classList.add('active');
+    renderResearch();
+  }
+}
+
+let researchRendered = false;
+function renderResearch() {
+  if (researchRendered) return;
+  researchRendered = true;
+  const md = MARKET_RESEARCH_MD;
+  document.getElementById('research-content').innerHTML = marked.parse(md);
+}
+
+const MARKET_RESEARCH_MD = `# Island View Retreat \u2014 2026 Market Research & Competitive Analysis
+
+**Prepared:** March 18, 2026
+**Property:** Island View Retreat, Big Gull Lake, North Frontenac, Ontario
+**Listing:** [CottagesInCanada DI-32361](https://www.cottagesincanada.com/32361)
+
+---
+
+## 1. Executive Summary
+
+The 2026 Ontario cottage market is in a **post-boom normalization phase**. The COVID-era demand spike (2021\u20132023) has fully unwound, and the market now faces elevated inventory, cautious consumers, and increased competition from STR supply growth. However, the picture is nuanced:
+
+- **The sales market is genuinely soft** \u2014 cottage sales dropped ~12% YoY, buyer search intent is 50% below 2021 peak, and listing terminations are running 4x historical norms.
+- **The rental market is more resilient** \u2014 quality waterfront properties with strong amenities and reviews are still performing, and some sources report 2026 rental bookings outpacing 2025 for premium properties.
+- **Shoulder season (May/June) is the most competitive battleground** \u2014 peak summer (July/August) still fills, but spring/early summer requires active marketing, pricing strategy, and differentiation.
+- **Island View Retreat has genuine competitive advantages** \u2014 it is the only sleeps-16 property found on Big Gull Lake, carries a perfect 5.0 rating across 34 reviews, and offers significant spring-to-summer pricing spread (up to 62% savings vs peak rates).
+
+The core challenge is not a broken market \u2014 it is a market that now requires **proactive positioning, value communication, and experience-led marketing** rather than passive availability.
+
+---
+
+## 2. Ontario Cottage Market \u2014 Macro Conditions
+
+### 2.1 Market Slowdown \u2014 Confirmed and Quantified
+
+The Ontario cottage market is experiencing a measurable slowdown driven by multiple converging headwinds:
+
+| Metric | Data Point | Source |
+|--------|-----------|--------|
+| YoY sales decline | ~12% across core cottage regions (Muskoka, Parry Sound, Haliburton) | [1] |
+| Units sold (2025) | ~991 units YTD | [1] |
+| Buyer search intent (Cottage Search Index) | 50% below 2021 peak | [1][2] |
+| Waterfront inventory | 7\u20139 months depending on area and price point | [1] |
+| Listing terminations | 4x higher than historical averages | [1] |
+| Overpriced listings | Nearly 50% of new listings misaligned with market | [1] |
+| Muskoka active listings (2022 \u2192 2025) | ~204 \u2192 ~504 (up 147%) | [3] |
+
+### 2.2 Key Demand Headwinds
+
+Multiple factors are suppressing buyer and renter confidence:
+
+- **Elevated interest rates** \u2014 Bank of Canada overnight rate plateauing near 2.25\u20132.75%, removing the "will rates drop further?" uncertainty but leaving borrowing costs elevated vs 2020\u20132021
+- **Low consumer confidence** \u2014 Economic uncertainty and U.S.-Canada trade tensions / tariff fears
+- **Non-Resident Speculation Tax (NRST)** \u2014 Particularly affects luxury segment (>$3M)
+- **STR regulation tightening** \u2014 Municipalities across Ontario adopting licensing restrictions and caps
+- **Post-COVID normalization** \u2014 The "lockdown buyer" cohort is exiting; many realized cottage ownership wasn\u2019t for them
+
+### 2.3 Regional Market Conditions (2026)
+
+| Region | Trend | 2026 Avg Waterfront Price (Est.) | Sentiment |
+|--------|-------|----------------------------------|-----------|
+| Muskoka | Softening | $1,540,000 | Balanced \u2014 quality wins over hype |
+| Kawartha Lakes | Stabilizing | $940,000 | Steady \u2014 high demand for year-round use |
+| Southern Georgian Bay | Mixed | $865,000 | Selective \u2014 buyers picky about views |
+| Haliburton Highlands | Correcting | $770,000 | Opportunity \u2014 best value for entry-level |
+
+**Kawartha Lakes** (the region Island View Retreat is listed under) is described as the preferred choice for "hybrid workers" with the highest transaction volume in the province. Prices have stabilized, but the 10-way bidding war era is over.
+
+### 2.4 The "Great Reset"
+
+Industry analysts describe 2026 as the end of the "wait-and-see" paralysis that characterized 2025. The market has shifted to a **balanced, buyer-favorable environment** where sellers have accepted that 2021-era pricing is over. Inventory is at a **10-year high** as "lockdown buyers" who realized cottage life wasn\u2019t for them have listed their properties.
+
+---
+
+## 3. Short-Term Rental (STR) Industry Trends
+
+### 3.1 National STR Supply Growth
+
+Canada\u2019s STR market continues to see significant supply expansion, though growth is moderating:
+
+| Metric | 2025 | Early 2026 | Source |
+|--------|------|------------|--------|
+| National avg YoY supply growth | 22.43% | 21.61% | [5] |
+| National avg annual revenue growth | 15.53% | 16.24% | [5] |
+| Toronto listing growth | +2,753 listings (+38.38%) | \u2014 | [5] |
+| Montreal listing growth | +1,622 listings (+35.32%) | \u2014 | [5] |
+
+**Key takeaway:** Supply is growing faster than demand in many markets, but revenue per listing hasn\u2019t collapsed \u2014 suggesting the market hasn\u2019t reached severe oversaturation yet. However, the gap is narrowing, and **average/undifferentiated properties are being squeezed**.
+
+### 3.2 Ontario STR Market Performance (AirROI Data)
+
+| Market | Active Listings | Monthly Revenue | ADR | Occupancy Rate |
+|--------|----------------|-----------------|-----|----------------|
+| Toronto | 10,326 | $1,592.68 | $148.61 | 47.73% |
+| Ottawa | 1,767 | $1,262.02 | $110.67 | 48.26% |
+| Niagara Falls | 1,099 | $1,814.86 | $181.45 | 39.68% |
+| The Blue Mountains | 654 | $3,046.29 | $308.26 | 36.71% |
+
+**Occupancy rates across Ontario\u2019s major STR markets range from approximately 36\u201348%**, reflecting moderate demand with significant booking gaps \u2014 particularly outside peak season.
+
+### 3.3 The Rental Reality Check
+
+The "Airbnb investor" segment has been cooled by:
+- Municipal licensing fees and restrictions
+- Higher operating costs
+- Lower-than-expected returns vs 2021\u20132023 highs
+- New municipal STR rules making investor-owned properties less viable
+
+In 2026, the market is shifting back toward **owner-operated vacation properties** \u2014 properties that work as personal vacation homes first, rentals second. This actually favors properties like Island View Retreat that are owner-managed with strong personal branding and reviews.
+
+---
+
+## 4. Regulatory Landscape
+
+### 4.1 North Frontenac \u2014 Current Status
+
+**North Frontenac Township (where Island View Retreat is located) does not regulate or prohibit short-term accommodations.** The Township takes a hands-off approach, recognizing that residents have traditionally rented properties for decades. Key requirements:
+
+- **No municipal licensing required** for STR operations
+- **Zoning compliance** required (STR must be permitted land use)
+- **Building permit** may be required if changing property use
+- **Master Business License (MBL)** required from Ontario Ministry
+- **KFL&A Public Health** compliance for food safety, drinking water, pool/spa
+
+This is a **significant regulatory advantage** compared to many other Ontario cottage regions that are implementing restrictive bylaws.
+
+### 4.2 Ontario-Wide Regulatory Trend
+
+Municipalities across Ontario are increasingly adopting STR regulations:
+
+| Municipality | Bylaw | Key Restrictions |
+|--------------|-------|-----------------|
+| South Algonquin | By-law #2025-848 (Nov 2025) | $700 initial + $500 annual fee, building inspection required |
+| Port Colborne | By-law 7388/79/25 (Nov 2025) | $2M liability insurance, 24/7 local contact, occupancy limits |
+| Burlington | Effective May 2025 | Primary residence only, max 28 consecutive days, 183 days/year cap |
+| Township of Tiny | By-law 22-017 (2022) | 300-license cap |
+| Multiple others | Various | London, Hamilton, Kingston, and many more adopting bylaws |
+
+**Implication for Island View Retreat:** North Frontenac\u2019s lack of regulation is a competitive advantage, but operators should monitor for potential future changes as the provincial trend is clearly toward more regulation.
+
+---
+
+## 5. Seasonal Demand & Occupancy Patterns
+
+### 5.1 Seasonal Occupancy Benchmarks
+
+| Season | Typical Occupancy | Typical Nightly Rate Range | Notes |
+|--------|------------------|---------------------------|-------|
+| Peak Summer (Jul\u2013Aug) | 80\u201395% | $375\u2013$525/night | Most sought: last 2 weeks of July, first 2 weeks of August |
+| Shoulder (May\u2013Jun) | 60\u201375% | $200\u2013$300/night | Increasingly popular with remote workers |
+| Fall (Sep\u2013Oct) | 40\u201360% | $150\u2013$250/night | Thanksgiving weekend spike |
+| Winter | 20\u201340% | Varies widely | Ice fishing, snowmobiling niche |
+
+### 5.2 2026 Booking Pace \u2014 Conflicting Signals
+
+**Signal 1 \u2014 Demand is strong for quality properties:**
+One industry source (HomeSeeker Vacation) reports that 2026 cottage bookings are "crushing" 2025, with families booking 3 months earlier than last year. Premium properties are reported 70\u201380% booked for peak season as of March 2026. Shoulder season (May/June) properties are described as "absolutely crushing it."
+
+**Signal 2 \u2014 The broader market is soft:**
+The Cottage Search Index tracking buyer intent is 50% below the 2021 peak, sales are down 12% YoY, and consumer confidence is low. Multiple headwinds (tariffs, interest rates, economic uncertainty) are suppressing urgency.
+
+**Reconciliation:** Both signals appear to be true simultaneously. **Top-tier properties with strong reviews, clear value propositions, and active marketing are performing well. Average and undifferentiated properties are struggling.** The market has bifurcated \u2014 it\u2019s no longer enough to simply be "available."
+
+### 5.3 Booking Behavior Shifts
+
+- **Shorter booking windows** \u2014 Guests deciding later, more last-minute bookings
+- **More comparison shopping** \u2014 Guests comparing 5\u201310 listings vs 2\u20133 previously
+- **Higher price sensitivity** \u2014 "Best value" now outweighs "any availability"
+- **Remote work flexibility** \u2014 Enabling non-traditional booking times (midweek, shoulder season)
+- **Group coordination friction** \u2014 Multi-family groups taking longer to commit
+
+---
+
+## 6. Comparable Listings Analysis
+
+### 6.1 Direct Comparables on CottagesInCanada (Sleeps 16, Waterfront, Ontario)
+
+#### Comp 1: Kawartha Waterfront Cottage \u2014 Buckhorn Lake (DI-34585)
+
+| Attribute | Details |
+|-----------|---------|
+| **Location** | Buckhorn Lake, Kawartha Lakes |
+| **Capacity** | Sleeps 16, 4 bedrooms, 3 bathrooms |
+| **Drive Time** | ~2 hours from Toronto |
+| **Base Rate** | $475/night, $3,000/week |
+| **Peak Summer Rate** | $5,900/week |
+| **Reviews** | 24 reviews, 4.8 rating (21 five-star, 1 one-star) |
+| **Key Amenities** | 7-person hot tub, rec room (pool table, foosball), floating dock, firepit, paddle boats, kayaks, canoe, private sandy beach area |
+| **Weaknesses** | Well water not potable, guests must remove garbage, no firewood included, recent negative review about cleanliness |
+| **Listing URL** | [cottagesincanada.com/34585](https://www.cottagesincanada.com/34585) |
+
+**Availability Signal (as of Mar 18, 2026):** Calendar shows scattered availability through May/June with some booked weekends \u2014 similar booking pattern to shoulder season softness.
+
+#### Comp 2: Waterfront Kawartha Lakes Cottage \u2014 Crystal Lake (DI-25724)
+
+| Attribute | Details |
+|-----------|---------|
+| **Location** | Crystal Lake, Kinmount, Kawartha Lakes |
+| **Capacity** | Sleeps 16, 6 bedrooms, 2 bathrooms |
+| **Drive Time** | ~2 hours from Toronto |
+| **Base Rate** | $1,500/night (flat rate, all seasons) |
+| **Reviews** | 0 reviews |
+| **Key Amenities** | Floating sauna, hot tub, billiard table, arcade games, shuffleboard, screened porch with projector, 4,000+ sq ft, 4 king beds, gourmet kitchen |
+| **Positioning** | Ultra-luxury, featured in Cottage Life Magazine |
+| **Weaknesses** | No reviews, $1,500/night price point, 30-night minimum stay listed |
+| **Listing URL** | [cottagesincanada.com/25724](https://www.cottagesincanada.com/25724) |
+
+**Availability Signal:** Last updated November 2025 \u2014 calendar appears mostly open, suggesting low booking velocity at this price point.
+
+#### Comp 3: Kirk Kove Cottages & Marina \u2014 Big Gull Lake (DI-41130)
+
+| Attribute | Details |
+|-----------|---------|
+| **Location** | Big Gull Lake (same lake as Island View Retreat) |
+| **Capacity** | Individual cottages, 1\u20134 bedrooms, max ~9 guests per unit |
+| **Rates (2025)** | $1,200\u2013$2,395/week depending on unit size |
+| **Key Amenities** | Marina with boat rentals, gas, bait shop |
+| **Positioning** | Budget/mid-tier individual cottage experience |
+| **Weakness vs Island View** | Cannot accommodate large groups under one roof |
+| **Listing URL** | [cottagesincanada.com/41130](https://www.cottagesincanada.com/41130) |
+
+### 6.2 Broader Competitive Landscape on Big Gull Lake
+
+| Platform | Properties Found | Max Capacity Found |
+|----------|-----------------|-------------------|
+| CottagesInCanada | 2 (Island View + Kirk Kove) | 16 (Island View only) |
+| Airbnb | Several listings | Max 8\u20139 guests |
+| VRBO / FV Rentals | 2\u20133 listings | Max 8 guests |
+| The Point at Big Gull | 2 summer cottages | Small capacity |
+
+**Critical finding: No other property on Big Gull Lake can accommodate 16 guests under one roof.** Island View Retreat is the only large-group option on the lake.
+
+### 6.3 Pricing Comparison Matrix
+
+| Property | Spring Weekly | Peak Summer Weekly | Per-Night (Shoulder) | Reviews | Rating |
+|----------|-------------|-------------------|---------------------|---------|--------|
+| **Island View Retreat** | **$2,950\u2013$4,450** | **$7,850** | **$500\u2013$650** | **34** | **5.0** |
+| Kawartha Cottage (Buckhorn) | $3,000 | $5,900 | $475\u2013$800 | 24 | 4.8 |
+| Crystal Lake Luxury | $10,500 | $10,500 | $1,500 | 0 | N/A |
+| Kirk Kove (largest unit) | $2,395 | $2,395 | $290 | N/A | N/A |
+
+**Island View Retreat is competitively priced in the mid-market** \u2014 significantly below luxury competitors, above budget options, and offers the strongest review profile in the comparable set.
+
+---
+
+## 7. Competitive Position \u2014 Island View Retreat
+
+### 7.1 Strengths
+
+| Strength | Evidence |
+|----------|---------|
+| **Only large-group option on Big Gull Lake** | No other sleeps-16 property found on any platform |
+| **Perfect review score** | 34 reviews, 5.0 rating, all 5-star |
+| **Strong repeat guest base** | Multiple reviews mention return visits |
+| **Significant spring-to-summer pricing spread** | Early Spring $2,950/wk vs Summer $7,850/wk = 62% savings |
+| **No STR regulation in North Frontenac** | Township explicitly does not regulate or prohibit STRs |
+| **Strategic location** | ~3 hrs GTA, ~2 hrs Ottawa, ~1.5 hrs Kingston \u2014 triangle of major markets |
+| **Comprehensive amenities included** | 2 canoes, 2 paddleboards, 2 fishing kayaks, firepit, BBQ, WiFi, A/C, laundry |
+| **Adjacent marina (Camp\u2019s Bay)** | Boat rentals, fuel, bait, ice cream \u2014 extends amenity value without capital cost |
+| **Fishing credibility** | Walleye, bass (LM + SM), pike confirmed; dock fishing excellent for kids |
+| **Private sandy beach** | Gentle slope, safe for young children \u2014 mentioned repeatedly in reviews |
+
+### 7.2 Weaknesses / Risks
+
+| Weakness | Detail |
+|----------|--------|
+| **Group coordination friction** | Multi-family bookings take longer to organize in current economic climate |
+| **Shoulder season vulnerability** | May/June bookings most affected by market softness |
+| **Mid-tier competitive pressure** | Most supply growth and price competition occurs in this segment |
+| **10 Mbps internet** | Adequate but below expectations for remote workers (competitors advertising "high-speed") |
+| **No hot tub** | Both comparable sleeps-16 properties include hot tubs |
+| **Listing promo undersells discount** | Current "$250 off" banner doesn\u2019t communicate the 43\u201362% spring-to-summer savings |
+
+### 7.3 Per-Family Value Proposition
+
+When positioned as a shared-cost group rental, Island View Retreat\u2019s pricing becomes extremely competitive:
+
+| Season | Weekly Rate | Per Family/Week (4 families) | Per Family/Night |
+|--------|-----------|------------------------------|-----------------|
+| Early Spring (Apr 1 \u2013 May 15) | $2,950 | ~$738 | ~$105 |
+| Spring (May 19 \u2013 Jun 26) | $4,450 | ~$1,113 | ~$159 |
+| Summer (Jun 26 \u2013 Sep 4) | $7,850 | ~$1,963 | ~$280 |
+
+**$105\u2013$159 per family per night** for a private lakefront cottage with beach, dock, and all gear included is a strong value message in the 2026 market.
+
+---
+
+## 8. Strategic Implications
+
+### 8.1 What the Data Says You Should Do
+
+1. **Lead with per-family pricing in all marketing** \u2014 Reframe from "$4,450/week" to "~$159/family/night" to reduce sticker shock and match 2026 buyer psychology
+2. **Communicate the spring-to-summer savings gap** \u2014 The 43\u201362% discount vs peak summer is your strongest marketing hook and it\u2019s currently buried
+3. **Leverage the review advantage** \u2014 34 five-star reviews with a perfect 5.0 is rare and credible; George\u2019s "4 families, 16 people" review is the perfect testimonial for your target market
+4. **Own the "only large-group option on Big Gull Lake" positioning** \u2014 This is a genuine competitive moat that should be stated explicitly
+5. **Expect and plan for later bookings** \u2014 The market has shifted to shorter booking windows; this isn\u2019t a problem with your property, it\u2019s a market-wide behavior change
+6. **Target fishing groups specifically** \u2014 Fishing-oriented guests are less price-sensitive, less seasonal, and more likely to book; Big Gull Lake has confirmed walleye, bass, and pike
+7. **Monitor for regulatory changes** \u2014 North Frontenac\u2019s hands-off approach is an advantage today, but the provincial trend is clearly toward more regulation
+
+### 8.2 What the Data Says You Should Not Do
+
+1. **Don\u2019t panic-discount to fill calendar** \u2014 The market hasn\u2019t collapsed; top-tier properties are still booking. Your reviews and positioning put you in the "quality" tier.
+2. **Don\u2019t compare to 2021\u20132023 booking pace** \u2014 That era was anomalous. A 15\u201330% decline in booking velocity from the COVID peak is the new normal, not a crisis.
+3. **Don\u2019t rely on passive listing exposure** \u2014 In 2026, "be available" is not a strategy. Active Facebook marketing, group targeting, and experience-led content are required.
+
+---
+
+## 9. Sources & References
+
+| # | Source | URL | Accessed |
+|---|--------|-----|----------|
+| [1] | Finding Your Muskoka \u2014 Ontario\u2019s Cottage Market 2026 Outlook | [Link](https://findingyourmuskoka.ca/2025/11/06/ontario-cottage-market-outlook-2026/) | Mar 18, 2026 |
+| [2] | Finding Your Muskoka \u2014 Ontario Cottage Market Forecaster | [Link](https://findingyourmuskoka.ca/2026/02/11/ontario-cottage-market-forecast/) | Mar 18, 2026 |
+| [3] | Cottage In Muskoka \u2014 Muskoka Waterfront Market Report: 2026 Outlook | [Link](https://cottageinmuskoka.ca/muskoka-waterfront-market-report-2026/) | Mar 18, 2026 |
+| [4] | RealBlog / HomeFound \u2014 2026 Ontario Cottage Prices & Market Outlook | [Link](https://www.homesfound.ca/blog/2026-ontario-cottage-prices-market-outlook-muskoka-kawarthas/) | Mar 18, 2026 |
+| [5] | Airbtics \u2014 Canada Short-Term Rental Market Report 2025 | [Link](https://airbtics.com/short-term-rental-market-report-2025-canada) | Mar 18, 2026 |
+| [6] | AirROI \u2014 Top 30 Airbnb Investment Markets in Ontario 2026 | [Link](https://www.airroi.com/report/world/canada/ontario) | Mar 18, 2026 |
+| [7] | AirROI \u2014 Toronto STR Market Analysis 2026 | [Link](https://www.airroi.com/report/world/canada/ontario/toronto) | Mar 18, 2026 |
+| [8] | HomeSeeker Vacation \u2014 Cottage Bookings in 2026 Are Already Crushing 2025 | [Link](https://www.homeseekervacation.com/post/cottage-bookings-2026-crushing-2025-early-trends-updated) | Mar 18, 2026 |
+| [9] | HomeSeeker Vacation \u2014 2025 Muskoka Cottage STR Report & 2026 Strategies | [Link](https://www.homeseekervacation.com/post/2025-muskoka-cottage-rental-str-report-2026-strategies) | Mar 18, 2026 |
+| [10] | BusinessDojo \u2014 Seasonal Pricing Variation for Cottage Rentals | [Link](https://dojobusiness.com/blogs/news/cottage-rental-seasonal-pricing) | Mar 18, 2026 |
+| [11] | Ontario Cottage Rental Managers Association \u2014 STR Bylaws | [Link](https://www.ocrma.ca/str-bylaws/) | Mar 18, 2026 |
+| [12] | Township of North Frontenac \u2014 Short Term Accommodations | [Link](https://www.northfrontenac.com/en/open-for-business/short-term-accommodations.aspx) | Mar 18, 2026 |
+| [13] | Township of South Algonquin \u2014 STR Licensing By-Law #2025-848 | [Link](https://www.southalgonquin.ca/article/draft-short-term-rental-licencing-accomodation-by-law/) | Mar 18, 2026 |
+| [14] | City of Burlington \u2014 Short-Term Accommodations Licence | [Link](https://www.burlington.ca/en/applications-licences-and-permits/short-term-accommodations-licence.aspx) | Mar 18, 2026 |
+| [15] | City of Port Colborne \u2014 Short-Term Rental Accommodations | [Link](https://www.portcolborne.ca/en/city-hall/short-term-rentals.aspx) | Mar 18, 2026 |
+| [16] | Township of Tiny \u2014 Short Term Rental Licensing | [Link](https://www.tiny.ca/services/municipal-law-enforcement/short-term-rentals) | Mar 18, 2026 |
+| [17] | St. Catharines Standard \u2014 Ontario Cottage Rentals 2026: Booking Tips | [Link](https://www.stcatharinesstandard.ca/news/ontario-cottage-rentals-booking-tips/) | Mar 18, 2026 |
+| [18] | CottagesInCanada \u2014 Island View Retreat Listing DI-32361 | [Link](https://www.cottagesincanada.com/32361) | Mar 18, 2026 |
+| [19] | CottagesInCanada \u2014 Kawartha Waterfront Cottage DI-34585 | [Link](https://www.cottagesincanada.com/34585) | Mar 18, 2026 |
+| [20] | CottagesInCanada \u2014 Crystal Lake Cottage DI-25724 | [Link](https://www.cottagesincanada.com/25724) | Mar 18, 2026 |
+| [21] | CottagesInCanada \u2014 Kirk Kove Cottages DI-41130 | [Link](https://www.cottagesincanada.com/41130) | Mar 18, 2026 |
+| [22] | Kirk Kove Cottages \u2014 Rates | [Link](https://www.kirkkove.com/cottages) | Mar 18, 2026 |
+| [23] | Fishbrain \u2014 Big Gull Lake Fishing Reports | [Link](https://fishbrain.com/fishing-waters/J4H-cTG8/big-gull-lake) | Mar 18, 2026 |
+| [24] | Fish-Hawk.Net \u2014 Big Gull Lake Forum | [Link](https://www.fish-hawk.net/viewtopic.php?t=135) | Mar 18, 2026 |
+| [25] | Real Estate Magazine \u2014 Canada\u2019s Spring Real Estate Market Off to Slow Start | [Link](https://realestatemagazine.ca/foch-canadas-spring-real-estate-market-off-to-slow-uneven-start/) | Mar 18, 2026 |
+| [26] | Statistics Canada \u2014 Short-term Rentals in the Canadian Housing Market | [Link](https://www150.statcan.gc.ca/n1/pub/11-621-m/11-621-m2024010-eng.htm) | Mar 18, 2026 |
+
+---
+
+*This research was compiled from publicly available sources as of March 18, 2026. Market conditions are dynamic and may change. This document is for informational purposes and does not constitute financial or investment advice.*
+`;
+</script>
+</body>
+</html>
