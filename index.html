@@ -518,200 +518,72 @@
   .mr-content em { color: var(--text-dim); }
 
   /* Post Generator Styles */
-  .pg-header { margin-bottom: 2rem; }
-  .pg-header p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; max-width: 720px; }
-
+  .pg-header { margin-bottom: 1.5rem; }
+  .pg-header p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; max-width: 800px; }
   .pg-filters {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 1.5rem;
+    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;
   }
   .pg-filter-btn {
-    padding: 0.45rem 0.9rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    background: transparent;
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 0.45rem 0.9rem; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600;
+    border: 1px solid var(--border); border-radius: 20px; background: transparent; color: var(--text-dim);
+    cursor: pointer; transition: all 0.2s;
   }
   .pg-filter-btn:hover { border-color: var(--text-dim); color: var(--text); }
   .pg-filter-btn.active { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 
-  .pg-timeline {
-    position: relative;
-    padding: 1rem 0 1rem 1.5rem;
-    margin-bottom: 2rem;
+  .pg-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1rem;
   }
-  .pg-timeline::before {
-    content: '';
-    position: absolute;
-    left: 6px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border);
+  .pg-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; transition: border-color 0.2s; display: flex; flex-direction: column;
   }
-  .pg-tl-month {
-    position: relative;
-    margin-bottom: 1.5rem;
+  .pg-card:hover { border-color: var(--accent); }
+  .pg-card-top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); gap: 0.5rem; flex-wrap: wrap;
   }
-  .pg-tl-month-label {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-    padding-left: 1.5rem;
-    color: var(--accent);
+  .pg-card-badges { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+  .pg-badge {
+    display: inline-block; font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; padding: 0.15rem 0.5rem; border-radius: 4px; white-space: nowrap;
   }
-  .pg-tl-month-label::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.45rem;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--accent);
-    border: 2px solid var(--bg);
-    z-index: 1;
-  }
-  .pg-tl-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.5rem 0 0.5rem 1.5rem;
-    font-size: 0.82rem;
-    position: relative;
-  }
-  .pg-tl-item::before {
-    content: '';
-    position: absolute;
-    left: 2px;
-    top: 0.85rem;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 2px solid var(--border);
-    z-index: 1;
-  }
-  .pg-tl-date { color: var(--text-dim); min-width: 70px; flex-shrink: 0; }
-  .pg-tl-desc { flex: 1; }
-  .pg-tl-badge {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 0.12rem 0.45rem;
-    border-radius: 4px;
-    margin-right: 0.4rem;
-    vertical-align: middle;
-  }
-  .badge-campaign { background: rgba(59,130,246,0.2); color: var(--personal); }
-  .badge-spotlight { background: rgba(245,158,11,0.2); color: var(--accent); }
-  .badge-urgency { background: rgba(239,68,68,0.2); color: var(--open); }
-  .badge-testimonial { background: rgba(16,185,129,0.2); color: var(--booked); }
-  .badge-experience { background: rgba(139,92,246,0.2); color: var(--moderate); }
+  .badge-icp { background: rgba(59,130,246,0.2); color: var(--personal); }
+  .badge-tone { background: rgba(139,92,246,0.2); color: var(--moderate); }
+  .badge-season { background: rgba(245,158,11,0.2); color: var(--accent); }
   .badge-fishing { background: rgba(34,197,94,0.15); color: #22c55e; }
-
-  .pg-posts-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+  .badge-family { background: rgba(236,72,153,0.15); color: #ec4899; }
+  .badge-nature { background: rgba(16,185,129,0.15); color: var(--booked); }
+  .badge-urgency { background: rgba(239,68,68,0.2); color: var(--open); }
+  .badge-reunion { background: rgba(245,158,11,0.15); color: var(--accent); }
+  .badge-value { background: rgba(99,102,241,0.15); color: #818cf8; }
+  .pg-card-target {
+    font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
   }
-
-  .pg-post-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: border-color 0.2s;
+  .pg-card-body { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
+  .pg-card-copy {
+    font-size: 0.82rem; line-height: 1.65; white-space: pre-wrap; color: var(--text);
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem;
+    flex: 1; overflow-y: auto; max-height: 320px;
   }
-  .pg-post-card:hover { border-color: var(--accent); }
-
-  .pg-post-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--border);
-    gap: 1rem;
-    flex-wrap: wrap;
+  .pg-card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 1rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.12);
   }
-  .pg-post-meta { display: flex; flex-direction: column; gap: 0.35rem; }
-  .pg-post-type-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-  .pg-post-target {
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .pg-post-date-rec {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-  }
-  .pg-post-date-rec strong { color: var(--text); }
-  .pg-post-promotes {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-  }
-
-  .pg-post-body {
-    padding: 1.25rem;
-  }
-  .pg-post-copy {
-    font-size: 0.88rem;
-    line-height: 1.7;
-    white-space: pre-wrap;
-    color: var(--text);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem;
-    position: relative;
-  }
-
-  .pg-post-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1.25rem;
-    border-top: 1px solid var(--border);
-    background: rgba(0,0,0,0.15);
-  }
-  .pg-post-footer-info {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-  }
+  .pg-card-info { font-size: 0.7rem; color: var(--text-dim); }
   .pg-copy-btn {
-    padding: 0.5rem 1.2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    background: var(--accent);
-    color: var(--bg);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    padding: 0.4rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600;
+    background: var(--accent); color: var(--bg); border: none; border-radius: 6px; cursor: pointer;
     transition: opacity 0.2s;
   }
   .pg-copy-btn:hover { opacity: 0.85; }
   .pg-copy-btn.copied { background: var(--booked); }
-
-  .pg-photo-hint {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.72rem;
-    color: var(--text-dim);
-    margin-top: 0.5rem;
+  .pg-icp-section { margin-bottom: 2.5rem; }
+  .pg-icp-title {
+    font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700;
+    margin-bottom: 0.35rem; color: var(--text);
   }
+  .pg-icp-desc { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 1rem; line-height: 1.5; }
 
   @media (max-width: 800px) {
     body { padding: 1rem; }
@@ -1251,8 +1123,23 @@ function switchTab(tab) {
 }
 
 // =========================================================
-// POST GENERATOR — Data, Templates, Engine, and Rendering
+// POST GENERATOR v2 — ICP Grid with Research-Backed Copy
 // =========================================================
+
+const LAKE_FACTS = {
+  length: "21 km (13 miles)",
+  shoreline: "88 km (55 miles)",
+  islands: "30+",
+  campsites: "25-30 island campsites",
+  crownLand: "80% crown land surrounding the lake",
+  geology: "Canadian Shield \u2014 2.5 billion year old Precambrian granite",
+  popDensity: "1.7 people per km\u00B2 \u2014 one of the lowest in Eastern Ontario",
+  fish: "walleye, smallmouth bass, largemouth bass, northern pike, perch, lake whitefish",
+  wildlife: "nesting hawks, ospreys, loons, deer, wild turkeys",
+  marina: "Camp\u2019s Bay Marina next door \u2014 boat rentals ($99\u2013$219/day), fuel, bait, tackle, fish cleaning, ice cream",
+  hikingTrail: "20km Crotch Lake Trail connects to Big Gull Lake",
+  history: "Kirk Kove resort has been on the lake 80+ years; Viking Lodge cabin dates to pre-Confederation (late 1800s)"
+};
 
 const REVIEWS = [
   { guest: "George", date: "June 2025", quote: "8 children and 8 adults for a week had a great time in a great place. One of the children caught 9 fish in one day off the dock. 4 families with 16 people had great times indoors. Island View Retreat is a gem!!!" },
@@ -1261,6 +1148,61 @@ const REVIEWS = [
   { guest: "Debra", date: "August 2025", quote: "Everything was in impeccable condition when we arrived. Nice and clean. Kevin was great to work with throughout our booking. Kids had a great time playing in the sand and water." },
   { guest: "Amybelle", date: "August 2025", quote: "The experience was everything we hoped for and more. The view was absolutely stunning. The cottage itself was cozy, comfortable, and felt very homey. Highly recommend!" },
   { guest: "Michelle", date: "June 2025", quote: "The owners were great to deal with and the information provided was well organized. Our group loved the dock and view from the beautiful deck. Very comfortable. Highly recommend for a large group." }
+];
+
+// ---- ICP DEFINITIONS ----
+const ICPS = [
+  {
+    id: "families",
+    title: "Young Families with Kids",
+    desc: "Parents 30\u201345 with toddlers/young kids seeking safe beach, gentle water entry, screened-in space, and no-stress logistics. Often 2\u20133 families splitting the cost.",
+    emoji: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66",
+    badgeClass: "badge-family"
+  },
+  {
+    id: "anglers",
+    title: "Fishing Crews",
+    desc: "Groups of 4\u20138 anglers (often men 35\u201360) looking for walleye, bass, and pike. They want dock access, fish cleaning, bait nearby, and space to fillet and freeze their catch.",
+    emoji: "\uD83C\uDFA3",
+    badgeClass: "badge-fishing"
+  },
+  {
+    id: "nature",
+    title: "Nature Lovers & Paddlers",
+    desc: "Couples or small groups (30\u201355) who crave island hopping, wildlife spotting, kayaking, stargazing, and quiet mornings on the water. Value remoteness over amenities.",
+    emoji: "\uD83C\uDF3F",
+    badgeClass: "badge-nature"
+  },
+  {
+    id: "reunion",
+    title: "Reunion & Milestone Groups",
+    desc: "Extended families or friend groups (10\u201316 people) celebrating birthdays, anniversaries, or annual traditions. Need space, shared meals, and a \u201Chome base\u201D that fits everyone.",
+    emoji: "\uD83C\uDF89",
+    badgeClass: "badge-reunion"
+  },
+  {
+    id: "value",
+    title: "Budget-Smart Getaway Seekers",
+    desc: "Families or couples comparing Muskoka/Prince Edward County prices and looking for a comparable lakefront experience at a fraction of the cost. Drawn to per-family math.",
+    emoji: "\uD83D\uDCB0",
+    badgeClass: "badge-value"
+  },
+  {
+    id: "disconnect",
+    title: "Digital Detox & Couples Retreat",
+    desc: "Couples 30\u201350 who want to genuinely unplug. Looking for dark skies, loon calls, no cell coverage pressure, morning coffee on the dock, and campfire evenings.",
+    emoji: "\u2728",
+    badgeClass: "badge-nature"
+  }
+];
+
+// ---- TONE TYPES ----
+const TONES = [
+  { id: "emotional", label: "Emotional", badgeClass: "badge-tone" },
+  { id: "factual", label: "Factual", badgeClass: "badge-icp" },
+  { id: "urgency", label: "Urgency", badgeClass: "badge-urgency" },
+  { id: "testimonial", label: "Testimonial", badgeClass: "badge-tone" },
+  { id: "experiential", label: "Experiential", badgeClass: "badge-nature" }
 ];
 
 const SEASON_CONTEXT = {
@@ -1318,8 +1260,220 @@ function generateAllPosts() {
   const gaps = DATA.weeks.filter(w => w.gap);
   const posts = [];
 
-  // 1. SEASONAL CAMPAIGN POSTS (3 total)
+  // Helper: format week date range
+  function weekRange(g) {
+    const s = new Date(g.start);
+    const e = new Date(g.end);
+    const mo = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return `${mo[s.getMonth()]} ${s.getDate()}\u2013${mo[e.getMonth()]} ${e.getDate()}`;
+  }
+
   const springGaps = gaps.filter(g => g.month === "May" || g.month === "Jun");
+  const summerGaps = gaps.filter(g => g.month === "Jul" || g.month === "Aug");
+  const fallGaps = gaps.filter(g => g.month === "Sep" || g.month === "Oct");
+
+  // ==========================
+  // ICP: YOUNG FAMILIES
+  // ==========================
+
+  // Emotional — beach & gentle water
+  if (springGaps.length > 0) {
+    const g = springGaps[0];
+    posts.push({ icp: "families", tone: "emotional", season: getSeasonKey(g.month),
+      copy: `There\u2019s a moment every parent waits for.\n\nYour little one standing ankle-deep in warm, sandy shallows\u2026 squealing because a minnow just tickled their toes.\n\nIsland View Retreat sits on a private sandy beach with the gentlest water entry on Big Gull Lake. No boats roaring past. No crowds. Just your family (or a few families together) on 1.2 acres of lakefront with a screened porch for nap time and a firepit for after bedtime.\n\nSleeps 16. Two canoes, two paddleboards, two fishing kayaks included. Camp\u2019s Bay Marina next door for ice cream runs.\n\nSpring weeks from $${g.now.toLocaleString()}/week \u2014 that\u2019s ~$${perFamilyNight(g.now, 3)}/night per family if you split three ways.\n\n\uD83D\uDC49 ${g.link}\n\n34 five-star reviews. 5th season. The kind of place where kids ask to come back.`,
+      postDate: getPostDate(g, -21), promotes: weekRange(g)
+    });
+  }
+
+  // Factual — logistics & amenities
+  posts.push({ icp: "families", tone: "factual", season: "spring",
+    copy: `Planning a group cottage trip with young kids? Here\u2019s the checklist.\n\n\u2705 Sandy beach with gradual entry (no drop-off)\n\u2705 Screened porch (bugs stay out, toddlers stay in)\n\u2705 2 full fridges + chest freezer (no grocery runs)\n\u2705 WiFi + Smart TVs in every room (rainy day backup)\n\u2705 2 canoes, 2 SUPs, 2 fishing kayaks (all included)\n\u2705 Camp\u2019s Bay Marina next door: ice cream, bait, boat rentals, fuel\n\u2705 A/C in all bedrooms (actual sleep)\n\u2705 Fire pit with 8 Muskoka chairs (adult time after bedtime)\n\u2705 Sleeps 16 across 5 bedrooms + waterfront bunkie\n\n3 hours from the GTA. 2 from Ottawa or Kingston.\n\nMay/June weeks from $2,950. Split across 3 families = ~$140/night each.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 2, 25), promotes: "All spring gap weeks"
+  });
+
+  // Experiential — imagination & memory
+  if (summerGaps.length > 0) {
+    const g = summerGaps[0];
+    posts.push({ icp: "families", tone: "experiential", season: "summer",
+      copy: `Day 1: They\u2019re glued to the iPad.\nDay 2: They\u2019re catching frogs off the dock.\nDay 3: They\u2019re building a \u201Cfort\u201D out of driftwood and declaring it their kingdom.\n\nBig Gull Lake has 30+ islands to explore by canoe, 88 km of wild shoreline, and exactly zero waterslides. The entertainment is the lake itself.\n\nIsland View Retreat \u2014 5 bedrooms, private sandy beach, sleeps 16. Everything you need for a week where the kids actually play outside.\n\n${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${g.link}`,
+      postDate: getPostDate(g, -28), promotes: weekRange(g)
+    });
+  }
+
+  // Testimonial — families
+  posts.push({ icp: "families", tone: "testimonial", season: "summer",
+    copy: `\u201C${REVIEWS[0]}\u201D\n\nThat\u2019s from one of 34 five-star reviews.\n\nIsland View Retreat is the kind of cottage where three families show up as friends and leave as the people who \u201Calways do that lake trip together.\u201D\n\nPrivate sandy beach. Screened porch. Fire pit under the stars. Room for 16.\n\nWe\u2019ve been hosting families for 5 seasons. The ones who come back? They usually book their next year before they leave.\n\nSpring & early summer weeks still open \u2014 starting at $2,950/week.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 3, 1), promotes: "All gap weeks"
+  });
+
+  // ==========================
+  // ICP: FISHING CREWS
+  // ==========================
+
+  // Factual — species, gear, logistics
+  posts.push({ icp: "anglers", tone: "factual", season: "spring",
+    copy: `Big Gull Lake fishing briefing:\n\n\uD83D\uDCCD 21 km long. 88 km of shoreline. Headwater lake \u2014 clean, deep, productive.\n\uD83C\uDFA3 Species: walleye, smallmouth bass, largemouth bass, northern pike, perch, lake whitefish\n\uD83D\uDEA3 2 fishing kayaks included. Camp\u2019s Bay Marina next door for 14\u2019 fisherman boats ($99/day), pontoons, fuel, bait, tackle\n\uD83E\uDDCA Fish cleaning station + fish freezing at Camp\u2019s Bay\n\uD83C\uDFE0 Sleeps 16. Five bedrooms + bunkie. Dock fits 4 boats.\n\nSpring walleye fishing is prime \u2014 rocky shoals, river mouths, and shallow bays warm up fast.\n\nMay/June weeks from $2,950. Split a crew of 6\u20138 and you\u2019re looking at $60\u2013$70/night each.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 2, 20), promotes: "Spring gap weeks"
+  });
+
+  // Emotional — the pull of the water
+  if (springGaps.length > 0) {
+    const g = springGaps[0];
+    posts.push({ icp: "anglers", tone: "emotional", season: "spring",
+      copy: `4:47 AM. Coffee\u2019s already on.\n\nYou step onto the dock and the lake is glass. Not a boat. Not a sound. Just mist lifting off 21 km of Canadian Shield water and the quiet knowledge that the walleye are stacked on the shoals.\n\nBig Gull Lake is one of Eastern Ontario\u2019s best-kept fishing lakes. Walleye, smallmouth, pike, perch \u2014 all within casting distance of your dock.\n\nIsland View Retreat sleeps up to 16, sits on a private sandy beach, and has Camp\u2019s Bay Marina right next door for boats, bait, fuel, and a fish cleaning station.\n\nBring your crew. ${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${g.link}`,
+      postDate: getPostDate(g, -21), promotes: weekRange(g)
+    });
+  }
+
+  // Experiential — the fishing trip story
+  posts.push({ icp: "anglers", tone: "experiential", season: "summer",
+    copy: `The trip doesn\u2019t start when you cast your first line.\n\nIt starts when someone says \u201Cwhat if we actually did a fishing trip this year?\u201D and instead of letting it die in the group chat, you just\u2026 book it.\n\nBig Gull Lake. 21 km of Canadian Shield water. Walleye, bass, pike. 30+ islands to explore. A marina next door with boats, bait, and a fish freezer.\n\nIsland View Retreat has 5 bedrooms + a waterfront bunkie. Dock fits 4 boats. Fire pit. BBQ. Two full-size fridges (one for beer, one for everything else).\n\nSleeps 16 but 6\u20138 is the sweet spot for a fishing crew.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361\n\n5 seasons. 34 five-star reviews. The group chat is waiting.`,
+    postDate: new Date(2026, 3, 15), promotes: "All gap weeks"
+  });
+
+  // Urgency — spring opener
+  if (springGaps.length > 0) {
+    const g = springGaps[springGaps.length - 1];
+    posts.push({ icp: "anglers", tone: "urgency", season: "spring",
+      copy: `Spring walleye season on Big Gull Lake.\n\nThe water\u2019s warming. The shoals are active. And ${weekRange(g)} is still open.\n\n$${g.now.toLocaleString()}/week for a 5-bedroom lakefront cottage that sleeps 16. Dock fits 4 boats. Camp\u2019s Bay Marina next door \u2014 14\u2019 fisherman boats from $99/day, fuel, bait, tackle, cleaning station.\n\nThis is the week your crew has been talking about.\n\n\uD83D\uDC49 ${g.link}`,
+      postDate: getPostDate(g, -14), promotes: weekRange(g)
+    });
+  }
+
+  // ==========================
+  // ICP: NATURE LOVERS & PADDLERS
+  // ==========================
+
+  // Emotional — the islands
+  posts.push({ icp: "nature", tone: "emotional", season: "summer",
+    copy: `Big Gull Lake has over 30 islands.\n\nSome have campsites. Some have nothing but granite and pine. All of them feel like they belong to you when you\u2019re the only kayak on the water.\n\n88 km of shoreline. Hawks and ospreys nesting overhead. Loons calling across the bay at dusk. The occasional deer drinking at the waterline.\n\nThis isn\u2019t Muskoka. There are no jet skis. North Frontenac has 1.7 people per square kilometre \u2014 one of the lowest population densities in Eastern Ontario.\n\nIsland View Retreat sits on 1.2 private acres with a sandy beach, 2 canoes, 2 SUPs, and 2 kayaks. Paddle out in the morning. Come back when you\u2019re ready.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 3, 8), promotes: "All gap weeks"
+  });
+
+  // Factual — paddling & exploration guide
+  posts.push({ icp: "nature", tone: "factual", season: "summer",
+    copy: `If you paddle, this is your lake.\n\n\uD83D\uDDFA Big Gull Lake: 21 km long, 88 km of shoreline, 30+ islands\n\uD83D\uDEF6 Included with stay: 2 canoes, 2 SUPs, 2 kayaks\n\uD83C\uDFD5 25\u201330 island campsites (day-trip or overnight)\n\uD83E\uDDBB Wildlife: nesting ospreys, hawks, loons, herons\n\uD83E\uDEA8 Geology: 2.5 billion year old Canadian Shield granite\n\uD83E\uDDED 20 km Crotch Lake Trail connects to Big Gull Lake for hiking\n\uD83C\uDF0C Dark sky zone \u2014 Milky Way visible on clear nights\n\n1.2 private acres. Sandy beach. Fire pit. Sleeps 16.\n\nNorth Frontenac: 1.7 people/km\u00B2. The kind of quiet that doesn\u2019t exist closer to the city.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 4, 1), promotes: "All gap weeks"
+  });
+
+  // Experiential — the day on the water
+  if (summerGaps.length > 0) {
+    const g = summerGaps[0];
+    posts.push({ icp: "nature", tone: "experiential", season: "summer",
+      copy: `Morning: Coffee on the dock. A heron standing motionless in the shallows.\n\nMid-morning: Kayak to the closest island. Find a granite ledge. Read for an hour with your feet in the water.\n\nAfternoon: Canoe deeper into the lake. 30+ islands to explore. Some with campsites, some completely untouched. An osprey circling overhead.\n\nEvening: Back at the cottage. Fire pit. The Milky Way coming into focus. A loon somewhere across the bay.\n\nIsland View Retreat on Big Gull Lake. ${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${g.link}`,
+      postDate: getPostDate(g, -21), promotes: weekRange(g)
+    });
+  }
+
+  // ==========================
+  // ICP: REUNION & MILESTONE
+  // ==========================
+
+  // Emotional — togetherness
+  posts.push({ icp: "reunion", tone: "emotional", season: "summer",
+    copy: `\u201CWe should all get together this summer.\u201D\n\nYou\u2019ve said it every year. This year, actually do it.\n\nIsland View Retreat sleeps 16 people across 5 bedrooms + a waterfront bunkie. Big dining table. Two full-size fridges. Fire pit with 8 Muskoka chairs. A private sandy beach where the cousins will spend all day and the adults can actually sit down.\n\nBig Gull Lake: 21 km of Canadian Shield water. 30+ islands. No crowds, no noise, no cell towers competing for your attention.\n\nThis is the place your family talks about for years.\n\n5 seasons. 34 five-star reviews. Spring weeks from $2,950.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 2, 28), promotes: "All gap weeks"
+  });
+
+  // Factual — logistics for large groups
+  posts.push({ icp: "reunion", tone: "factual", season: "summer",
+    copy: `Planning a family reunion or milestone trip? Here\u2019s why Island View Retreat works.\n\n\uD83C\uDFE0 5 bedrooms + waterfront bunkie = sleeps 16\n\uD83C\uDF7D Big dining area + 2 full-size fridges + chest freezer\n\uD83C\uDFD6 Private sandy beach on Big Gull Lake (no shared waterfront)\n\uD83D\uDD25 Fire pit with 8 Muskoka chairs\n\u2615 Screened porch + covered deck with panoramic lake views\n\uD83D\uDEA3 2 canoes, 2 SUPs, 2 kayaks included\n\uD83C\uDFA3 Fishing off the dock \u2014 bass, pike, sunfish\n\uD83D\uDEBB 2 full bathrooms + outdoor shower\n\uD83D\uDCF6 WiFi + Smart TVs in all rooms\n\uD83D\uDE97 3 hrs from GTA, 2 hrs from Ottawa/Kingston\n\nDock fits 4 boats. Camp\u2019s Bay Marina next door for rentals.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 3, 5), promotes: "All gap weeks"
+  });
+
+  // Testimonial — reunion
+  posts.push({ icp: "reunion", tone: "testimonial", season: "summer",
+    copy: `\u201C${REVIEWS[1]}\u201D\n\n\u201C${REVIEWS[2]}\u201D\n\nIsland View Retreat has hosted families, friend groups, and reunions for 5 seasons. 34 reviews. All five stars.\n\nThe cottage sleeps 16 on a private sandy beach. Big Gull Lake stretches 21 km through the Canadian Shield with 30+ islands to explore.\n\nThe families who book here don\u2019t just come once.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 3, 20), promotes: "All gap weeks"
+  });
+
+  // ==========================
+  // ICP: BUDGET-SMART / VALUE
+  // ==========================
+
+  // Factual — the math
+  if (springGaps.length > 0) {
+    const g = springGaps[0];
+    posts.push({ icp: "value", tone: "factual", season: "spring",
+      copy: `Cottage math:\n\nMuskoka lakefront (sleeps 8): $5,000\u2013$8,000/week\nPrince Edward County (sleeps 6): $3,500\u2013$6,000/week\nIsland View Retreat, Big Gull Lake (sleeps 16): $${g.now.toLocaleString()}/week\n\n\u2705 5 bedrooms + waterfront bunkie\n\u2705 Private sandy beach\n\u2705 2 canoes, 2 SUPs, 2 kayaks included\n\u2705 A/C, WiFi, Smart TVs, laundry\n\u2705 21 km lake, 30+ islands, Camp\u2019s Bay Marina next door\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\nSplit 4 families = ~$${perFamilyNight(g.now, 4)}/night each.\n\nSame lake. Same stars. Twice the space. Half the price.\n\n\uD83D\uDC49 ${g.link}`,
+      postDate: getPostDate(g, -21), promotes: weekRange(g)
+    });
+  }
+
+  // Emotional — value without compromise
+  posts.push({ icp: "value", tone: "emotional", season: "spring",
+    copy: `You don\u2019t need to spend $7,000 to give your family a week on the lake.\n\nIsland View Retreat on Big Gull Lake \u2014 5 bedrooms, private sandy beach, sleeps 16 \u2014 starts at $2,950/week in May and June.\n\nThat\u2019s up to 62% less than our own peak summer rates. And significantly less than comparable cottages in Muskoka that sleep half as many people.\n\nThe lake is 21 km long with 30+ islands. The water is clean. The beach is real sand. The fishing is excellent. The neighbours are trees.\n\nSplit the cost with another family or two and you\u2019re looking at $140\u2013$175/night each for a week your kids won\u2019t stop talking about.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 3, 12), promotes: "Spring gap weeks"
+  });
+
+  // Urgency — last chance value
+  if (springGaps.length > 1) {
+    const g = springGaps[springGaps.length - 1];
+    posts.push({ icp: "value", tone: "urgency", season: "spring",
+      copy: `Last spring weeks at off-peak pricing.\n\n${weekRange(g)}: $${g.now.toLocaleString()}/week for a 5-bedroom lakefront cottage on Big Gull Lake.\n\nSummer rates are $5,850\u2013$7,850/week for the same cottage. This is 40\u201362% less.\n\n3 families splitting = ~$${perFamilyNight(g.now, 3)}/night each.\n\nPrivate sandy beach. 16 beds. 30+ islands. Camp\u2019s Bay Marina next door.\n\n\uD83D\uDC49 ${g.link}`,
+      postDate: getPostDate(g, -10), promotes: weekRange(g)
+    });
+  }
+
+  // ==========================
+  // ICP: DIGITAL DETOX / COUPLES
+  // ==========================
+
+  // Emotional — the silence
+  posts.push({ icp: "disconnect", tone: "emotional", season: "spring",
+    copy: `When was the last time you heard nothing?\n\nNot quiet. Nothing. No highway hum. No notification ping. No neighbour\u2019s music.\n\nJust water lapping against the dock. A loon calling across the bay. Wind through the pines.\n\nNorth Frontenac has 1.7 people per square kilometre. Big Gull Lake has 30+ islands, 88 km of shoreline, and the kind of darkness where you can actually see the Milky Way.\n\nIsland View Retreat is 1.2 acres of private lakefront with a sandy beach, a fire pit, and the space to remember what it feels like to breathe.\n\nYou don\u2019t need 16 people to book it. Two of you is enough.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    postDate: new Date(2026, 3, 18), promotes: "All gap weeks"
+  });
+
+  // Experiential — 48 hours unplugged
+  if (fallGaps.length > 0) {
+    const g = fallGaps[0];
+    posts.push({ icp: "disconnect", tone: "experiential", season: "fall",
+      copy: `48 hours at Island View Retreat:\n\nFriday evening: Arrive. Unload. Open the door to the screened porch and hear the lake for the first time. Pour something. Sit.\n\nSaturday morning: Coffee on the dock. Mist on the water. Paddle a kayak to the nearest island. Come back when you\u2019re hungry.\n\nSaturday afternoon: Read on the beach. Swim. Nap in the bunkie with the window open.\n\nSaturday night: Fire pit. Stars you forgot existed. The Milky Way reflected on the lake.\n\nSunday: One more coffee on the dock. Drive home feeling like it\u2019s been a week.\n\nFall colour weeks available. ${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${g.link}`,
+      postDate: getPostDate(g, -21), promotes: weekRange(g)
+    });
+  }
+
+  // ==========================
+  // GAP-SPECIFIC URGENCY POSTS (all ICPs)
+  // ==========================
+  gaps.forEach(g => {
+    const sk = getSeasonKey(g.month);
+    const pri = g.pri;
+    if (pri === "CRITICAL" || pri === "HIGH") {
+      posts.push({ icp: "value", tone: "urgency", season: sk,
+        copy: `${weekRange(g)} on Big Gull Lake.\n\n$${g.now.toLocaleString()}/week for a 5-bedroom, 16-person lakefront cottage with a private sandy beach.\n\nIncludes: 2 canoes, 2 SUPs, 2 fishing kayaks, fire pit, BBQ, screened porch, A/C, WiFi, Smart TVs, laundry.\n\nCamp\u2019s Bay Marina next door: boat rentals from $99/day, fuel, bait, tackle, fish cleaning station, ice cream.\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\n\n34 five-star reviews. 5th season.\n\n\uD83D\uDC49 ${g.link}`,
+        postDate: getPostDate(g, -14), promotes: weekRange(g)
+      });
+    }
+  });
+
+  // ==========================
+  // SEASONAL CAMPAIGN POSTS
+  // ==========================
+
+  // Fall colour post
+  if (fallGaps.length > 0) {
+    posts.push({ icp: "nature", tone: "experiential", season: "fall",
+      copy: `The Canadian Shield in autumn.\n\nMaple, birch, and oak reflected in water so still it looks like a painting. The air is cool. The lake is yours.\n\nBig Gull Lake: 21 km long, 30+ islands, 88 km of shoreline \u2014 all of it turning gold and crimson. Paddle through it in one of two included canoes. Hike the 20 km Crotch Lake Trail. Sit on the dock and watch the colours shift.\n\nIsland View Retreat: 5 bedrooms, private sandy beach, fire pit, sleeps 16.\n\nFall weeks from $${Math.min(...fallGaps.map(g=>g.now)).toLocaleString()}/week.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+      postDate: new Date(2026, 7, 15), promotes: "All fall gap weeks"
+    });
+  }
+
+  // Summer family campaign
+  if (summerGaps.length > 0) {
+    posts.push({ icp: "families", tone: "urgency", season: "summer",
+      copy: `Summer weeks going fast.\n\nBig Gull Lake \u2014 21 km of Canadian Shield water, private sandy beach, 30+ islands to explore with the kids. No crowds. No jet skis. Just lake.\n\nIsland View Retreat: 5 bedrooms + bunkie, sleeps 16, everything included.\n\nOpen weeks:\n${summerGaps.map(g => `\u2022 ${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week`).join('\n')}\n\n34 five-star reviews. Families come back year after year.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+      postDate: new Date(2026, 4, 15), promotes: "Summer gap weeks"
+    });
+  }
+
+  return posts.sort((a, b) => {
+    const da = a.postDate instanceof Date ? a.postDate : new Date(a.postDate);
+    const db = b.postDate instanceof Date ? b.postDate : new Date(b.postDate);
+    return da - db;
+  });
+}
   const summerGaps = gaps.filter(g => g.month === "Jul" || g.month === "Aug");
   const fallGaps = gaps.filter(g => g.month === "Sep" || g.month === "Oct");
 
@@ -1630,7 +1784,8 @@ Message me to book your fall trip.`
 }
 
 let postsRendered = false;
-let currentFilter = "all";
+let currentIcpFilter = "all";
+let currentToneFilter = "all";
 
 function renderPosts() {
   if (postsRendered && !arguments[0]) return;
@@ -1639,103 +1794,95 @@ function renderPosts() {
   const allPosts = generateAllPosts();
   const container = document.getElementById("posts-content");
 
-  const filtered = currentFilter === "all" ? allPosts : allPosts.filter(p => p.type === currentFilter);
-
-  const types = [
-    { key: "all", label: "All Posts" },
-    { key: "campaign", label: "Campaigns" },
-    { key: "spotlight", label: "Spotlights" },
-    { key: "urgency", label: "Last-Minute" },
-    { key: "testimonial", label: "Testimonials" },
-    { key: "experience", label: "Experience" },
-    { key: "fishing", label: "Fishing" }
-  ];
+  let filtered = allPosts;
+  if (currentIcpFilter !== "all") filtered = filtered.filter(p => p.icp === currentIcpFilter);
+  if (currentToneFilter !== "all") filtered = filtered.filter(p => p.tone === currentToneFilter);
 
   let html = "";
 
-  // Header
   html += `<div class="pg-header">
-    <div class="section-title">Facebook Post Generator</div>
-    <p>Ready-to-copy posts organized by type and posting date. Each post is tailored to your open gap weeks, optimized pricing, and ICP (multi-family groups, fishing crews, reunion planners). Vary your post types \u2014 never post the same format twice in a row.</p>
+    <div class="section-title">Post Generator &mdash; ICP &times; Messaging Grid</div>
+    <p>Posts organized by <strong>Ideal Customer Profile</strong> and <strong>messaging tone</strong>. Each post is research-backed with real facts about Big Gull Lake, Camp&rsquo;s Bay Marina, and Island View Retreat. Filter by audience or tone, then copy any post directly.</p>
   </div>`;
 
-  // Stats row
   const gapCount = DATA.weeks.filter(w => w.gap).length;
   html += `<div class="stats-row">
-    <div class="stat-card highlight"><div class="label">Total Posts Generated</div><div class="value">${allPosts.length}</div><div class="sub">across 6 post types</div></div>
-    <div class="stat-card"><div class="label">Gap Weeks Covered</div><div class="value">${gapCount}</div><div class="sub">each with spotlight + urgency</div></div>
-    <div class="stat-card"><div class="label">Posting Cadence</div><div class="value">1\u20132/wk</div><div class="sub">Sun evening &amp; Wed evening</div></div>
-    <div class="stat-card"><div class="label">Best Posting Times</div><div class="value">6\u20139 PM</div><div class="sub">planning &amp; browsing mindset</div></div>
+    <div class="stat-card highlight"><div class="label">Total Posts</div><div class="value">${allPosts.length}</div><div class="sub">across ${ICPS.length} ICPs &times; ${TONES.length} tones</div></div>
+    <div class="stat-card"><div class="label">ICPs Covered</div><div class="value">${ICPS.length}</div><div class="sub">families, anglers, nature, reunion, value, detox</div></div>
+    <div class="stat-card"><div class="label">Gap Weeks</div><div class="value">${gapCount}</div><div class="sub">targeted with specific pricing</div></div>
+    <div class="stat-card"><div class="label">Cadence</div><div class="value">1&ndash;2/wk</div><div class="sub">rotate ICPs &amp; tones</div></div>
   </div>`;
 
-  // Filters
+  // ICP filters
+  html += `<div style="margin-bottom:0.5rem;font-size:0.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Audience</div>`;
   html += `<div class="pg-filters">`;
-  for (const t of types) {
-    const count = t.key === "all" ? allPosts.length : allPosts.filter(p => p.type === t.key).length;
-    html += `<button class="pg-filter-btn${currentFilter === t.key ? ' active' : ''}" onclick="filterPosts('${t.key}')">${t.label} (${count})</button>`;
+  html += `<button class="pg-filter-btn${currentIcpFilter==='all'?' active':''}" onclick="filterByIcp('all')">All (${allPosts.length})</button>`;
+  for (const icp of ICPS) {
+    const count = allPosts.filter(p => p.icp === icp.id).length;
+    html += `<button class="pg-filter-btn${currentIcpFilter===icp.id?' active':''}" onclick="filterByIcp('${icp.id}')">${icp.emoji} ${icp.title} (${count})</button>`;
   }
   html += `</div>`;
 
-  // Timeline
-  html += `<div class="section-title">Posting Calendar</div>`;
-  html += `<div class="pg-timeline">`;
-  const monthGroups = {};
-  for (const p of filtered) {
-    const monthLabel = p.postDate.split(" ")[0];
-    if (!monthGroups[monthLabel]) monthGroups[monthLabel] = [];
-    monthGroups[monthLabel].push(p);
+  // Tone filters
+  html += `<div style="margin-bottom:0.5rem;font-size:0.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Tone</div>`;
+  html += `<div class="pg-filters" style="margin-bottom:2rem">`;
+  html += `<button class="pg-filter-btn${currentToneFilter==='all'?' active':''}" onclick="filterByTone('all')">All Tones</button>`;
+  for (const t of TONES) {
+    const count = allPosts.filter(p => p.tone === t.id).length;
+    html += `<button class="pg-filter-btn${currentToneFilter===t.id?' active':''}" onclick="filterByTone('${t.id}')">${t.label} (${count})</button>`;
   }
-  for (const [month, items] of Object.entries(monthGroups)) {
-    html += `<div class="pg-tl-month"><div class="pg-tl-month-label">${month} 2026</div>`;
-    for (const item of items) {
-      html += `<div class="pg-tl-item">
-        <span class="pg-tl-date">${item.postDate}</span>
-        <span class="pg-tl-desc"><span class="pg-tl-badge ${item.badgeClass}">${item.badge}</span> ${item.promotes}</span>
+  html += `</div>`;
+
+  // Group by ICP
+  const icpOrder = currentIcpFilter === "all" ? ICPS : ICPS.filter(i => i.id === currentIcpFilter);
+  for (const icp of icpOrder) {
+    const icpPosts = filtered.filter(p => p.icp === icp.id);
+    if (icpPosts.length === 0) continue;
+
+    html += `<div class="pg-icp-section">`;
+    html += `<div class="pg-icp-title">${icp.emoji} ${icp.title}</div>`;
+    html += `<div class="pg-icp-desc">${icp.desc}</div>`;
+    html += `<div class="pg-grid">`;
+
+    for (let i = 0; i < icpPosts.length; i++) {
+      const p = icpPosts[i];
+      const globalIdx = allPosts.indexOf(p);
+      const wordCount = p.copy.split(/\s+/).length;
+      const toneObj = TONES.find(t => t.id === p.tone) || TONES[0];
+      const postDateStr = p.postDate instanceof Date
+        ? p.postDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+        : p.postDate;
+
+      html += `<div class="pg-card">
+        <div class="pg-card-top">
+          <div class="pg-card-badges">
+            <span class="pg-badge ${icp.badgeClass}">${icp.id}</span>
+            <span class="pg-badge ${toneObj.badgeClass}">${toneObj.label}</span>
+            <span class="pg-badge badge-season">${p.season}</span>
+          </div>
+          <div class="pg-card-target">Post by ${postDateStr}</div>
+        </div>
+        <div class="pg-card-body">
+          <div class="pg-card-copy" id="post-copy-${globalIdx}">${p.copy}</div>
+        </div>
+        <div class="pg-card-footer">
+          <span class="pg-card-info">${wordCount} words &bull; Promotes: ${p.promotes}</span>
+          <button class="pg-copy-btn" onclick="copyPost(${globalIdx}, this)">Copy</button>
+        </div>
       </div>`;
     }
-    html += `</div>`;
+    html += `</div></div>`;
   }
-  html += `</div>`;
-
-  // Post cards
-  html += `<div class="section-title">Generated Posts (${filtered.length})</div>`;
-  html += `<div class="pg-posts-grid">`;
-  for (let i = 0; i < filtered.length; i++) {
-    const p = filtered[i];
-    const wordCount = p.copy.split(/\s+/).length;
-    const priClass = p.priority ? `tag-${p.priority.toLowerCase()}` : "tag-low";
-
-    html += `<div class="pg-post-card">
-      <div class="pg-post-header">
-        <div class="pg-post-meta">
-          <div class="pg-post-type-row">
-            <span class="pg-tl-badge ${p.badgeClass}">${p.badge}</span>
-            ${p.priority && p.priority !== "LOW" ? `<span class="cell-tag ${priClass}">${p.priority}</span>` : ''}
-          </div>
-          <div class="pg-post-target">Target: ${p.target}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="pg-post-date-rec">Post by: <strong>${p.postDate}</strong></div>
-          <div class="pg-post-promotes">Promotes: ${p.promotes}</div>
-        </div>
-      </div>
-      <div class="pg-post-body">
-        <div class="pg-post-copy" id="post-copy-${i}">${p.copy}</div>
-        <div class="pg-photo-hint">\u{1F4F7} ${p.photo}</div>
-      </div>
-      <div class="pg-post-footer">
-        <span class="pg-post-footer-info">${wordCount} words</span>
-        <button class="pg-copy-btn" onclick="copyPost(${i}, this)">Copy to Clipboard</button>
-      </div>
-    </div>`;
-  }
-  html += `</div>`;
 
   container.innerHTML = html;
 }
 
-function filterPosts(type) {
-  currentFilter = type;
+function filterByIcp(icp) {
+  currentIcpFilter = icp;
+  renderPosts(true);
+}
+function filterByTone(tone) {
+  currentToneFilter = tone;
   renderPosts(true);
 }
 
@@ -1745,7 +1892,7 @@ function copyPost(index, btn) {
   navigator.clipboard.writeText(el.textContent).then(() => {
     btn.textContent = "Copied!";
     btn.classList.add("copied");
-    setTimeout(() => { btn.textContent = "Copy to Clipboard"; btn.classList.remove("copied"); }, 2000);
+    setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 2000);
   });
 }
 

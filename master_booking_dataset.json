@@ -1,0 +1,436 @@
+{
+  "metadata": {
+    "property": "Island View Retreat",
+    "generated": "2026-03-18",
+    "source": "Master Booking & Finance - Annual Booking Calendar",
+    "season_dates": {
+      "2022": { "opener": "May 11-15 (Wk 22-19)", "closer": "Oct 9-16 (Wk 22-41)" },
+      "2023": { "opener": "Apr 23-25 (Wk 23-17)", "closer": "Oct 22-28 (Wk 23-43)" },
+      "2024": { "opener": "May 5-11 (Wk 24-19)", "closer": "Oct 13-19 (Wk 24-42)" },
+      "2025": { "opener": "May 4-10 (Wk 25-19)", "closer": "Oct 12-18 (Wk 25-42)" },
+      "2026": { "opener": "May 3-9 (Wk 26-19)", "closer": "Oct 14-18 (Wk 26-42)" }
+    }
+  },
+  "yearly_summary": {
+    "2022": { "list_potential": 196100, "booked_revenue": 70900.05, "capture_rate": 0.362, "paid_bookings": 15, "personal_use_weeks": 5 },
+    "2023": { "list_potential": 200550, "booked_revenue": 71343.80, "capture_rate": 0.356, "paid_bookings": 14, "personal_use_weeks": 4 },
+    "2024": { "list_potential": 123500, "booked_revenue": 89060.02, "capture_rate": 0.721, "paid_bookings": 17, "personal_use_weeks": 2 },
+    "2025": { "list_potential": 119700, "booked_revenue": 86328.82, "capture_rate": 0.721, "paid_bookings": 18, "personal_use_weeks": 3 },
+    "2026": { "list_potential": 134850, "booked_revenue": 35250.00, "capture_rate": 0.261, "paid_bookings": 8, "personal_use_weeks": 2, "note": "Season in progress as of Mar 18" }
+  },
+  "season_weeks": [
+    {
+      "season_position": 1,
+      "period": "Mid-May Wk1",
+      "approx_dates": "May 10-16",
+      "month": "May",
+      "list_rate_2026": 3250,
+      "years": {
+        "2022": { "wk": "22-20", "dates": "May 15-21", "status": "personal", "guest": "Chris Vachon (Staff)", "revenue": 0 },
+        "2023": { "wk": "23-20", "dates": "May 14-20", "status": "booked", "guest": "Fareeha Amded", "revenue": 2250 },
+        "2024": { "wk": "24-20", "dates": "May 12-18", "status": "booked", "guest": "Jennifer Srigley", "revenue": 2250 },
+        "2025": { "wk": "25-20", "dates": "May 11-17", "status": "booked", "guest": "Gilson Rockey", "revenue": 2250 },
+        "2026": { "wk": "26-20", "dates": "May 10-16", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 75,
+      "avg_revenue_when_booked": 2250,
+      "priority": "HIGH"
+    },
+    {
+      "season_position": 2,
+      "period": "Mid-May Wk2",
+      "approx_dates": "May 17-23",
+      "month": "May",
+      "list_rate_2026": 3250,
+      "years": {
+        "2022": { "wk": "22-21", "dates": "May 22-28", "status": "open", "guest": null, "revenue": 0 },
+        "2023": { "wk": "23-21", "dates": "May 21-27", "status": "open", "guest": null, "revenue": 0 },
+        "2024": { "wk": "24-21", "dates": "May 19-25", "status": "open", "guest": null, "revenue": 0 },
+        "2025": { "wk": "25-21", "dates": "May 18-24", "status": "booked", "guest": "Walter Falleiro", "revenue": 1850 },
+        "2026": { "wk": "26-21", "dates": "May 17-23", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 25,
+      "avg_revenue_when_booked": 1850,
+      "priority": "LOW"
+    },
+    {
+      "season_position": 3,
+      "period": "Late May",
+      "approx_dates": "May 24-30",
+      "month": "May",
+      "list_rate_2026": 3250,
+      "years": {
+        "2022": { "wk": "22-22", "dates": "May 29-Jun 4", "status": "open", "guest": null, "revenue": 0 },
+        "2023": { "wk": "23-22", "dates": "May 28-Jun 3", "status": "open", "guest": null, "revenue": 0 },
+        "2024": { "wk": "24-22", "dates": "May 26-Jun 1", "status": "booked", "guest": "Pete Wiebe", "revenue": 2950 },
+        "2025": { "wk": "25-22", "dates": "May 25-31", "status": "personal", "guest": "Corey Shelson", "revenue": 0 },
+        "2026": { "wk": "26-22", "dates": "May 24-30", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 25,
+      "avg_revenue_when_booked": 2950,
+      "priority": "LOW"
+    },
+    {
+      "season_position": 4,
+      "period": "Early Jun Wk1",
+      "approx_dates": "May 31 - Jun 6",
+      "month": "June",
+      "list_rate_2026": 4750,
+      "years": {
+        "2022": { "wk": "22-23", "dates": "Jun 5-11", "status": "open", "guest": null, "revenue": 0 },
+        "2023": { "wk": "23-23", "dates": "Jun 4-10", "status": "booked", "guest": "Rich Liddle", "revenue": 3000 },
+        "2024": { "wk": "24-23", "dates": "Jun 2-8", "status": "personal", "guest": "Jocelyn Use", "revenue": 0 },
+        "2025": { "wk": "25-23", "dates": "Jun 1-7", "status": "booked", "guest": "Michelle Donovan", "revenue": 2350 },
+        "2026": { "wk": "26-23", "dates": "May 31-Jun 6", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 50,
+      "avg_revenue_when_booked": 2675,
+      "priority": "MODERATE"
+    },
+    {
+      "season_position": 5,
+      "period": "Early Jun Wk2",
+      "approx_dates": "Jun 7-13",
+      "month": "June",
+      "list_rate_2026": 4750,
+      "years": {
+        "2022": { "wk": "22-24", "dates": "Jun 12-18", "status": "booked", "guest": "Faisal Ashraf", "revenue": 2500 },
+        "2023": { "wk": "23-24", "dates": "Jun 11-17", "status": "booked", "guest": "Holly & Bryan Hellam (2wk)", "revenue": 8450 },
+        "2024": { "wk": "24-24", "dates": "Jun 9-15", "status": "open", "guest": null, "revenue": 0, "note": "Part of Hellam 2wk block Jun 7-21" },
+        "2025": { "wk": "25-24", "dates": "Jun 8-14", "status": "open", "guest": null, "revenue": 0, "note": "Part of Hellam 2wk block Jun 13-27" },
+        "2026": { "wk": "26-24", "dates": "Jun 7-13", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 50,
+      "avg_revenue_when_booked": 5475,
+      "priority": "MODERATE"
+    },
+    {
+      "season_position": 6,
+      "period": "Mid-Jun",
+      "approx_dates": "Jun 14-20",
+      "month": "June",
+      "list_rate_2026": 4750,
+      "years": {
+        "2022": { "wk": "22-25", "dates": "Jun 19-25", "status": "booked", "guest": "Michelle Elia", "revenue": 4950 },
+        "2023": { "wk": "23-25", "dates": "Jun 18-24", "status": "booked", "guest": "Hellam 2wk (cont.)", "revenue": 0, "note": "Revenue counted in wk 23-24" },
+        "2024": { "wk": "24-25", "dates": "Jun 16-22", "status": "booked", "guest": "Bryan Hellam (2wk)", "revenue": 7750 },
+        "2025": { "wk": "25-25", "dates": "Jun 15-21", "status": "booked", "guest": "Hellam 2wk (cont.)", "revenue": 0, "note": "Revenue counted in wk 25-26" },
+        "2026": { "wk": "26-25", "dates": "Jun 14-20", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 50,
+      "avg_revenue_when_booked": 6350,
+      "priority": "MODERATE"
+    },
+    {
+      "season_position": 7,
+      "period": "Late Jun",
+      "approx_dates": "Jun 21-27",
+      "month": "June",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-26", "dates": "Jun 26-Jul 2", "status": "personal", "guest": "Shelson Family", "revenue": 0 },
+        "2023": { "wk": "23-26", "dates": "Jun 25-Jul 1", "status": "booked", "guest": "Joshua Blunn", "revenue": 3450 },
+        "2024": { "wk": "24-26", "dates": "Jun 23-29", "status": "booked", "guest": "Len Graham", "revenue": 3600 },
+        "2025": { "wk": "25-26", "dates": "Jun 22-28", "status": "booked", "guest": "Bryan Hellam (2wk)", "revenue": 8450 },
+        "2026": { "wk": "26-26", "dates": "Jun 21-27", "status": "booked", "guest": "Nancy Lea", "revenue": 4700 }
+      },
+      "gap_2026": false
+    },
+    {
+      "season_position": 8,
+      "period": "Canada Day",
+      "approx_dates": "Jun 28 - Jul 4",
+      "month": "July",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-27", "dates": "Jul 3-9", "status": "personal", "guest": "Shelson Family", "revenue": 0 },
+        "2023": { "wk": "23-27", "dates": "Jul 2-8", "status": "personal", "guest": "Shelson Family Vacation", "revenue": 0 },
+        "2024": { "wk": "24-27", "dates": "Jun 30-Jul 6", "status": "booked", "guest": "Judy Murray", "revenue": 7450 },
+        "2025": { "wk": "25-27", "dates": "Jun 29-Jul 5", "status": "booked", "guest": "George Robertson", "revenue": 7450 },
+        "2026": { "wk": "26-27", "dates": "Jun 28-Jul 4", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 50,
+      "avg_revenue_when_booked": 7450,
+      "priority": "CRITICAL"
+    },
+    {
+      "season_position": 9,
+      "period": "Early Jul",
+      "approx_dates": "Jul 5-11",
+      "month": "July",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-28", "dates": "Jul 10-16", "status": "booked", "guest": "Mark Gasparotto", "revenue": 7500 },
+        "2023": { "wk": "23-28", "dates": "Jul 9-15", "status": "personal", "guest": "Corey & Jocelyn", "revenue": 0 },
+        "2024": { "wk": "24-28", "dates": "Jul 7-13", "status": "booked", "guest": "Anas Daoud", "revenue": 3000 },
+        "2025": { "wk": "25-28", "dates": "Jul 6-12", "status": "booked", "guest": "Carly Speck", "revenue": 7450 },
+        "2026": { "wk": "26-28", "dates": "Jul 5-11", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 50,
+      "avg_revenue_when_booked": 5983,
+      "priority": "HIGH"
+    },
+    {
+      "season_position": 10,
+      "period": "Mid-Jul Wk1",
+      "approx_dates": "Jul 12-18",
+      "month": "July",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-29", "dates": "Jul 17-23", "status": "booked", "guest": "Michael Gadacz", "revenue": 7950 },
+        "2023": { "wk": "23-29", "dates": "Jul 16-22", "status": "booked", "guest": "Evan Watts", "revenue": 7244 },
+        "2024": { "wk": "24-29", "dates": "Jul 14-20", "status": "booked", "guest": "Peter Jarvis + Adil Chaudhry", "revenue": 9800 },
+        "2025": { "wk": "25-29", "dates": "Jul 13-19", "status": "booked", "guest": "Nick Vergeer", "revenue": 7700 },
+        "2026": { "wk": "26-29", "dates": "Jul 12-18", "status": "personal", "guest": "Corey Vacation", "revenue": 0 }
+      },
+      "gap_2026": false
+    },
+    {
+      "season_position": 11,
+      "period": "Mid-Jul Wk2",
+      "approx_dates": "Jul 19-25",
+      "month": "July",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-30", "dates": "Jul 24-30", "status": "booked", "guest": "Catherine Lowrey", "revenue": 7950 },
+        "2023": { "wk": "23-30", "dates": "Jul 23-29", "status": "personal", "guest": "Kevin & Jaclyn", "revenue": 0 },
+        "2024": { "wk": "24-30", "dates": "Jul 21-27", "status": "booked", "guest": "Marissa Muilwyk", "revenue": 7450 },
+        "2025": { "wk": "25-30", "dates": "Jul 20-26", "status": "personal", "guest": "Shelson Vacation", "revenue": 0 },
+        "2026": { "wk": "26-30", "dates": "Jul 19-25", "status": "booked", "guest": "Shelly Irvine", "revenue": 8100 }
+      },
+      "gap_2026": false
+    },
+    {
+      "season_position": 12,
+      "period": "Late Jul",
+      "approx_dates": "Jul 26 - Aug 1",
+      "month": "July",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-31", "dates": "Jul 31-Aug 6", "status": "booked", "guest": "Kathy Lyle Group", "revenue": 7950 },
+        "2023": { "wk": "23-31", "dates": "Jul 30-Aug 5", "status": "booked", "guest": "Clement Dellacherie", "revenue": 7950 },
+        "2024": { "wk": "24-31", "dates": "Jul 28-Aug 3", "status": "personal", "guest": "Shelson Family", "revenue": 0 },
+        "2025": { "wk": "25-31", "dates": "Jul 27-Aug 2", "status": "booked", "guest": "Anne Bull", "revenue": 7450 },
+        "2026": { "wk": "26-31", "dates": "Jul 26-Aug 1", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 75,
+      "avg_revenue_when_booked": 7783,
+      "priority": "CRITICAL"
+    },
+    {
+      "season_position": 13,
+      "period": "Early Aug",
+      "approx_dates": "Aug 2-8",
+      "month": "August",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-32", "dates": "Aug 7-13", "status": "personal", "guest": "Shelson Family", "revenue": 0 },
+        "2023": { "wk": "23-32", "dates": "Aug 6-12", "status": "booked", "guest": "Patti Burke", "revenue": 8000 },
+        "2024": { "wk": "24-32", "dates": "Aug 4-10", "status": "booked", "guest": "Patti Burke", "revenue": 8000 },
+        "2025": { "wk": "25-32", "dates": "Aug 3-9", "status": "booked", "guest": "Debra Hill", "revenue": 7450 },
+        "2026": { "wk": "26-32", "dates": "Aug 2-8", "status": "personal", "guest": "Shelson Family Vacation", "revenue": 0 }
+      },
+      "gap_2026": false
+    },
+    {
+      "season_position": 14,
+      "period": "Mid-Aug Wk1",
+      "approx_dates": "Aug 9-15",
+      "month": "August",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-33", "dates": "Aug 14-20", "status": "booked", "guest": "Susan Bezaire", "revenue": 7950 },
+        "2023": { "wk": "23-33", "dates": "Aug 13-19", "status": "booked", "guest": "Mark Gasparotto", "revenue": 7500 },
+        "2024": { "wk": "24-33", "dates": "Aug 11-17", "status": "booked", "guest": "Mark Gasparotto", "revenue": 7450 },
+        "2025": { "wk": "25-33", "dates": "Aug 10-16", "status": "booked", "guest": "Judy Murray", "revenue": 7450 },
+        "2026": { "wk": "26-33", "dates": "Aug 9-15", "status": "booked", "guest": "Kathy Lyle", "revenue": 7700 }
+      },
+      "gap_2026": false
+    },
+    {
+      "season_position": 15,
+      "period": "Mid-Aug Wk2",
+      "approx_dates": "Aug 16-22",
+      "month": "August",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-34", "dates": "Aug 21-27", "status": "booked", "guest": "Anna Primus", "revenue": 7950 },
+        "2023": { "wk": "23-34", "dates": "Aug 20-26", "status": "booked", "guest": "Susan Bezaire", "revenue": 8450 },
+        "2024": { "wk": "24-34", "dates": "Aug 18-24", "status": "booked", "guest": "Bob Burmaster", "revenue": 7450 },
+        "2025": { "wk": "25-34", "dates": "Aug 17-23", "status": "booked", "guest": "Sabrina Bhangoo + Marissa Muilwyk", "revenue": 7700 },
+        "2026": { "wk": "26-34", "dates": "Aug 16-22", "status": "booked", "guest": "Didier Le Goff", "revenue": 8100 }
+      },
+      "gap_2026": false
+    },
+    {
+      "season_position": 16,
+      "period": "Late Aug",
+      "approx_dates": "Aug 23-29",
+      "month": "August",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-35", "dates": "Aug 28-Sep 3", "status": "personal", "guest": "Shelson Family", "revenue": 0 },
+        "2023": { "wk": "23-35", "dates": "Aug 27-Sep 2", "status": "booked", "guest": "Sunil George", "revenue": 2100 },
+        "2024": { "wk": "24-35", "dates": "Aug 25-31", "status": "booked", "guest": "Ben Green", "revenue": 7450 },
+        "2025": { "wk": "25-35", "dates": "Aug 24-30", "status": "booked", "guest": "Simon Dupuis", "revenue": 7700 },
+        "2026": { "wk": "26-35", "dates": "Aug 23-29", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 75,
+      "avg_revenue_when_booked": 5750,
+      "priority": "CRITICAL"
+    },
+    {
+      "season_position": 17,
+      "period": "Labour Day",
+      "approx_dates": "Aug 30 - Sep 5",
+      "month": "September",
+      "list_rate_2026": 7850,
+      "years": {
+        "2022": { "wk": "22-36", "dates": "Sep 4-10", "status": "open", "guest": null, "revenue": 0 },
+        "2023": { "wk": "23-36", "dates": "Sep 3-9", "status": "booked", "guest": "Mohammed Fawaz", "revenue": 3250 },
+        "2024": { "wk": "24-36", "dates": "Sep 1-7", "status": "booked", "guest": "Greg Papadopoulos", "revenue": 2950 },
+        "2025": { "wk": "25-36", "dates": "Aug 31-Sep 6", "status": "booked", "guest": "Amybelle Gabino", "revenue": 3200 },
+        "2026": { "wk": "26-36", "dates": "Aug 30-Sep 5", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 75,
+      "avg_revenue_when_booked": 3133,
+      "priority": "HIGH"
+    },
+    {
+      "season_position": 18,
+      "period": "Early Sep",
+      "approx_dates": "Sep 6-12",
+      "month": "September",
+      "list_rate_2026": 4750,
+      "years": {
+        "2022": { "wk": "22-37", "dates": "Sep 11-17", "status": "booked", "guest": "Bart Jedrocha", "revenue": 3500 },
+        "2023": { "wk": "23-37", "dates": "Sep 10-16", "status": "open", "guest": null, "revenue": 0 },
+        "2024": { "wk": "24-37", "dates": "Sep 8-14", "status": "booked", "guest": "Joanne Boss", "revenue": 2600 },
+        "2025": { "wk": "25-37", "dates": "Sep 7-13", "status": "booked", "guest": "Brad Howe", "revenue": 2754 },
+        "2026": { "wk": "26-37", "dates": "Sep 6-12", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 75,
+      "avg_revenue_when_booked": 2951,
+      "priority": "HIGH"
+    },
+    {
+      "season_position": 19,
+      "period": "Mid-Sep",
+      "approx_dates": "Sep 13-19",
+      "month": "September",
+      "list_rate_2026": 4750,
+      "years": {
+        "2022": { "wk": "22-38", "dates": "Sep 18-24", "status": "booked", "guest": "Michael Vorich", "revenue": 1800 },
+        "2023": { "wk": "23-38", "dates": "Sep 17-23", "status": "open", "guest": null, "revenue": 0 },
+        "2024": { "wk": "24-38", "dates": "Sep 15-21", "status": "booked", "guest": "Yana Verbitskaia", "revenue": 2000 },
+        "2025": { "wk": "25-38", "dates": "Sep 14-20", "status": "personal", "guest": "Shelson/Brock/Mason", "revenue": 250 },
+        "2026": { "wk": "26-38", "dates": "Sep 13-19", "status": "booked", "guest": "Walter Falleiro", "revenue": 2250 }
+      },
+      "gap_2026": false
+    },
+    {
+      "season_position": 20,
+      "period": "Late Sep",
+      "approx_dates": "Sep 20-26",
+      "month": "September",
+      "list_rate_2026": 4750,
+      "years": {
+        "2022": { "wk": "22-39", "dates": "Sep 25-Oct 1", "status": "personal", "guest": "Shelson Family", "revenue": 0 },
+        "2023": { "wk": "23-39", "dates": "Sep 24-30", "status": "open", "guest": null, "revenue": 0 },
+        "2024": { "wk": "24-39", "dates": "Sep 22-28", "status": "open", "guest": null, "revenue": 0 },
+        "2025": { "wk": "25-39", "dates": "Sep 21-27", "status": "booked", "guest": "Rone Johny", "revenue": 2000 },
+        "2026": { "wk": "26-39", "dates": "Sep 20-26", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 25,
+      "avg_revenue_when_booked": 2000,
+      "priority": "LOW"
+    },
+    {
+      "season_position": 21,
+      "period": "Sep/Oct",
+      "approx_dates": "Sep 27 - Oct 3",
+      "month": "October",
+      "list_rate_2026": 4750,
+      "years": {
+        "2022": { "wk": "22-40", "dates": "Oct 2-8", "status": "booked", "guest": "Janelle Labelle", "revenue": 2500 },
+        "2023": { "wk": "23-40", "dates": "Oct 1-7", "status": "booked", "guest": "Robert Dombaj", "revenue": 1950 },
+        "2024": { "wk": "24-40", "dates": "Sep 29-Oct 5", "status": "booked", "guest": "Tammy Dumas", "revenue": 2250 },
+        "2025": { "wk": "25-40", "dates": "Sep 28-Oct 4", "status": "open", "guest": null, "revenue": 0 },
+        "2026": { "wk": "26-40", "dates": "Sep 27-Oct 3", "status": "booked", "guest": "Josie Ricciardi", "revenue": 2450 }
+      },
+      "gap_2026": false
+    },
+    {
+      "season_position": 22,
+      "period": "Early Oct",
+      "approx_dates": "Oct 4-10",
+      "month": "October",
+      "list_rate_2026": 2750,
+      "years": {
+        "2022": { "wk": "22-41", "dates": "Oct 9-15", "status": "personal", "guest": "Shelson Fishing Trip", "revenue": 0 },
+        "2023": { "wk": "23-41", "dates": "Oct 8-14", "status": "open", "guest": null, "revenue": 0 },
+        "2024": { "wk": "24-41", "dates": "Oct 6-12", "status": "booked", "guest": "Jennifer Srigley", "revenue": 2500 },
+        "2025": { "wk": "25-41", "dates": "Oct 5-11", "status": "booked", "guest": "Sergio Homsy", "revenue": 2875 },
+        "2026": { "wk": "26-41", "dates": "Oct 4-10", "status": "open", "guest": null, "revenue": 0 }
+      },
+      "gap_2026": true,
+      "historical_booking_pct": 50,
+      "avg_revenue_when_booked": 2688,
+      "priority": "HIGH"
+    },
+    {
+      "season_position": 23,
+      "period": "Thanksgiving / Closer",
+      "approx_dates": "Oct 11-17",
+      "month": "October",
+      "list_rate_2026": 2750,
+      "years": {
+        "2022": { "wk": "22-42", "dates": "Oct 16-22", "status": "booked", "guest": "Adam Sidi", "revenue": 2325 },
+        "2023": { "wk": "23-42", "dates": "Oct 15-21", "status": "open", "guest": null, "revenue": 0 },
+        "2024": { "wk": "24-42", "dates": "Oct 13-19", "status": "personal", "guest": "Cottage Closer", "revenue": 0 },
+        "2025": { "wk": "25-42", "dates": "Oct 12-18", "status": "personal", "guest": "Cottage Closer", "revenue": 0 },
+        "2026": { "wk": "26-42", "dates": "Oct 11-17", "status": "personal", "guest": "Cottage Closer", "revenue": 0 }
+      },
+      "gap_2026": false
+    }
+  ],
+  "gap_weeks_summary": {
+    "total_gap_weeks": 14,
+    "total_potential_revenue": 58248,
+    "by_priority": {
+      "CRITICAL": {
+        "weeks": ["26-27 (Jun 28-Jul 4)", "26-31 (Jul 26-Aug 1)", "26-35 (Aug 23-29)"],
+        "count": 3,
+        "potential_revenue": 20983
+      },
+      "HIGH": {
+        "weeks": ["26-20 (May 10-16)", "26-28 (Jul 5-11)", "26-36 (Aug 30-Sep 5)", "26-37 (Sep 6-12)", "26-41 (Oct 4-10)"],
+        "count": 5,
+        "potential_revenue": 17005
+      },
+      "MODERATE": {
+        "weeks": ["26-23 (May 31-Jun 6)", "26-24 (Jun 7-13)", "26-25 (Jun 14-20)"],
+        "count": 3,
+        "potential_revenue": 14500
+      },
+      "LOW": {
+        "weeks": ["26-21 (May 17-23)", "26-22 (May 24-30)", "26-39 (Sep 20-26)"],
+        "count": 3,
+        "potential_revenue": 5800
+      }
+    }
+  }
+}
