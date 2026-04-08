@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Island View Retreat — Premium Redesign Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ivory: #F5F0E8;
+  --cream: #FAF7F2;
+  --charcoal: #2C2416;
+  --pine: #2D4A3E;
+  --pine-light: #3D6B5A;
+  --gold: #C9A96E;
+  --gold-light: #D4BC8B;
+  --stone: #E8E0D4;
+  --warm-gray: #8B7E6E;
+  --text: #3A3228;
+  --text-muted: #7A6E5E;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  background: var(--cream);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+/* ============ HEADER ============ */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 24px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.4s ease;
+}
+.header.scrolled {
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(20px);
+  padding: 16px 48px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.header.scrolled .logo, .header.scrolled .nav a, .header.scrolled .nav-cta { color: var(--charcoal); }
+.header.scrolled .nav-cta { border-color: var(--pine); color: var(--pine); }
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600; color: white;
+  letter-spacing: 0.5px; text-decoration: none;
+}
+.nav { display: flex; align-items: center; gap: 32px; }
+.nav a {
+  color: rgba(255,255,255,0.8); text-decoration: none;
+  font-size: 14px; font-weight: 500; letter-spacing: 0.3px; transition: color 0.3s;
+}
+.nav a:hover { color: white; }
+.nav-cta {
+  padding: 8px 24px; border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 100px; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.5px; text-transform: uppercase; transition: all 0.3s;
+}
+.nav-cta:hover { background: rgba(255,255,255,0.15); }
+
+/* ============ HERO ============ */
+.hero {
+  position: relative; height: 100vh; min-height: 700px;
+  display: flex; align-items: flex-end; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?w=1920&q=80') center/cover;
+  animation: slowZoom 30s ease-in-out infinite alternate;
+}
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(20,15,10,0.75) 0%, rgba(20,15,10,0.2) 50%, rgba(20,15,10,0.1) 100%);
+}
+.hero-content {
+  position: relative; padding: 0 48px 80px; max-width: 900px; z-index: 2;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; background: rgba(201,169,110,0.2);
+  border: 1px solid rgba(201,169,110,0.3); border-radius: 100px;
+  color: var(--gold-light); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.5px; margin-bottom: 24px; backdrop-filter: blur(8px);
+}
+.hero h1 {
+  font-size: clamp(48px, 7vw, 96px); font-weight: 400; color: white;
+  line-height: 1.05; letter-spacing: -1px; margin-bottom: 20px;
+}
+.hero h1 em { font-style: italic; color: var(--gold-light); }
+.hero p {
+  font-size: 18px; color: rgba(255,255,255,0.75);
+  max-width: 520px; line-height: 1.7; margin-bottom: 36px;
+}
+.hero-buttons { display: flex; gap: 16px; }
+
+.btn-primary {
+  padding: 14px 36px; background: var(--pine); color: white; border: none;
+  border-radius: 100px; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
+  cursor: pointer; transition: all 0.3s;
+}
+.btn-primary:hover { background: var(--pine-light); transform: translateY(-1px); }
+
+.btn-outline {
+  padding: 14px 36px; background: transparent; color: white;
+  border: 1px solid rgba(255,255,255,0.35); border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  letter-spacing: 0.3px; cursor: pointer; transition: all 0.3s;
+  backdrop-filter: blur(4px);
+}
+.btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+
+.scroll-indicator {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.4); font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase; z-index: 2;
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* ============ INTRO ============ */
+.intro { display: grid; grid-template-columns: 1fr 1fr; min-height: 90vh; }
+.intro-image { position: relative; overflow: hidden; }
+.intro-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+.intro-image:hover img { transform: scale(1.03); }
+.intro-content {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px; background: var(--cream);
+}
+.intro-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+}
+.intro-content h2 {
+  font-size: clamp(36px, 4vw, 56px); font-weight: 400;
+  line-height: 1.15; color: var(--charcoal); margin-bottom: 28px;
+}
+.intro-content p {
+  font-size: 16px; color: var(--text-muted); line-height: 1.8;
+  max-width: 460px; margin-bottom: 48px;
+}
+.stats-row { display: flex; gap: 48px; }
+.stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px; font-weight: 600; color: var(--charcoal); line-height: 1;
+}
+.stat-label { font-size: 13px; color: var(--warm-gray); margin-top: 6px; }
+
+/* ============ AMENITIES MARQUEE ============ */
+.amenities-strip { padding: 80px 48px; background: var(--cream); overflow: hidden; }
+.amenities-scroll { display: flex; gap: 64px; animation: scrollAmenities 30s linear infinite; }
+@keyframes scrollAmenities { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.amenity-item {
+  display: flex; align-items: center; gap: 12px; white-space: nowrap;
+  color: var(--warm-gray); font-size: 14px; font-weight: 500; letter-spacing: 0.5px;
+}
+.amenity-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+/* ============ VIDEO ============ */
+.video-section { padding: 0 48px; background: var(--cream); }
+.video-container {
+  max-width: 1400px; margin: 0 auto; position: relative;
+  border-radius: 16px; overflow: hidden; aspect-ratio: 16/9; cursor: pointer;
+}
+.video-container img { width: 100%; height: 100%; object-fit: cover; }
+.video-play {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.25); transition: background 0.3s;
+}
+.video-container:hover .video-play { background: rgba(0,0,0,0.35); }
+.play-btn {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px; transition: transform 0.3s;
+}
+.video-container:hover .play-btn { transform: scale(1.08); }
+.play-btn svg { width: 28px; height: 28px; fill: var(--pine); margin-left: 4px; }
+.video-label { color: white; font-size: 14px; font-weight: 500; letter-spacing: 1px; }
+
+/* ============ BENTO ============ */
+.bento-section { padding: 120px 48px; background: var(--cream); }
+.section-header { max-width: 600px; margin-bottom: 64px; }
+.section-header .label {
+  font-size: 12px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.section-header h2 {
+  font-size: clamp(32px, 3.5vw, 48px); font-weight: 400;
+  color: var(--charcoal); line-height: 1.2; margin-bottom: 16px;
+}
+.section-header p { font-size: 16px; color: var(--text-muted); line-height: 1.7; }
+
+.bento-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 320px 320px; gap: 16px;
+  max-width: 1400px; margin: 0 auto;
+}
+.bento-item { position: relative; overflow: hidden; border-radius: 12px; cursor: pointer; }
+.bento-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.bento-item:hover img { transform: scale(1.06); }
+.bento-item .bento-label {
+  position: absolute; bottom: 16px; left: 16px;
+  padding: 6px 14px; background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px); border-radius: 100px;
+  color: white; font-size: 13px; font-weight: 500;
+  opacity: 0; transform: translateY(8px); transition: all 0.4s ease;
+}
+.bento-item:hover .bento-label { opacity: 1; transform: translateY(0); }
+.bento-1 { grid-column: 1 / 8; grid-row: 1 / 3; }
+.bento-2 { grid-column: 8 / 13; grid-row: 1 / 2; }
+.bento-3 { grid-column: 8 / 10; grid-row: 2 / 3; }
+.bento-4 { grid-column: 10 / 13; grid-row: 2 / 3; }
+
+/* ============ IMAGE BREAK ============ */
+.image-break { position: relative; height: 70vh; overflow: hidden; }
+.image-break img { width: 100%; height: 100%; object-fit: cover; }
+.image-break-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(20,15,10,0.6) 0%, rgba(20,15,10,0.1) 60%);
+  display: flex; align-items: center; padding: 0 80px;
+}
+.image-break-text { max-width: 520px; color: white; }
+.image-break-text h2 {
+  font-size: clamp(32px, 4vw, 52px); font-weight: 400;
+  line-height: 1.2; margin-bottom: 16px;
+}
+.image-break-text p { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.8); }
+
+/* ============ LAKE ============ */
+.lake-section {
+  display: grid; grid-template-columns: 3fr 2fr;
+  min-height: 80vh; background: var(--stone);
+}
+.lake-image { position: relative; overflow: hidden; }
+.lake-image img { width: 100%; height: 100%; object-fit: cover; }
+.lake-content {
+  display: flex; flex-direction: column; justify-content: center; padding: 80px 64px;
+}
+.lake-content h2 {
+  font-size: clamp(36px, 3.5vw, 52px); font-weight: 400;
+  color: var(--charcoal); line-height: 1.15; margin-bottom: 24px;
+}
+.lake-content > p { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin-bottom: 48px; }
+.lake-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.lake-fact { border-top: 1px solid rgba(0,0,0,0.1); padding-top: 16px; }
+.lake-fact-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 600; color: var(--charcoal);
+}
+.lake-fact-label { font-size: 13px; color: var(--warm-gray); margin-top: 4px; }
+
+/* ============ TESTIMONIAL ============ */
+.testimonial-section {
+  position: relative; min-height: 80vh;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.testimonial-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80') center/cover;
+  filter: brightness(0.35);
+}
+.testimonial-content {
+  position: relative; text-align: center; max-width: 800px; padding: 80px 48px; z-index: 2;
+}
+.testimonial-stars { display: flex; justify-content: center; gap: 4px; margin-bottom: 32px; }
+.testimonial-stars svg { width: 20px; height: 20px; fill: var(--gold); }
+.testimonial-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 3vw, 36px); font-style: italic; font-weight: 400;
+  color: white; line-height: 1.5; margin-bottom: 36px;
+}
+.testimonial-author { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.9); }
+.testimonial-context { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+.testimonial-rating-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px; background: rgba(201,169,110,0.15);
+  border: 1px solid rgba(201,169,110,0.25); border-radius: 100px;
+  color: var(--gold-light); font-size: 13px; font-weight: 600;
+  letter-spacing: 0.5px; margin-top: 32px; backdrop-filter: blur(8px);
+}
+
+/* ============ PRICING ============ */
+.pricing-section { padding: 120px 48px; background: var(--cream); }
+.pricing-layout {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start;
+}
+.pricing-intro h2 {
+  font-size: clamp(32px, 3.5vw, 48px); font-weight: 400;
+  color: var(--charcoal); line-height: 1.2; margin-bottom: 20px;
+}
+.pricing-intro p { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin-bottom: 32px; }
+.pricing-highlight {
+  padding: 32px; background: var(--pine); border-radius: 16px; color: white;
+}
+.pricing-highlight-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold-light); margin-bottom: 12px;
+}
+.pricing-highlight-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px; font-weight: 600; line-height: 1; margin-bottom: 6px;
+}
+.pricing-highlight-sub { font-size: 14px; color: rgba(255,255,255,0.6); }
+
+.pricing-row {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 24px;
+  padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,0.08); align-items: center;
+}
+.pricing-row:first-child { border-top: 2px solid var(--charcoal); }
+.pricing-season { font-weight: 600; color: var(--charcoal); font-size: 15px; }
+.pricing-season span { display: block; font-weight: 400; font-size: 13px; color: var(--warm-gray); margin-top: 2px; }
+.pricing-rate {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; font-weight: 600; color: var(--charcoal); text-align: right;
+}
+.pricing-per-family { font-size: 13px; color: var(--warm-gray); text-align: right; min-width: 100px; }
+.pricing-row.featured {
+  background: rgba(45,74,62,0.06); border-radius: 8px;
+  padding: 20px 16px; margin: 0 -16px;
+}
+.pricing-row.featured .pricing-season { color: var(--pine); }
+
+/* ============ GALLERY ============ */
+.gallery-section { padding: 120px 48px; background: var(--stone); }
+.masonry { max-width: 1400px; margin: 0 auto; columns: 3; column-gap: 16px; }
+.masonry-item {
+  break-inside: avoid; margin-bottom: 16px; border-radius: 12px;
+  overflow: hidden; position: relative; cursor: pointer;
+}
+.masonry-item img {
+  width: 100%; display: block;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.masonry-item:hover img { transform: scale(1.05); }
+
+/* ============ CTA ============ */
+.cta-section {
+  position: relative; height: 70vh;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.cta-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=1920&q=80') center/cover;
+}
+.cta-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(45,74,62,0.85) 0%, rgba(20,15,10,0.7) 100%);
+}
+.cta-content { position: relative; text-align: center; z-index: 2; max-width: 700px; padding: 0 48px; }
+.cta-content h2 {
+  font-size: clamp(36px, 4.5vw, 64px); font-weight: 400;
+  color: white; line-height: 1.15; margin-bottom: 20px;
+}
+.cta-content p { font-size: 17px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 40px; }
+.cta-buttons { display: flex; justify-content: center; gap: 16px; }
+.btn-primary-light {
+  padding: 14px 40px; background: white; color: var(--pine); border: none;
+  border-radius: 100px; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
+  cursor: pointer; transition: all 0.3s;
+}
+.btn-primary-light:hover { background: var(--cream); transform: translateY(-1px); }
+
+/* ============ FOOTER ============ */
+.footer { background: var(--charcoal); color: rgba(255,255,255,0.7); padding: 80px 48px 48px; }
+.footer-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px;
+}
+.footer-brand h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; font-weight: 600; color: white; margin-bottom: 12px;
+}
+.footer-brand p { font-size: 14px; line-height: 1.7; max-width: 300px; color: rgba(255,255,255,0.5); }
+.footer-social { display: flex; gap: 16px; margin-top: 20px; }
+.footer-social a {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; transition: all 0.3s;
+}
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+.footer-col h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 20px;
+}
+.footer-col a {
+  display: block; color: rgba(255,255,255,0.6); text-decoration: none;
+  font-size: 14px; padding: 6px 0; transition: color 0.3s;
+}
+.footer-col a:hover { color: white; }
+.footer-bottom {
+  max-width: 1200px; margin: 0 auto; padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; justify-content: space-between;
+  font-size: 13px; color: rgba(255,255,255,0.3);
+}
+
+/* ============ FADE IN ============ */
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ============ ANNOTATION ============ */
+.annotation {
+  position: fixed; bottom: 24px; right: 24px;
+  padding: 12px 20px; background: var(--charcoal);
+  color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.5px; border-radius: 8px; z-index: 200;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+.annotation strong { color: var(--gold-light); }
+</style>
+</head>
+<body>
+
+<div class="annotation">DESIGN MOCKUP — <strong>placeholder images</strong> — your photos replace these</div>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <a href="#" class="logo">Island View Retreat</a>
+  <nav class="nav">
+    <a href="#">The Cottage</a>
+    <a href="#">Big Gull Lake</a>
+    <a href="#">Pricing</a>
+    <a href="#">Reviews</a>
+    <a href="#">Contact</a>
+    <a href="#" class="nav-cta">Book Now</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">★ 5.0 Perfect Rating · 34 Reviews</div>
+    <h1>Your Private<br><em>Lakefront Retreat</em></h1>
+    <p>Sleeps 16 on Big Gull Lake. Private sandy beach, fishing paradise, and all the space your crew needs — just 3 hours from Toronto.</p>
+    <div class="hero-buttons">
+      <button class="btn-primary">Check Availability</button>
+      <button class="btn-outline">Watch the Tour</button>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="intro-image">
+    <img src="https://images.unsplash.com/photo-1587061949409-02df41d5e562?w=1200&q=80" alt="Lakefront dock at sunset">
+  </div>
+  <div class="intro-content fade-in">
+    <div class="intro-label">The Experience</div>
+    <h2>Where Families<br>Come Together</h2>
+    <p>Island View Retreat isn't just a cottage — it's 1.2 acres of private lakefront on one of Ontario's most pristine lakes. Five bedrooms, a waterfront bunkie, and a sandy beach that your kids won't want to leave.</p>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-value">16</div><div class="stat-label">Guests</div></div>
+      <div class="stat"><div class="stat-value">5</div><div class="stat-label">Bedrooms</div></div>
+      <div class="stat"><div class="stat-value">5.0</div><div class="stat-label">Star Rating</div></div>
+      <div class="stat"><div class="stat-value">34</div><div class="stat-label">Reviews</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AMENITIES MARQUEE -->
+<div class="amenities-strip">
+  <div class="amenities-scroll">
+    <div class="amenity-item"><div class="amenity-dot"></div>Private Sandy Beach</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>2 Canoes</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>2 Paddleboards</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>2 Fishing Kayaks</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Fire Pit</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Screened Porch</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>WiFi & Smart TVs</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>A/C in Bedrooms</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Full Kitchen</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Marina Next Door</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Private Sandy Beach</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>2 Canoes</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>2 Paddleboards</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>2 Fishing Kayaks</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Fire Pit</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Screened Porch</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>WiFi & Smart TVs</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>A/C in Bedrooms</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Full Kitchen</div>
+    <div class="amenity-item"><div class="amenity-dot"></div>Marina Next Door</div>
+  </div>
+</div>
+
+<!-- VIDEO TOUR -->
+<section class="video-section fade-in">
+  <div class="video-container">
+    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=80" alt="Aerial lake view">
+    <div class="video-play">
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="video-label">Watch the Tour · 2:30</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENTO: THE COTTAGE -->
+<section class="bento-section">
+  <div class="section-header fade-in" style="max-width:1400px;margin:0 auto 64px;">
+    <div class="label">The Cottage</div>
+    <h2>Designed for Large Groups,<br>Built for Comfort</h2>
+    <p>5 bedrooms, 2 bathrooms, a private waterfront bunkie — plus a living room, screened porch, and covered deck where everyone gathers.</p>
+  </div>
+  <div class="bento-grid fade-in">
+    <div class="bento-item bento-1">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80" alt="Cabin interior">
+      <div class="bento-label">Living Room & Stone Fireplace</div>
+    </div>
+    <div class="bento-item bento-2">
+      <img src="https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=800&q=80" alt="Bedroom">
+      <div class="bento-label">Master Bedroom · Queen Bed</div>
+    </div>
+    <div class="bento-item bento-3">
+      <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=600&q=80" alt="Kitchen">
+      <div class="bento-label">Full Kitchen</div>
+    </div>
+    <div class="bento-item bento-4">
+      <img src="https://images.unsplash.com/photo-1585128903994-9788298932a4?w=600&q=80" alt="Deck">
+      <div class="bento-label">Covered Deck</div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL BLEED: BEACH -->
+<section class="image-break">
+  <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80" alt="Sandy beach at sunset">
+  <div class="image-break-overlay">
+    <div class="image-break-text fade-in">
+      <h2>Your Own<br>Private Beach</h2>
+      <p>Gentle sandy slope into crystal-clear water. Safe for toddlers, perfect for the whole family. Muskoka chairs, fire pit, and nothing but lake in every direction.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LAKE (asymmetric) -->
+<section class="lake-section">
+  <div class="lake-image">
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80" alt="Big Gull Lake">
+  </div>
+  <div class="lake-content fade-in">
+    <div class="intro-label">Big Gull Lake</div>
+    <h2>6,000 Hectares<br>of Pristine Water</h2>
+    <p>One of Ontario's best-kept secrets. 30+ islands, world-class walleye fishing, and you'll rarely see another boat. Camp's Bay Marina is right next door.</p>
+    <div class="lake-facts">
+      <div class="lake-fact"><div class="lake-fact-value">21 km</div><div class="lake-fact-label">Lake length</div></div>
+      <div class="lake-fact"><div class="lake-fact-value">75 km</div><div class="lake-fact-label">Shoreline</div></div>
+      <div class="lake-fact"><div class="lake-fact-value">30+</div><div class="lake-fact-label">Islands</div></div>
+      <div class="lake-fact"><div class="lake-fact-value">6</div><div class="lake-fact-label">Fish species</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial-section">
+  <div class="testimonial-bg"></div>
+  <div class="testimonial-content fade-in">
+    <div class="testimonial-stars">
+      <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+      <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+      <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+      <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+      <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+    </div>
+    <div class="testimonial-quote">
+      "Island View Retreat is a gem. 8 children and 8 adults for a week had a great time in a great place. Swimming — superb. Fishing — big enjoyment. One of the children caught 9 fish in one day off the dock."
+    </div>
+    <div class="testimonial-author">George</div>
+    <div class="testimonial-context">4 families, 16 guests — June 2025</div>
+    <div class="testimonial-rating-badge">★ 5.0 Perfect · 34 Reviews on CottagesInCanada</div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="pricing-layout fade-in">
+    <div class="pricing-intro">
+      <div class="intro-label">Pricing</div>
+      <h2>Surprisingly<br>Affordable</h2>
+      <p>Split between 4 families, a week at the lake costs less than a single hotel room. Everything included — no hidden fees.</p>
+      <div class="pricing-highlight">
+        <div class="pricing-highlight-label">As Low As</div>
+        <div class="pricing-highlight-value">$105</div>
+        <div class="pricing-highlight-sub">per family / night · 4 families sharing</div>
+      </div>
+    </div>
+    <div class="pricing-table">
+      <div class="pricing-row">
+        <div class="pricing-season">Early Spring <span>Apr 1 – May 15</span></div>
+        <div class="pricing-rate">$2,950</div>
+        <div class="pricing-per-family">$105 / family / night</div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-season">Spring <span>May 19 – Jun 26</span></div>
+        <div class="pricing-rate">$4,450</div>
+        <div class="pricing-per-family">$159 / family / night</div>
+      </div>
+      <div class="pricing-row featured">
+        <div class="pricing-season">Peak Summer <span>Jun 26 – Sep 4 · Most Popular</span></div>
+        <div class="pricing-rate">$7,850</div>
+        <div class="pricing-per-family">$280 / family / night</div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-season">Early Fall <span>Sep 4 – Oct 4</span></div>
+        <div class="pricing-rate">$4,750</div>
+        <div class="pricing-per-family">$170 / family / night</div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-season">Late Fall <span>Oct 4 – Oct 18</span></div>
+        <div class="pricing-rate">$2,750</div>
+        <div class="pricing-per-family">$98 / family / night</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="section-header fade-in" style="max-width:1400px;margin:0 auto 64px;">
+    <div class="label">Gallery</div>
+    <h2>See It For Yourself</h2>
+    <p>Every corner of the property, every angle of the lake. This is what's waiting for you.</p>
+  </div>
+  <div class="masonry">
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&q=80" alt=""></div>
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1587061949409-02df41d5e562?w=800&q=80" alt="" style="aspect-ratio:4/5;object-fit:cover;"></div>
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=800&q=80" alt=""></div>
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80" alt="" style="aspect-ratio:16/9;object-fit:cover;"></div>
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?w=800&q=80" alt="" style="aspect-ratio:4/5;object-fit:cover;"></div>
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt=""></div>
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800&q=80" alt="" style="aspect-ratio:3/4;object-fit:cover;"></div>
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt=""></div>
+    <div class="masonry-item"><img src="https://images.unsplash.com/photo-1585128903994-9788298932a4?w=800&q=80" alt="" style="aspect-ratio:4/5;object-fit:cover;"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="cta-overlay"></div>
+  <div class="cta-content fade-in">
+    <h2>Your Family's<br><em style="font-style:italic;font-family:'Cormorant Garamond',serif;color:var(--gold-light)">Next Chapter</em><br>Starts Here</h2>
+    <p>Spring weeks from $2,950. Peak summer fills fast — don't wait to lock in your dates.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary-light">Check Availability</button>
+      <button class="btn-outline">Contact Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Island View Retreat</h3>
+      <p>Sleeps 16 on Big Gull Lake. North Frontenac, Ontario. Perfect 5.0 rating across 34 reviews.</p>
+      <div class="footer-social">
+        <a href="#" title="Instagram">IG</a>
+        <a href="#" title="Facebook">FB</a>
+        <a href="#" title="YouTube">YT</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">The Cottage</a>
+      <a href="#">Big Gull Lake</a>
+      <a href="#">Pricing</a>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <a href="#">Reviews</a>
+      <a href="#">Contact</a>
+      <a href="#">Blog</a>
+      <a href="#">Guest Login</a>
+    </div>
+    <div class="footer-col">
+      <h4>Getting Here</h4>
+      <a href="#">Toronto · ~3 hours</a>
+      <a href="#">Ottawa · ~2 hours</a>
+      <a href="#">Kingston · ~1.5 hours</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Island View Retreat. All rights reserved.</span>
+    <a href="#" style="color:rgba(255,255,255,0.3);text-decoration:none;">View on CottagesInCanada</a>
+  </div>
+</footer>
+
+<script>
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 80);
+}, { passive: true });
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

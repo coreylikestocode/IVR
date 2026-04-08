@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Island View Retreat � Ultimate Area Directory</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e5e5e5;
+    --text-muted: #888;
+    --gold: #C9A96E;
+    --gold-dim: #8a7345;
+    --green: #4ade80;
+    --green-dim: #166534;
+    --blue: #60a5fa;
+    --blue-dim: #1e3a5f;
+    --red: #f87171;
+    --red-dim: #7f1d1d;
+    --purple: #a78bfa;
+    --purple-dim: #4c1d95;
+    --orange: #fb923c;
+    --orange-dim: #7c2d12;
+    --cyan: #22d3ee;
+    --cyan-dim: #164e63;
+    --pine: #34d399;
+    --pine-dim: #064e3b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+
+  .hero { text-align: center; padding: 48px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+  .hero h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto; }
+  .hero .subtitle { font-size: 0.9rem; color: var(--gold-dim); margin-top: 8px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 40px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+  .stat .num { font-size: 1.8rem; font-weight: 700; color: var(--gold); }
+  .stat .lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+  .zone-tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+  .zone-tab { padding: 10px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-muted); transition: all 0.2s; }
+  .zone-tab:hover { border-color: var(--gold-dim); color: var(--text); }
+  .zone-tab.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
+
+  .zone-panel { display: none; }
+  .zone-panel.active { display: block; }
+
+  .zone-intro { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .zone-intro h2 { font-size: 1.4rem; color: var(--gold); margin-bottom: 8px; }
+  .zone-intro p { color: var(--text-muted); font-size: 0.9rem; }
+  .zone-intro .drive { display: inline-block; background: var(--gold-dim); color: var(--gold); font-size: 0.75rem; padding: 3px 10px; border-radius: 4px; margin-top: 8px; font-weight: 600; }
+
+  .category { margin-bottom: 28px; }
+  .category h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .category h3 .cat-icon { font-size: 1.2rem; }
+
+  .listing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+  .listing { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; transition: border-color 0.2s; }
+  .listing:hover { border-color: var(--gold-dim); }
+  .listing h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+  .listing .loc { font-size: 0.75rem; color: var(--gold); margin-bottom: 6px; }
+  .listing .desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; }
+  .listing .meta { display: flex; flex-wrap: wrap; gap: 6px; }
+  .listing .tag { font-size: 0.65rem; padding: 2px 7px; border-radius: 3px; font-weight: 500; }
+  .tag.t-food { background: var(--orange-dim); color: var(--orange); }
+  .tag.t-outdoor { background: var(--green-dim); color: var(--green); }
+  .tag.t-culture { background: var(--purple-dim); color: var(--purple); }
+  .tag.t-shop { background: var(--cyan-dim); color: var(--cyan); }
+  .tag.t-beer { background: var(--gold); color: #000; font-weight: 700; }
+  .tag.t-golf { background: var(--pine-dim); color: var(--pine); }
+  .tag.t-water { background: var(--blue-dim); color: var(--blue); }
+  .tag.t-family { background: var(--red-dim); color: var(--red); }
+  .tag.t-daytrip { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .tag.t-must { background: var(--gold-dim); color: var(--gold); }
+  .tag.t-free { background: var(--green-dim); color: var(--green); }
+
+  .listing .contact { font-size: 0.72rem; color: var(--text-muted); margin-top: 8px; border-top: 1px solid var(--border); padding-top: 6px; }
+  .listing .contact a { color: var(--blue); text-decoration: none; }
+  .listing .contact a:hover { text-decoration: underline; }
+
+  .note-box { background: var(--surface2); border-left: 3px solid var(--gold); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; font-size: 0.85rem; color: var(--text-muted); }
+  .note-box strong { color: var(--gold); }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.6rem; }
+    .listing-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <h1>Island View Retreat � <span>Ultimate Area Directory</span></h1>
+  <p>Everything to see, do, eat, and explore � from your doorstep on Big Gull Lake to the streets of Ottawa, two hours away.</p>
+  <div class="subtitle">Big Gull Lake &bull; Frontenac County &bull; Eastern Ontario &bull; Research compiled April 2026</div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="num" id="stat-total">120+</div><div class="lbl">Total Listings</div></div>
+  <div class="stat"><div class="num">5</div><div class="lbl">Zones Covered</div></div>
+  <div class="stat"><div class="num">15+</div><div class="lbl">Breweries & Distilleries</div></div>
+  <div class="stat"><div class="num">10+</div><div class="lbl">Golf Courses</div></div>
+  <div class="stat"><div class="num">8</div><div class="lbl">Museums</div></div>
+  <div class="stat"><div class="num">6</div><div class="lbl">Provincial Parks</div></div>
+  <div class="stat"><div class="num">200km</div><div class="lbl">Range Covered</div></div>
+</div>
+
+<div class="zone-tabs">
+  <div class="zone-tab active" onclick="showZone('local')">Zone 1: Lakeside &amp; Local (0�20 min)</div>
+  <div class="zone-tab" onclick="showZone('nearby')">Zone 2: Nearby Towns (20�45 min)</div>
+  <div class="zone-tab" onclick="showZone('mid')">Zone 3: Day-Trip Towns (45�90 min)</div>
+  <div class="zone-tab" onclick="showZone('kingston')">Zone 4: Kingston &amp; South (60�90 min)</div>
+  <div class="zone-tab" onclick="showZone('ottawa')">Zone 5: Ottawa &amp; Gatineau (2 hrs)</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ZONE 1: LAKESIDE & LOCAL -->
+<!-- ============================================================ -->
+<div class="zone-panel active" id="zone-local">
+
+<div class="zone-intro">
+  <h2>Zone 1: Lakeside &amp; Local</h2>
+  <p>Within arm's reach of the retreat. The essentials � bait, meat, supplies, and the raw beauty of Big Gull Lake and its surroundings. These are the spots you'll visit most.</p>
+  <span class="drive">0�20 minute drive</span>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Bait, Tackle &amp; Outdoor Supplies</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Bishop Lake Outdoors</h4>
+      <div class="loc">13621 Highway 41, Cloyne</div>
+      <div class="desc">Full-service outdoor supply store carrying fishing tackle, bait (worms, leeches, minnows), camping gear, and lake essentials. A go-to stop heading to or from the lake.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Bait & Tackle</span>
+        <span class="tag t-shop">Outdoor Gear</span>
+        <span class="tag t-must">Essential Stop</span>
+      </div>
+      <div class="contact">613-336-2311 &bull; Open daily 8am�5pm (Fri to 6pm)</div>
+    </div>
+
+    <div class="listing">
+      <h4>Cloyne Bait Shop</h4>
+      <div class="loc">Highway 41, Cloyne (main drag, next to convenience store)</div>
+      <div class="desc">Small family-run bait shop on the main drag of Cloyne. Carries live worms, leeches, and minnows. Simple, reliable, and right on the way to the lake.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Live Bait</span>
+        <span class="tag t-shop">Local Favourite</span>
+      </div>
+      <div class="contact">Check locally for seasonal hours</div>
+    </div>
+
+    <div class="listing">
+      <h4>Bridgewater Bait � Flinton</h4>
+      <div class="loc">Flinton, Ontario (Hwy 41 corridor)</div>
+      <div class="desc">Bait and tackle shop serving the Flinton / Kaladar area. Named after the historic Bridgewater settlement (now Actinolite) developed in the 1800s. A convenient stop for anglers heading north on Highway 41.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Bait & Tackle</span>
+        <span class="tag t-outdoor">Fishing</span>
+      </div>
+      <div class="contact">Call ahead for seasonal hours and stock</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Butcher &amp; Provisions</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Milligan Meats Inc.</h4>
+      <div class="loc">14312 Highway 41, Cloyne</div>
+      <div class="desc">Locally owned butcher shop run by Brian and Joanna Milligan. Fresh beef, pork, chicken, and fish. Specialty items include stuffed pork chops, chicken Cordon Bleu, and Milligan's Original BBQ Sauce. Also stocks maple syrup, cheese, produce, Kawartha ice cream, baked snacks, and pizza. Curb-side pickup and delivery available.</div>
+      <div class="meta">
+        <span class="tag t-food">Butcher Shop</span>
+        <span class="tag t-must">Essential Stop</span>
+        <span class="tag t-shop">Groceries</span>
+      </div>
+      <div class="contact">613-336-0111 &bull; <a href="https://milliganmeats.com">milliganmeats.com</a> &bull; Mon�Sat 9am�5pm, Sun 10am�4pm</div>
+    </div>
+
+    <div class="listing">
+      <h4>Cloyne General Store</h4>
+      <div class="loc">Highway 41, Cloyne</div>
+      <div class="desc">General provisions, snacks, basics, and convenience items. Useful for last-minute supplies before heading to the lake.</div>
+      <div class="meta">
+        <span class="tag t-shop">General Store</span>
+        <span class="tag t-food">Convenience</span>
+      </div>
+      <div class="contact">Check locally for hours</div>
+    </div>
+
+    <div class="listing">
+      <h4>Northbrook Foodland</h4>
+      <div class="loc">12258 Highway 41, Northbrook</div>
+      <div class="desc">Full-service grocery store � the closest proper supermarket to the retreat. Fresh produce, meat counter, bakery, and all the essentials for stocking the cottage kitchen.</div>
+      <div class="meta">
+        <span class="tag t-shop">Full Grocery</span>
+        <span class="tag t-must">Essential Stop</span>
+      </div>
+      <div class="contact">Highway 41, Northbrook</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Parks, Nature &amp; Outdoor Activities</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Bon Echo Provincial Park</h4>
+      <div class="loc">16151 Hwy 41, Cloyne (15 min north)</div>
+      <div class="desc">One of Ontario's crown jewels. Home to Mazinaw Rock � a 100-metre cliff face bearing 260+ Indigenous pictographs painted in red ochre, the largest rock art site on the southern Canadian Shield. Designated a National Historic Site in 1982. Best viewed by canoe or kayak (rentals available). Trails range from the 1.5 km Cliff Top Trail (boat access required, three observation decks atop the rock) to the 17 km Abes and Essens Lake Trail. Swimming beaches on Mazinaw and Joeperry Lakes.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Provincial Park</span>
+        <span class="tag t-water">Kayaking</span>
+        <span class="tag t-culture">Indigenous Pictographs</span>
+        <span class="tag t-must">Must-See</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact"><a href="https://www.ontarioparks.ca/park/bonecho">ontarioparks.ca/park/bonecho</a> &bull; Open May 8 � Oct 18 (camping), day use to Dec 13</div>
+    </div>
+
+    <div class="listing">
+      <h4>North Frontenac Parklands � Big Gull Lake</h4>
+      <div class="loc">Big Gull Lake, Crown Land</div>
+      <div class="desc">25 island campsites accessible only by watercraft on one of the most pristine natural environments in the province. The lake itself is 21 km long with 88 km of shoreline, 30+ islands, and sits on 2.5-billion-year-old Precambrian Canadian Shield. Carved by the last glaciers 14,000 years ago. Part of the Frontenac Arch UNESCO Biosphere Reserve.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Crown Land</span>
+        <span class="tag t-water">Island Camping</span>
+        <span class="tag t-outdoor">Canoeing</span>
+        <span class="tag t-free">Free Access</span>
+      </div>
+      <div class="contact"><a href="https://www.northfrontenacparklands.com">northfrontenacparklands.com</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Big Gull Lake � Fishing</h4>
+      <div class="loc">Big Gull Lake (at your doorstep)</div>
+      <div class="desc">One of Ontario's premier warm-water fisheries. Species include walleye, smallmouth bass, largemouth bass, northern pike, perch, lake whitefish, and lake herring. Eastern basin (deeper, rocky) favours walleye and smallmouth; western basin (shallower) favours largemouth and pike. Max depth 26 m. Ontario FMZ 18 regulations apply � valid Ontario fishing licence required.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Fishing</span>
+        <span class="tag t-water">Walleye</span>
+        <span class="tag t-water">Bass</span>
+        <span class="tag t-water">Pike</span>
+        <span class="tag t-must">At Your Doorstep</span>
+      </div>
+      <div class="contact">Licence: <a href="https://www.ontario.ca/page/fishing">ontario.ca/page/fishing</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>K&amp;P Trail � Sharbot Lake Section</h4>
+      <div class="loc">Sharbot Lake to Kingston (180 km total)</div>
+      <div class="desc">The historic Kingston &amp; Pembroke Railway corridor ("The Kick and Push"), now a 180 km stone-dust rail trail connecting Kingston to Renfrew. The Sharbot Lake section passes through the heart of Canadian Shield country. Cycling, walking, horseback riding, ATV (where permitted). Flat, easy grade � former railway bed.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Rail Trail</span>
+        <span class="tag t-outdoor">Cycling</span>
+        <span class="tag t-outdoor">Hiking</span>
+        <span class="tag t-free">Free</span>
+      </div>
+      <div class="contact"><a href="https://www.frontenaccounty.ca/en/things-to-do/kp-trail.aspx">Frontenac K&amp;P Trail</a> &bull; Open year-round</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Dining &amp; Eateries</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Kaladar Station Bar &amp; Kitchen</h4>
+      <div class="loc">113016 Highway 7, Kaladar</div>
+      <div class="desc">Full-service bar and kitchen open 7 days a week. Breakfast, lunch, and dinner menu featuring salads, wraps, clubs, melts, and more. Fully licensed. Dine-in, takeout, delivery, patio.</div>
+      <div class="meta">
+        <span class="tag t-food">Bar & Kitchen</span>
+        <span class="tag t-food">Breakfast</span>
+        <span class="tag t-food">Patio</span>
+      </div>
+      <div class="contact">613-661-0044</div>
+    </div>
+
+    <div class="listing">
+      <h4>Addison's Restaurant</h4>
+      <div class="loc">11893 Highway 41, Northbrook</div>
+      <div class="desc">Lunch and dinner in Northbrook. Seasonal operation � closed in winter. A convenient option when you don't want to drive far.</div>
+      <div class="meta">
+        <span class="tag t-food">Dining</span>
+        <span class="tag t-food">Seasonal</span>
+      </div>
+      <div class="contact">Highway 41, Northbrook</div>
+    </div>
+
+    <div class="listing">
+      <h4>North of 7 Restaurant &amp; Market</h4>
+      <div class="loc">7325 Road 506, Plevna</div>
+      <div class="desc">Highly rated (4.7/5) home-style cooking at excellent prices. Known for smoked meat sandwiches and Friday night wings. Small country market attached with provisions and local goods. Warm, friendly service � a local favourite.</div>
+      <div class="meta">
+        <span class="tag t-food">Restaurant</span>
+        <span class="tag t-shop">Market</span>
+        <span class="tag t-must">Local Favourite</span>
+      </div>
+      <div class="contact">613-479-2603 &bull; Mon�Sat 8am�5:30pm, Sun 9am�4pm</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Shops &amp; Curiosities</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Explorer's Eco Emporium 41</h4>
+      <div class="loc">12047 Highway 41, Northbrook</div>
+      <div class="desc">Eclectic shop offering jewelry, vinyl records, board games, custom apparel, decals and signage, and CNC wood carvings. Worth a browse.</div>
+      <div class="meta">
+        <span class="tag t-shop">Gifts</span>
+        <span class="tag t-shop">Artisan</span>
+      </div>
+      <div class="contact">Highway 41, Northbrook</div>
+    </div>
+
+    <div class="listing">
+      <h4>The Kuriosity Shop</h4>
+      <div class="loc">12293 Highway 41, Northbrook</div>
+      <div class="desc">A curiosity shop in Northbrook. Browse vintage and unique finds.</div>
+      <div class="meta">
+        <span class="tag t-shop">Vintage</span>
+        <span class="tag t-shop">Curiosities</span>
+      </div>
+      <div class="contact">Highway 41, Northbrook</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">?</span> Golf</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Hunter's Creek Golf Club</h4>
+      <div class="loc">1198 Highway 506, Cloyne (between Northbrook &amp; Cloyne)</div>
+      <div class="desc">9-hole Par 32 executive course with 4 Par 3s and 5 Par 4s. Beautiful Canadian Shield setting near Bon Echo Provincial Park. On-site restaurant, Pro Shop, outdoor patio. Also offers disc golf with three layouts (beginner to pro-level) and horseshoes.</div>
+      <div class="meta">
+        <span class="tag t-golf">9 Holes</span>
+        <span class="tag t-golf">Disc Golf</span>
+        <span class="tag t-food">Restaurant</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact">613-336-2587 &bull; Toll-free 1-866-581-2587 &bull; <a href="https://hunterscreekgolf.com">hunterscreekgolf.com</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Farmers Markets</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Northbrook Farmers' Market</h4>
+      <div class="loc">12238 Highway 41, Northbrook</div>
+      <div class="desc">Saturday morning market with fresh produce, preserves, honey, flowers, herbs, maple syrup, and artisan goods. A weekend ritual for cottage-goers.</div>
+      <div class="meta">
+        <span class="tag t-food">Farmers Market</span>
+        <span class="tag t-shop">Local Produce</span>
+      </div>
+      <div class="contact">Saturdays 10am�1pm (June�October)</div>
+    </div>
+
+    <div class="listing">
+      <h4>Beaver Lake Farmers &amp; Artisan Market</h4>
+      <div class="loc">Lions Beaver Lake Park, Erinsville</div>
+      <div class="desc">Friday evening market featuring crafts, produce, baked goods, and artisan items.</div>
+      <div class="meta">
+        <span class="tag t-food">Farmers Market</span>
+        <span class="tag t-shop">Artisan</span>
+      </div>
+      <div class="contact">Fridays 3pm�7pm (summer)</div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- ZONE 2: NEARBY TOWNS -->
+<!-- ============================================================ -->
+<div class="zone-panel" id="zone-nearby">
+
+<div class="zone-intro">
+  <h2>Zone 2: Nearby Towns</h2>
+  <p>Sharbot Lake, Tweed, and the surrounding villages. Close enough for a lunch run or a lazy afternoon excursion. These towns have genuine character and surprisingly good food.</p>
+  <span class="drive">20�45 minute drive</span>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Dining &amp; Eateries � Sharbot Lake</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Sharbot Lake Country Inn &amp; The Crossing Pub</h4>
+      <div class="loc">Sharbot Lake</div>
+      <div class="desc">Full pub menu: wings, poutines, burgers, sandwiches, salads, and entr�es. Local craft beers on tap including Kick and Push, Big Rig, and Perth Brewery. Mixed drinks and cocktails. A proper pub dinner without driving to the city.</div>
+      <div class="meta">
+        <span class="tag t-food">Pub</span>
+        <span class="tag t-beer">Craft Beer</span>
+        <span class="tag t-food">Full Menu</span>
+      </div>
+      <div class="contact"><a href="https://sharbotlakeinn.ca">sharbotlakeinn.ca</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>The Maples Restaurant</h4>
+      <div class="loc">Sharbot Lake (lakefront)</div>
+      <div class="desc">Lakefront dining with large windows and a deck overlooking the lake. Pizza, salads, sandwiches, steaks, pasta, and kids menu. Adjacent to a public beach and park � ideal for a swim-and-dine afternoon.</div>
+      <div class="meta">
+        <span class="tag t-food">Lakefront Dining</span>
+        <span class="tag t-food">Pizza</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact">Sharbot Lake lakefront</div>
+    </div>
+
+    <div class="listing">
+      <h4>Cardinal Cafe &amp; Shop</h4>
+      <div class="loc">14153 Road 38, Sharbot Lake</div>
+      <div class="desc">Highly rated (4.5/5) caf� and bakery. Fresh donuts, coffee, sandwiches, and salads. Outdoor patio seating. The kind of place that becomes a favourite fast.</div>
+      <div class="meta">
+        <span class="tag t-food">Caf�</span>
+        <span class="tag t-food">Bakery</span>
+        <span class="tag t-must">Local Favourite</span>
+      </div>
+      <div class="contact">Mon�Fri 6am�4pm, Sat 8am�4pm, closed Sunday</div>
+    </div>
+
+    <div class="listing">
+      <h4>Frenchie's Chip Hut</h4>
+      <div class="loc">Sharbot Lake</div>
+      <div class="desc">Classic chip stand fare. Fries, burgers, and summer takeout staples.</div>
+      <div class="meta">
+        <span class="tag t-food">Chip Stand</span>
+        <span class="tag t-food">Takeout</span>
+      </div>
+      <div class="contact">Seasonal hours</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Dining � Tweed &amp; Area</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Stoco Lake Lodge � Finns Restaurant &amp; Bar</h4>
+      <div class="loc">15 Trudeau Lane, Tweed</div>
+      <div class="desc">Lakeside resort with a rustic county pub. Local ingredients, patio overlooking Stoco Lake. Water sports (kayaking, paddleboarding) available at the lodge. Good option to combine lunch with a lakeside afternoon.</div>
+      <div class="meta">
+        <span class="tag t-food">Restaurant & Bar</span>
+        <span class="tag t-water">Lakeside</span>
+        <span class="tag t-daytrip">Day Trip</span>
+      </div>
+      <div class="contact"><a href="https://stoco-lake-lodge.com">stoco-lake-lodge.com</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Breweries</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Bon Echo Brewing</h4>
+      <div class="loc">Cloyne / Bon Echo area</div>
+      <div class="desc">Custom small-batch brewery founded by Reed Schwenger (Master's degree from Doemens World Brewing Academy, Bavaria; formerly of Goose Island, Chicago) and Claire Griffin. Specialises in personalised, one-of-a-kind beers. Not a traditional taproom � contact for availability and custom orders.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-beer">Small Batch</span>
+      </div>
+      <div class="contact"><a href="https://www.bon-echo.com">bon-echo.com</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Bancroft Brewing Co.</h4>
+      <div class="loc">59 Hastings St. N, Bancroft (~1 hr north)</div>
+      <div class="desc">Handcrafted beers including Blueberry Wheat, Prospector's Ale, Miner's Pick, and York River Stout. Full taproom open daily 11am�8pm. Bancroft itself is a charming northern town worth the drive.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-beer">Taproom</span>
+      </div>
+      <div class="contact"><a href="https://bancroftbrewing.ca">bancroftbrewing.ca</a> &bull; Open daily 11am�8pm</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Parks &amp; Outdoor Activities</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Frontenac Provincial Park</h4>
+      <div class="loc">North of Sydenham (~1 hr south)</div>
+      <div class="desc">Over 5,300 hectares of raw Canadian Shield wilderness with 120+ km of hiking trails and 54 backcountry campsites across 22 lakes. Trails range from short day hikes to challenging multi-day loops like the 21 km Circuit of the Great Lakes. Open year-round � excellent snowshoeing in winter.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Backcountry</span>
+        <span class="tag t-outdoor">120+ km Trails</span>
+        <span class="tag t-water">22 Lakes</span>
+        <span class="tag t-outdoor">Year-Round</span>
+      </div>
+      <div class="contact"><a href="https://www.ontarioparks.ca/park/frontenac">ontarioparks.ca</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Depot Lakes Conservation Area</h4>
+      <div class="loc">1662 2nd Lake Road, Godfrey (near Verona)</div>
+      <div class="desc">1,214 hectares spanning three lakes. Approx. 9 km of rugged hiking trails through Shield terrain. Some of the best fishing in eastern Ontario. Paddling, wildlife viewing (moose, bear, deer). $5 parking fee.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Conservation Area</span>
+        <span class="tag t-outdoor">Hiking</span>
+        <span class="tag t-water">Fishing</span>
+      </div>
+      <div class="contact">$5/day parking &bull; Open year-round (some areas closed during hunting season)</div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- ZONE 3: DAY-TRIP TOWNS -->
+<!-- ============================================================ -->
+<div class="zone-panel" id="zone-mid">
+
+<div class="zone-intro">
+  <h2>Zone 3: Day-Trip Towns</h2>
+  <p>The charming towns of Lanark County and the Rideau Canal corridor � Perth, Westport, Smiths Falls, Almonte, Carleton Place, Merrickville, and Calabogie. Each is a distinct destination with its own personality. Excellent for a full day out: drive, explore, lunch, browse boutiques, hit a brewery, and return by sunset.</p>
+  <span class="drive">45�90 minute drive</span>
+</div>
+
+<div class="note-box">
+  <strong>European Visitors Note:</strong> For guests from overseas, this zone is a wonderful introduction to small-town Ontario. These heritage towns along the Rideau Canal offer craft food, artisan shops, and scenic beauty that rival any European village � but with a distinctly Canadian character.
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Perth � Heritage Town</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Perth Brewery</h4>
+      <div class="loc">Dufferin St / Hwy 7, Perth</div>
+      <div class="desc">Operating for nearly 30 years. Flagship: Last Duel Lager (named after the last fatal duel fought in Canada, which took place in Perth in 1833). Tasting room and brewery tours available.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-beer">Tours</span>
+        <span class="tag t-culture">Heritage</span>
+      </div>
+      <div class="contact"><a href="https://www.perthbrewery.ca">perthbrewery.ca</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Bridge Master Brewing Company</h4>
+      <div class="loc">Beckwith St, Perth (beside the historic swing bridge)</div>
+      <div class="desc">Located next to the heritage swing bridge near Crystal Palace. Beers include Walk Don't Run Pilsner. Views of the Tay Canal from the patio.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-beer">Patio</span>
+      </div>
+      <div class="contact">Beckwith St, Perth</div>
+    </div>
+
+    <div class="listing">
+      <h4>Top Shelf Distillers</h4>
+      <div class="loc">Warren Cres, Perth</div>
+      <div class="desc">Craft distillery producing Perth Canadian Whiskey (Gold Medal, 2020 Canadian Artisan Spirit Competition), vodka, gin, and liqueurs. Tastings and tours.</div>
+      <div class="meta">
+        <span class="tag t-beer">Distillery</span>
+        <span class="tag t-must">Award-Winning</span>
+      </div>
+      <div class="contact">Warren Cres, Perth</div>
+    </div>
+
+    <div class="listing">
+      <h4>Perth Dining Scene</h4>
+      <div class="loc">Downtown Perth</div>
+      <div class="desc">Caf� Hideaway, Fieldhouse, North Folk Caf�, Perth Pie Co., and Perth Pizzeria among others. Walkable downtown with heritage architecture. Perth Night Market runs September 12, 2026.</div>
+      <div class="meta">
+        <span class="tag t-food">Multiple Restaurants</span>
+        <span class="tag t-culture">Heritage Downtown</span>
+        <span class="tag t-daytrip">Full Day Trip</span>
+      </div>
+      <div class="contact"><a href="https://perth.ca/visit-us">perth.ca/visit-us</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Perth Golf Course</h4>
+      <div class="loc">Perth</div>
+      <div class="desc">18-hole course established in 1890 � the oldest in the region. Full driving range. Historic and scenic.</div>
+      <div class="meta">
+        <span class="tag t-golf">18 Holes</span>
+        <span class="tag t-golf">Est. 1890</span>
+      </div>
+      <div class="contact">Perth</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">?</span> Westport � Rideau Canal Village</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>The Cove Inn</h4>
+      <div class="loc">2 Bedford Street, Westport (on Upper Rideau Lake)</div>
+      <div class="desc">Family-owned restaurant and resort on Upper Rideau Lake. Seasonal menus, classic and creative dishes, patio with views of two bodies of water. Live music performances. Lunch and dinner, dine-in and takeout.</div>
+      <div class="meta">
+        <span class="tag t-food">Fine Dining</span>
+        <span class="tag t-water">Lakefront</span>
+        <span class="tag t-must">Must-Visit</span>
+      </div>
+      <div class="contact"><a href="https://coveinn.com">coveinn.com</a> &bull; Wed�Sun 11:30am�8pm</div>
+    </div>
+
+    <div class="listing">
+      <h4>Westport Brewing Company</h4>
+      <div class="loc">Westport</div>
+      <div class="desc">Local craft brewery in the heart of Westport village.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+      </div>
+      <div class="contact"><a href="https://www.westportbrewingcompany.ca">westportbrewingcompany.ca</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Spy Rock at Foley Mountain</h4>
+      <div class="loc">Foley Mountain Conservation Area, Westport</div>
+      <div class="desc">One of Ontario's most scenic year-round lookouts. Panoramic views over Upper Rideau Lake and the Rideau Canal from atop the Shield. Short hike to the viewpoint. Free.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Lookout</span>
+        <span class="tag t-outdoor">Hiking</span>
+        <span class="tag t-must">Must-See</span>
+        <span class="tag t-free">Free</span>
+      </div>
+      <div class="contact">Foley Mountain Conservation Area, Westport</div>
+    </div>
+
+    <div class="listing">
+      <h4>Westport Village Shopping</h4>
+      <div class="loc">Downtown Westport</div>
+      <div class="desc">Boutiques, galleries, and artisan shops � fashion, gifts, home d�cor. Browse Life is Good, Pinecone Westport, and Village Green. Small-town charm at its finest.</div>
+      <div class="meta">
+        <span class="tag t-shop">Boutiques</span>
+        <span class="tag t-shop">Artisan</span>
+      </div>
+      <div class="contact">Downtown Westport</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Smiths Falls � Heart of the Rideau Canal</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Rideau Canal � UNESCO World Heritage Site</h4>
+      <div class="loc">Smiths Falls (canal centre)</div>
+      <div class="desc">The Rideau Canal stretches 202 km from Ottawa to Kingston � a UNESCO World Heritage Site and the oldest continuously operated canal system in North America. The Smiths Falls Combined Locks and Visitor Centre (housed in a 19th-century stone mill) are the centrepiece. Explore by boat, canoe, or kayak through Parks Canada's historic lock system.</div>
+      <div class="meta">
+        <span class="tag t-culture">UNESCO Site</span>
+        <span class="tag t-water">Canal</span>
+        <span class="tag t-must">Must-See</span>
+        <span class="tag t-culture">Museum</span>
+      </div>
+      <div class="contact"><a href="https://parks.canada.ca/lhn-nhs/on/rideau">parks.canada.ca � Rideau Canal</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Railway Museum of Eastern Ontario</h4>
+      <div class="loc">Smiths Falls</div>
+      <div class="desc">Restored rolling stock and a STEAM Train experience (introduced 2025). For railway enthusiasts and families � the K&amp;P Railway that once ran past Big Gull Lake is part of this story.</div>
+      <div class="meta">
+        <span class="tag t-culture">Museum</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact">Smiths Falls</div>
+    </div>
+
+    <div class="listing">
+      <h4>Heritage House Museum</h4>
+      <div class="loc">Smiths Falls</div>
+      <div class="desc">An 1861 historic house depicting upper-middle-class life in Canada circa 1865�1875.</div>
+      <div class="meta">
+        <span class="tag t-culture">Heritage</span>
+        <span class="tag t-culture">Museum</span>
+      </div>
+      <div class="contact">Smiths Falls</div>
+    </div>
+
+    <div class="listing">
+      <h4>Smiths Falls Golf &amp; Country Club</h4>
+      <div class="loc">Smiths Falls</div>
+      <div class="desc">18-hole course established in 1953 with a driving range. Several other courses nearby including Juniper Fairways (9 holes), Donneybrooke (9 holes), and Beckwith Golf Club (9 holes).</div>
+      <div class="meta">
+        <span class="tag t-golf">18 Holes</span>
+        <span class="tag t-golf">Driving Range</span>
+      </div>
+      <div class="contact"><a href="https://www.smithsfallsgolf.com">smithsfallsgolf.com</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Almonte � The Mill Town</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Hummingbird Chocolate</h4>
+      <div class="loc">476 Ottawa Street, Almonte</div>
+      <div class="desc">Award-winning bean-to-bar chocolate maker. Handcrafted in small batches. Factory tours and tastings. A genuinely world-class artisan operation in a small Ontario town.</div>
+      <div class="meta">
+        <span class="tag t-food">Chocolate</span>
+        <span class="tag t-must">Award-Winning</span>
+        <span class="tag t-shop">Tours</span>
+      </div>
+      <div class="contact">476 Ottawa St, Almonte</div>
+    </div>
+
+    <div class="listing">
+      <h4>Dairy Distillery</h4>
+      <div class="loc">34 Industrial Drive, Almonte</div>
+      <div class="desc">State-of-the-art craft distillery producing Vodkow � vodka made from unused milk sugar (lactose). Tasting room with craft cocktails, tours available. A genuinely unique Canadian innovation.</div>
+      <div class="meta">
+        <span class="tag t-beer">Distillery</span>
+        <span class="tag t-beer">Tastings</span>
+        <span class="tag t-must">Unique</span>
+      </div>
+      <div class="contact">Mon�Thu 10am�5pm, Fri 10am�8pm, Sat 9am�9pm, Sun 9am�5pm</div>
+    </div>
+
+    <div class="listing">
+      <h4>Mill Street Dining &amp; Riverwalk</h4>
+      <div class="loc">Mill Street, Almonte</div>
+      <div class="desc">Almonte's historic Mill Street is lined with restaurants: Caf� Postino (Italian, in a vintage post office), Joe's Italian Kitchen (Canada's first certified Pinseria), Mill Street Crepe Company (French cr�pes), The Monte Lounge (seasonal fine dining with river views), and The Barley Mow (pub with patio overlooking waterfalls). The Riverwalk follows the Mississippi River past the Victoria Woollen Mill and through scenic overlooks.</div>
+      <div class="meta">
+        <span class="tag t-food">Restaurant Row</span>
+        <span class="tag t-outdoor">Riverwalk</span>
+        <span class="tag t-culture">Heritage Mills</span>
+        <span class="tag t-daytrip">Full Day Trip</span>
+      </div>
+      <div class="contact"><a href="https://almonte.com">almonte.com</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Mississippi Valley Textile Museum</h4>
+      <div class="loc">3 Rosamond St E, Almonte</div>
+      <div class="desc">Housed in a former woollen mill, interpreting the history of the textile industry that built Almonte. The town was once one of Canada's largest wool-producing centres.</div>
+      <div class="meta">
+        <span class="tag t-culture">Museum</span>
+        <span class="tag t-culture">Heritage</span>
+      </div>
+      <div class="contact">3 Rosamond St E, Almonte</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Carleton Place � River Town</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Stalwart Brewing Co.</h4>
+      <div class="loc">10 High Street, Carleton Place</div>
+      <div class="desc">Craft brewery with events like taco nights and games. Located in the charming downtown core.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-food">Events</span>
+      </div>
+      <div class="contact"><a href="https://visit.carletonplace.ca/venue/stalwart-brewing-co">visit.carletonplace.ca</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Braumeister Brewing</h4>
+      <div class="loc">19 Moore Street, Carleton Place</div>
+      <div class="desc">Hosts trivia nights and live music. German-inspired brewing tradition.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-beer">Live Music</span>
+      </div>
+      <div class="contact">19 Moore St, Carleton Place</div>
+    </div>
+
+    <div class="listing">
+      <h4>Carleton Place Dining &amp; Heritage</h4>
+      <div class="loc">Downtown Carleton Place</div>
+      <div class="desc">Dining: Black Tartan Kitchen, Waterfront Gastropub, St James Gate, Thirsty Moose, Boulton House, Good Food Co. Heritage: Captain A. Roy Brown museum (the WWI pilot who defeated the Red Baron). Riverside Park with beach, splash pad, and picnic areas on the Mississippi River.</div>
+      <div class="meta">
+        <span class="tag t-food">Multiple Restaurants</span>
+        <span class="tag t-culture">Heritage</span>
+        <span class="tag t-family">Beach & Splash Pad</span>
+      </div>
+      <div class="contact"><a href="https://visit.carletonplace.ca">visit.carletonplace.ca</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Merrickville � Jewel of the Rideau</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Merrickville Lockstation &amp; Village</h4>
+      <div class="loc">Merrickville (Rideau Canal, ~1 hr SW of Ottawa)</div>
+      <div class="desc">The "Jewel of the Rideau" � a charming canal-side village with three locks (25-ft total lift), a restored Parks Canada blockhouse museum, artisan shops, a caramel shop, a glass-blowing studio, and Mrs. McGarrigle's (famous house-made mustards, fine foods, charcuterie). A walking tour follows the Merrickville Lockstation. Perfect for European visitors who enjoy village wandering.</div>
+      <div class="meta">
+        <span class="tag t-culture">Canal Locks</span>
+        <span class="tag t-shop">Artisan Village</span>
+        <span class="tag t-food">Fine Foods</span>
+        <span class="tag t-must">Must-Visit</span>
+      </div>
+      <div class="contact"><a href="https://parks.canada.ca/lhn-nhs/on/rideau/activ/sentier-trail/merrickville">Parks Canada � Merrickville</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Calabogie � Adventure Country</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Calabogie Highlands Golf Resort</h4>
+      <div class="loc">981 Barryvale Road, Calabogie</div>
+      <div class="desc">Two courses: "The Major's" 9-hole course for beginners, and "The General's" 18-hole championship layout with hills, valleys, and water features. On-site pub with patio, formal dining for special occasions. Calabogie Brewing Co. craft beer on tap.</div>
+      <div class="meta">
+        <span class="tag t-golf">18 + 9 Holes</span>
+        <span class="tag t-beer">Brewery</span>
+        <span class="tag t-food">Restaurant</span>
+      </div>
+      <div class="contact">613-752-1234 &bull; <a href="https://www.calabogieexperience.com">calabogieexperience.com</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Calabogie Motorsports Park</h4>
+      <div class="loc">Calabogie</div>
+      <div class="desc">Drive a Mustang race car, exotic Ferraris and Lamborghinis, or motorcycles on North America's longest road course (5.05 km). A genuine bucket-list experience.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Racing</span>
+        <span class="tag t-must">Bucket List</span>
+      </div>
+      <div class="contact"><a href="https://www.calabogiemotorsports.com">calabogiemotorsports.com</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Calabogie Peaks Resort</h4>
+      <div class="loc">Calabogie</div>
+      <div class="desc">Four-season mountain and lake resort. Summer: hiking, mountain biking, lake swimming. Also offers guided ATV tours and access to Ottawa River whitewater rafting.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Resort</span>
+        <span class="tag t-outdoor">ATV Tours</span>
+        <span class="tag t-water">Lake</span>
+      </div>
+      <div class="contact"><a href="https://www.calabogie.com">calabogie.com</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> White Water Rafting � Ottawa River</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>OWL Rafting</h4>
+      <div class="loc">40 Owl Lane, Foresters Falls (~1.5 hrs from Ottawa)</div>
+      <div class="desc">40 years of operation on the Ottawa River. Three intensity levels: Low (half-day from $85), Medium (full-day from $130 with BBQ cruise), High (two-night packages from $405). All gear provided. Weight minimums: 50 lbs (low) to 90 lbs (medium/high). 2026 season: May 16 � Sept 7.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Whitewater Rafting</span>
+        <span class="tag t-must">Bucket List</span>
+        <span class="tag t-water">Ottawa River</span>
+      </div>
+      <div class="contact"><a href="https://owlrafting.com">owlrafting.com</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Wilderness Tours</h4>
+      <div class="loc">Ottawa River (near Beachburg)</div>
+      <div class="desc">Operating since 1975. Multiple intensity levels. Family rafting from $169 adult / $109 youth (ages 5+). Also offers lazy river tubing, whitewater kayaking, mountain biking, and resort day access. Group organizers raft free with 12+ people.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Whitewater Rafting</span>
+        <span class="tag t-family">Family Options</span>
+        <span class="tag t-outdoor">Multi-Activity</span>
+      </div>
+      <div class="contact"><a href="https://wildernesstours.com">wildernesstours.com</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Heritage &amp; Curiosities</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Pakenham Five Span Stone Bridge</h4>
+      <div class="loc">Pakenham (Mississippi Mills)</div>
+      <div class="desc">Built in 1903 by Scottish stone masons. Five stone arches over the Mississippi River � believed to be the only bridge of its kind in North America and the only one in the world outside Russia. One of the Seven Wonders of Lanark County. Nearby: Canada's oldest continuously operating general store (1840s).</div>
+      <div class="meta">
+        <span class="tag t-culture">Heritage</span>
+        <span class="tag t-must">One of a Kind</span>
+        <span class="tag t-free">Free</span>
+      </div>
+      <div class="contact">Pakenham, Mississippi Mills</div>
+    </div>
+
+    <div class="listing">
+      <h4>Rideau Trail</h4>
+      <div class="loc">Kingston to Ottawa (300 km)</div>
+      <div class="desc">Eastern Ontario's longest hiking trail � 300 km through forests, farmland, canal lock stations, and Shield country. Can be done in sections. Passes through Perth, Westport, Smiths Falls. Year-round: hiking, snowshoeing, cross-country skiing.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">Long-Distance Trail</span>
+        <span class="tag t-outdoor">300 km</span>
+        <span class="tag t-free">Free</span>
+      </div>
+      <div class="contact"><a href="https://www.rideautrail.org">rideautrail.org</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Sip &amp; Savour Lanark County Trail</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Sip &amp; Savour Lanark County</h4>
+      <div class="loc">Across Lanark County (Perth, Almonte, Carleton Place, Pakenham, Smiths Falls)</div>
+      <div class="desc">A curated craft beverage trail connecting breweries, distilleries, and cideries across Lanark County. Includes Perth Brewery, Top Shelf Distillers, Dairy Distillery, Stalwart Brewing, Braumeister Brewing, Cartwright Springs Brewery (Pakenham), and more. Trail map available online � a perfect framework for a full day of tasting.</div>
+      <div class="meta">
+        <span class="tag t-beer">Beverage Trail</span>
+        <span class="tag t-daytrip">Full Day Trip</span>
+        <span class="tag t-must">Recommended</span>
+      </div>
+      <div class="contact"><a href="https://savourlanark.ca">savourlanark.ca</a></div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- ZONE 4: KINGSTON & SOUTH -->
+<!-- ============================================================ -->
+<div class="zone-panel" id="zone-kingston">
+
+<div class="zone-intro">
+  <h2>Zone 4: Kingston &amp; South</h2>
+  <p>The Limestone City. Historic Kingston sits at the junction of Lake Ontario and the St. Lawrence River, gateway to the Thousand Islands. A proper city with world-class attractions, restaurants, and boat tours � yet unmistakably Canadian.</p>
+  <span class="drive">60�90 minute drive south</span>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Major Attractions</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Fort Henry National Historic Site</h4>
+      <div class="loc">Kingston</div>
+      <div class="desc">Imposing 19th-century British military fortification overlooking Kingston harbour. Live military demonstrations, period reenactments, and events. 2026 events: Cannonball Crush 5K obstacle course (June 13), YGK Craft Beer Fest (June 13), Fort Henry Tattoo (July 25).</div>
+      <div class="meta">
+        <span class="tag t-culture">National Historic Site</span>
+        <span class="tag t-family">Family Friendly</span>
+        <span class="tag t-must">Must-See</span>
+      </div>
+      <div class="contact"><a href="https://www.forthenry.com">forthenry.com</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>1000 Islands Boat Cruise � Heart of the Islands</h4>
+      <div class="loc">Crawford Wharf, 1 Brock St, Kingston</div>
+      <div class="desc">3-hour cruise through the Admiralty Islands � Napoleon's Hat, Wanderer's Channel, and Mandalay Mansion. Live narration, indoor and open-air decks, licensed bar, dining options. Summer departures 10:30am, 2:00pm, 6:30pm (June 27 � Aug 31). Adult $59.50, Child $47.50.</div>
+      <div class="meta">
+        <span class="tag t-water">Boat Tour</span>
+        <span class="tag t-must">Bucket List</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact"><a href="https://www.1000islandscruises.ca">1000islandscruises.ca</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>1000 Islands Discovery Cruise</h4>
+      <div class="loc">Crawford Wharf, Kingston</div>
+      <div class="desc">1-hour harbour tour past Fort Henry, Cedar Island, Royal Military College, and Kingston Penitentiary. Great for a shorter excursion. Summer departures 11:30am, 1:00pm, 3:00pm (May 9 � Oct 12). Adult $39.50, Child $29.50.</div>
+      <div class="meta">
+        <span class="tag t-water">Boat Tour</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact"><a href="https://www.1000islandscruises.ca">1000islandscruises.ca</a></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Breweries &amp; Farm Experiences</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>MacKinnon Brothers Brewing</h4>
+      <div class="loc">1915 County Rd 22, Bath (near Kingston)</div>
+      <div class="desc">Farm brewery on an 8th-generation family farm (settled 1784). Grains grown on-site. Taproom in a restored century-old barn with farm-field patio. Beers: Red Fox Ale, Crosscut Canadian Ale, Philly Light, and more. 12" Atomica pizzas and nachos. Live music every Saturday and Sunday 1�4pm.</div>
+      <div class="meta">
+        <span class="tag t-beer">Farm Brewery</span>
+        <span class="tag t-beer">Live Music</span>
+        <span class="tag t-food">Pizza</span>
+        <span class="tag t-must">Must-Visit</span>
+      </div>
+      <div class="contact"><a href="https://www.mackinnonbrewing.com">mackinnonbrewing.com</a> &bull; Open 11am�5pm (Thu�Fri to 7pm)</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Markets</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Market Saturdays � Napanee</h4>
+      <div class="loc">Old Town Hall Parking Area, Napanee</div>
+      <div class="desc">Large Saturday farmers market (May 16 � Oct 3, 2026). Fresh produce, fruits, baked goods, honey, maple syrup, handcrafted items, and home d�cor.</div>
+      <div class="meta">
+        <span class="tag t-food">Farmers Market</span>
+        <span class="tag t-shop">Artisan</span>
+      </div>
+      <div class="contact">Saturdays 9am�1pm</div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- ZONE 5: OTTAWA & GATINEAU -->
+<!-- ============================================================ -->
+<div class="zone-panel" id="zone-ottawa">
+
+<div class="zone-intro">
+  <h2>Zone 5: Ottawa &amp; Gatineau</h2>
+  <p>Canada's capital. Two hours from your cottage door. For European visitors, Ottawa is an easy same-day return � drive up in the morning, spend the day at Parliament Hill, world-class museums, the ByWard Market, a Rideau Canal cruise, and be back at the lake for sunset. Or make a night of it and add Gatineau Park, the Diefenbunker, and the craft brewery scene.</p>
+  <span class="drive">~2 hour drive</span>
+</div>
+
+<div class="note-box">
+  <strong>For European Guests:</strong> Ottawa is Canada's capital � equivalent to visiting London, Paris, or Berlin. Parliament Hill, the National Gallery, the War Museum, and the ByWard Market are all walkable within a compact downtown core. The Rideau Canal (UNESCO World Heritage Site) runs through the heart of the city. A day trip from the cottage gives you wilderness in the morning and world-class culture by afternoon.
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Parliament &amp; Government</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Parliament Hill � House of Commons</h4>
+      <div class="loc">West Block, 111 Wellington Street, Ottawa</div>
+      <div class="desc">Free guided tours (~40 minutes) of Canada's House of Commons. See the chamber where laws are debated, the Memorial Chamber, and the Library of Parliament. Tours not available when Parliament is in session or on Dec 25, Jan 1, July 1. Advance reservations recommended. Arrive 25 minutes early for security screening.</div>
+      <div class="meta">
+        <span class="tag t-culture">Parliament</span>
+        <span class="tag t-must">Must-See</span>
+        <span class="tag t-free">Free</span>
+      </div>
+      <div class="contact">Book via <a href="https://visit.parl.ca">visit.parl.ca</a> &bull; 613-996-0896</div>
+    </div>
+
+    <div class="listing">
+      <h4>Senate of Canada</h4>
+      <div class="loc">Senate of Canada Building, 2 Rideau Street, Ottawa</div>
+      <div class="desc">Free guided tours of the Red Chamber. The Senate building (former Ottawa train station) is an architectural landmark in its own right.</div>
+      <div class="meta">
+        <span class="tag t-culture">Parliament</span>
+        <span class="tag t-free">Free</span>
+      </div>
+      <div class="contact">Book via Tours Reservation Office: 613-996-0896</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Museums</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Canadian Museum of History</h4>
+      <div class="loc">Gatineau (across the river from Parliament Hill)</div>
+      <div class="desc">Canada's most visited museum. Sweeping exhibitions on Indigenous cultures, colonial history, and Canadian identity. Includes the Canadian Children's Museum. Current: "River of Dreams � Impressionism on the St. Lawrence" (until Aug 30, 2026) and "Pizandawatc / The One Who Listens" (until Sept 8, 2026).</div>
+      <div class="meta">
+        <span class="tag t-culture">Museum</span>
+        <span class="tag t-must">Must-See</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact"><a href="https://www.historymuseum.ca">historymuseum.ca</a> &bull; Open 9am�5pm</div>
+    </div>
+
+    <div class="listing">
+      <h4>Canadian War Museum</h4>
+      <div class="loc">1 Vimy Place, Ottawa</div>
+      <div class="desc">Four immersive galleries covering Canada's military history from early conflicts through modern peacekeeping. Tanks, aircraft, and artifacts. Adult $22, Youth $15. Thursdays until 7pm (through July 1, 2026).</div>
+      <div class="meta">
+        <span class="tag t-culture">Museum</span>
+        <span class="tag t-must">Must-See</span>
+      </div>
+      <div class="contact"><a href="https://www.warmuseum.ca">warmuseum.ca</a> &bull; Open 9am�5pm (Thu to 7pm)</div>
+    </div>
+
+    <div class="listing">
+      <h4>National Gallery of Canada</h4>
+      <div class="loc">380 Sussex Drive, Ottawa</div>
+      <div class="desc">Canada's premier art gallery. Home to the iconic "Maman" spider sculpture by Louise Bourgeois at the entrance. Canadian, Indigenous, and international art spanning centuries. The glass and granite building by Moshe Safdie is a landmark.</div>
+      <div class="meta">
+        <span class="tag t-culture">Art Gallery</span>
+        <span class="tag t-must">Must-See</span>
+      </div>
+      <div class="contact">380 Sussex Drive, Ottawa</div>
+    </div>
+
+    <div class="listing">
+      <h4>Canadian Museum of Nature</h4>
+      <div class="loc">240 McLeod Street, Ottawa</div>
+      <div class="desc">Dinosaur skeletons, fossil galleries, mammal and bird collections, Arctic exhibits, and a butterfly gallery. Housed in a stunning castle-like heritage building. A hit with families.</div>
+      <div class="meta">
+        <span class="tag t-culture">Museum</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact"><a href="https://nature.ca">nature.ca</a> &bull; Open 9:30am�8pm</div>
+    </div>
+
+    <div class="listing">
+      <h4>Canada Aviation and Space Museum</h4>
+      <div class="loc">11 Aviation Parkway, Ottawa</div>
+      <div class="desc">Over 130 aircraft and artifacts. Cold War exhibition, WWII fighters and bombers, Canadarm, Alouette-1 satellite. A must for aviation enthusiasts. Adult $17.25, Family $43.50.</div>
+      <div class="meta">
+        <span class="tag t-culture">Museum</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact"><a href="https://ingenium.ca/aviation">ingenium.ca/aviation</a> &bull; Open 9am�5pm (closed Tuesdays)</div>
+    </div>
+
+    <div class="listing">
+      <h4>Canada Science and Technology Museum</h4>
+      <div class="loc">Ottawa</div>
+      <div class="desc">Interactive hands-on STEAM experiences. "Exploratek" tinker lab, daily demonstrations, and tours of the Ingenium Centre with 150,000+ objects. An Ingenium membership covers this plus Aviation and Agriculture museums.</div>
+      <div class="meta">
+        <span class="tag t-culture">Museum</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact"><a href="https://ingenium.ca/scitech">ingenium.ca/scitech</a></div>
+    </div>
+
+    <div class="listing">
+      <h4>Diefenbunker: Canada's Cold War Museum</h4>
+      <div class="loc">3929 Carp Road, Carp (west of Ottawa)</div>
+      <div class="desc">A four-storey underground bunker built during the Cold War as Canada's central communications headquarters in the event of nuclear attack. Named after PM John Diefenbaker. Now a museum with guided tours (60 or 90 minutes), escape rooms, and exhibitions. One of the most unique museums in Canada. Doors Open Ottawa free admission: June 6, 2026.</div>
+      <div class="meta">
+        <span class="tag t-culture">Cold War Museum</span>
+        <span class="tag t-must">Must-See</span>
+        <span class="tag t-culture">Underground Bunker</span>
+      </div>
+      <div class="contact"><a href="https://diefenbunker.ca">diefenbunker.ca</a> &bull; Adult $19.50, Guided Tour $25 &bull; Wed�Fri 10am�4pm, Sat�Sun 10am�3pm</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Rideau Canal &amp; Boat Tours</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Rideau Canal Cruise � Ottawa</h4>
+      <div class="loc">Departing downtown Ottawa</div>
+      <div class="desc">90-minute cruise on the world's largest certified 100%-electric passenger vessel. Bilingual live commentary. Passes the National Arts Centre, Ch�teau Laurier, Dow's Lake, Lansdowne Park, and the Canadian Museum of Nature. Six daily departures mid-May to mid-October. From $43.</div>
+      <div class="meta">
+        <span class="tag t-water">Canal Cruise</span>
+        <span class="tag t-culture">UNESCO Site</span>
+        <span class="tag t-must">Recommended</span>
+      </div>
+      <div class="contact"><a href="https://www.ottawaboatcruise.com">ottawaboatcruise.com</a> &bull; Mid-May to mid-October</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> ByWard Market &amp; Downtown</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>ByWard Market</h4>
+      <div class="loc">ByWard Market, Downtown Ottawa</div>
+      <div class="desc">Ottawa's vibrant central market district. Open-air farmers stalls (seasonal), restaurants, bars, boutiques, and street performers. Dining options range from casual (Zak's Diner, BeaverTails) to upscale (E18hteen, Play Food &amp; Wine). The market building itself houses specialty food vendors. A must-walk for any visitor.</div>
+      <div class="meta">
+        <span class="tag t-food">Market</span>
+        <span class="tag t-shop">Shopping</span>
+        <span class="tag t-food">Restaurants</span>
+        <span class="tag t-must">Must-Visit</span>
+      </div>
+      <div class="contact">ByWard Market, downtown Ottawa</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">???</span> Ottawa Dining � Top Picks</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Atelier</h4>
+      <div class="loc">Little Italy, Ottawa</div>
+      <div class="desc">Ottawa's most acclaimed restaurant, ranked among Canada's best. Chef Marc Lepine offers modernist tasting menus ($250/person). "Flavours reframed, textures reimagined." Reservations essential � 60+ days in advance.</div>
+      <div class="meta">
+        <span class="tag t-food">Fine Dining</span>
+        <span class="tag t-must">Top-Rated</span>
+      </div>
+      <div class="contact">Little Italy, Ottawa &bull; Book well in advance</div>
+    </div>
+
+    <div class="listing">
+      <h4>Riviera</h4>
+      <div class="loc">Sparks Street, Ottawa</div>
+      <div class="desc">Set in a former bank with soaring ceilings and marble finishes. Blends French technique with Canadian sensibility. One of the best dining rooms in the city.</div>
+      <div class="meta">
+        <span class="tag t-food">Fine Dining</span>
+        <span class="tag t-must">Top-Rated</span>
+      </div>
+      <div class="contact">Sparks Street, Ottawa</div>
+    </div>
+
+    <div class="listing">
+      <h4>North &amp; Navy</h4>
+      <div class="loc">Ottawa</div>
+      <div class="desc">Northern Italian�inspired. Handmade pastas and seasonal ingredients in an intimate townhouse setting.</div>
+      <div class="meta">
+        <span class="tag t-food">Italian</span>
+        <span class="tag t-food">Fine Dining</span>
+      </div>
+      <div class="contact">Ottawa</div>
+    </div>
+
+    <div class="listing">
+      <h4>E18hteen</h4>
+      <div class="loc">ByWard Market, Ottawa</div>
+      <div class="desc">Polished steak and seafood in a striking heritage space with high ceilings and formal service. In the heart of ByWard Market.</div>
+      <div class="meta">
+        <span class="tag t-food">Steak & Seafood</span>
+        <span class="tag t-food">Fine Dining</span>
+      </div>
+      <div class="contact">ByWard Market, Ottawa</div>
+    </div>
+
+    <div class="listing">
+      <h4>Play Food &amp; Wine</h4>
+      <div class="loc">ByWard Market, Ottawa</div>
+      <div class="desc">Innovative seasonal dining with shareable plates. Creative, approachable, excellent wine list. Rated 4.6/5.</div>
+      <div class="meta">
+        <span class="tag t-food">Casual Fine</span>
+        <span class="tag t-food">Wine Bar</span>
+      </div>
+      <div class="contact">ByWard Market, Ottawa</div>
+    </div>
+
+    <div class="listing">
+      <h4>Fairouz Cafe</h4>
+      <div class="loc">ByWard Market, Ottawa</div>
+      <div class="desc">Middle Eastern cuisine. Mezze platters, shawarma, and falafel done right. A local favourite for lighter dining.</div>
+      <div class="meta">
+        <span class="tag t-food">Middle Eastern</span>
+      </div>
+      <div class="contact">ByWard Market, Ottawa</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Ottawa Breweries</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Beyond the Pale Brewing Company</h4>
+      <div class="loc">250 City Centre Ave &amp; 21 George St (ByWard), Ottawa</div>
+      <div class="desc">Two locations: City Centre (16 taps, open brewhouse view, massive summer patio) and ByWard Taproom (historic ByWard Market). Diverse beer selection including IPAs and unique flavours. Mushroom poutine and mac &amp; cheese. One of Ottawa's best.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-food">Pub Food</span>
+        <span class="tag t-must">Top Pick</span>
+      </div>
+      <div class="contact"><a href="https://beyondthepale.ca">beyondthepale.ca</a> &bull; Open daily from 11am</div>
+    </div>
+
+    <div class="listing">
+      <h4>Lowertown Brewery</h4>
+      <div class="loc">73 York St, ByWard Market, Ottawa</div>
+      <div class="desc">Craft beers paired with scratch-cooked comfort food and smoked meats. Full band karaoke and open mic nights. In the heart of ByWard Market.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-food">Smoked Meats</span>
+        <span class="tag t-beer">Live Music</span>
+      </div>
+      <div class="contact"><a href="https://lowertownbrewery.com">lowertownbrewery.com</a> &bull; Mon�Wed 11:30am�12am, Thu�Sat 11am�2am</div>
+    </div>
+
+    <div class="listing">
+      <h4>Brasserie du Bas-Canada</h4>
+      <div class="loc">455 Bd de la Gappe, Gatineau (across the river)</div>
+      <div class="desc">Highly rated (4.8 stars) Gatineau brewery with taproom, shop, and bistro fare. Known for excellent IPAs, boozy stouts, and seasonal menus. Vinyl Saturdays. Cross the bridge into Quebec for a distinctly different vibe.</div>
+      <div class="meta">
+        <span class="tag t-beer">Craft Brewery</span>
+        <span class="tag t-must">Top Pick</span>
+        <span class="tag t-food">Bistro</span>
+      </div>
+      <div class="contact">Tue�Wed 4�10pm, Thu 4�11pm, Fri�Sat 12�11pm, Sun 12�8pm</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="category">
+  <h3><span class="cat-icon">??</span> Gatineau Park</h3>
+  <div class="listing-grid">
+
+    <div class="listing">
+      <h4>Gatineau Park</h4>
+      <div class="loc">Gatineau, Quebec (minutes from downtown Ottawa)</div>
+      <div class="desc">Over 200 km of hiking trails just across the river from Ottawa. Popular trails: Pink Lake (2.3 km, stunning turquoise water), Waterfall and Lauriault (4.5 km), and Carbide Willson Ruins (industrial ruins in the forest). Three public swimming beaches with lifeguards: Meech Lake, Philippe Lake, and La P�che Lake. Non-motorized boat launches. Trail access is free.</div>
+      <div class="meta">
+        <span class="tag t-outdoor">200+ km Trails</span>
+        <span class="tag t-water">Swimming Beaches</span>
+        <span class="tag t-free">Free Trail Access</span>
+        <span class="tag t-family">Family Friendly</span>
+      </div>
+      <div class="contact"><a href="https://ncc-ccn.gc.ca/places/gatineau-park">ncc-ccn.gc.ca � Gatineau Park</a> &bull; Beaches open mid-June to early September</div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- MASTER INDEX TABLE -->
+<!-- ============================================================ -->
+<div style="margin-top: 48px; border-top: 1px solid var(--border); padding-top: 32px;">
+  <h2 style="font-size: 1.4rem; margin-bottom: 16px;">Quick Reference: At a Glance</h2>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border);">
+        <th style="text-align: left; padding: 10px 12px; color: var(--text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.06em;">Category</th>
+        <th style="text-align: left; padding: 10px 12px; color: var(--text-muted); text-transform: uppercase; font-size: 0.65rem;">Key Spots</th>
+        <th style="text-align: left; padding: 10px 12px; color: var(--text-muted); text-transform: uppercase; font-size: 0.65rem;">Zone</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Bait &amp; Tackle</td><td style="padding: 8px 12px;">Bishop Lake Outdoors (Cloyne), Cloyne Bait Shop, Bridgewater Bait (Flinton)</td><td style="padding: 8px 12px;">1</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Butcher / Provisions</td><td style="padding: 8px 12px;">Milligan Meats (Cloyne), Northbrook Foodland</td><td style="padding: 8px 12px;">1</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Provincial Parks</td><td style="padding: 8px 12px;">Bon Echo, Frontenac, Gatineau Park, Calabogie Peaks</td><td style="padding: 8px 12px;">1�5</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Golf Courses</td><td style="padding: 8px 12px;">Hunter's Creek (Cloyne), Perth GC, Calabogie Highlands, Smiths Falls G&amp;CC, Mapleview, Mississippi GC</td><td style="padding: 8px 12px;">1�3</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Breweries</td><td style="padding: 8px 12px;">Bon Echo Brewing, Perth Brewery, Westport Brewing, MacKinnon Bros (Bath), Stalwart (CP), Beyond the Pale (Ottawa), Bas-Canada (Gatineau)</td><td style="padding: 8px 12px;">1�5</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Distilleries</td><td style="padding: 8px 12px;">Top Shelf Distillers (Perth), Dairy Distillery (Almonte)</td><td style="padding: 8px 12px;">3</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Museums</td><td style="padding: 8px 12px;">Diefenbunker, Museum of History, War Museum, National Gallery, Nature Museum, Aviation &amp; Space, Science &amp; Tech, Railway Museum</td><td style="padding: 8px 12px;">3�5</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Boat Tours</td><td style="padding: 8px 12px;">1000 Islands Cruise (Kingston), Rideau Canal Cruise (Ottawa)</td><td style="padding: 8px 12px;">4�5</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Adventure</td><td style="padding: 8px 12px;">OWL Rafting, Wilderness Tours (whitewater), Calabogie Motorsports, Bon Echo kayaking</td><td style="padding: 8px 12px;">1�3</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Heritage Trails</td><td style="padding: 8px 12px;">K&amp;P Trail (180 km), Rideau Trail (300 km), Cataraqui Trail</td><td style="padding: 8px 12px;">1�5</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Charming Villages</td><td style="padding: 8px 12px;">Perth, Westport, Merrickville, Almonte, Pakenham, Carleton Place</td><td style="padding: 8px 12px;">3</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Farmers Markets</td><td style="padding: 8px 12px;">Northbrook, Napanee, Beaver Lake (Erinsville), Yarker, Newburgh</td><td style="padding: 8px 12px;">1�4</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Ottawa Dining</td><td style="padding: 8px 12px;">Atelier, Riviera, North &amp; Navy, E18hteen, Play Food &amp; Wine, Fairouz, Zak's</td><td style="padding: 8px 12px;">5</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 12px; color: var(--gold);">Unique Landmarks</td><td style="padding: 8px 12px;">Pakenham 5-Span Bridge, Mazinaw Rock Pictographs, Parliament Hill, Rideau Canal Locks</td><td style="padding: 8px 12px;">1�5</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="margin-top: 48px; border-top: 1px solid var(--border); padding-top: 24px; text-align: center; color: var(--text-muted); font-size: 0.75rem;">
+  <p>Island View Retreat � Ultimate Area Directory &bull; Compiled April 2026</p>
+  <p>Big Gull Lake, Frontenac County, Ontario, Canada</p>
+  <p style="margin-top: 8px; color: var(--gold-dim);">All distances and drive times measured from Big Gull Lake. Confirm hours and prices directly with venues � seasonal operations are common in this region.</p>
+</div>
+
+</div>
+
+<script>
+function showZone(zone) {
+  document.querySelectorAll('.zone-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('zone-' + zone).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

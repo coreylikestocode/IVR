@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Island View Retreat � Campaign Execution Plan</title>
+<style>
+:root {
+  --bg: #0a0a0a; --surface: #141414; --surface2: #1a1a1a; --surface3: #222;
+  --border: #2a2a2a; --border-light: #333;
+  --text: #e5e5e5; --text-muted: #888; --text-dim: #555;
+  --gold: #C9A96E; --gold-dim: #8a7345;
+  --green: #4ade80; --green-dim: #166534;
+  --blue: #60a5fa; --blue-dim: #1e3a5f;
+  --red: #f87171; --red-dim: #7f1d1d;
+  --purple: #a78bfa; --purple-dim: #4c1d95;
+  --orange: #fb923c; --orange-dim: #7c2d12;
+  --cyan: #22d3ee; --cyan-dim: #164e63;
+  --pink: #f472b6; --pink-dim: #831843;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+.container { max-width:1200px; margin:0 auto; padding:32px 24px; }
+
+.hero { text-align:center; padding:48px 0 24px; margin-bottom:32px; }
+.hero h1 { font-size:2.2rem; font-weight:700; letter-spacing:-0.03em; margin-bottom:8px; }
+.hero h1 span { color:var(--gold); }
+.hero p { color:var(--text-muted); font-size:1rem; max-width:700px; margin:0 auto 24px; }
+
+/* Progress bar */
+.campaign-progress { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 24px; margin-bottom:32px; }
+.campaign-progress h3 { font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; }
+.progress-track { display:flex; gap:4px; height:32px; border-radius:6px; overflow:hidden; margin-bottom:12px; }
+.progress-seg { display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:700; color:#000; cursor:pointer; transition:opacity 0.2s; position:relative; }
+.progress-seg:hover { opacity:0.85; }
+.progress-seg .seg-label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 4px; }
+.progress-legend { display:flex; flex-wrap:wrap; gap:12px; font-size:0.75rem; color:var(--text-muted); }
+.progress-legend span { display:flex; align-items:center; gap:4px; }
+.progress-legend .dot { width:8px; height:8px; border-radius:2px; }
+
+/* Wave nav */
+.wave-nav { display:flex; gap:6px; margin-bottom:24px; flex-wrap:wrap; position:sticky; top:0; background:var(--bg); padding:12px 0; z-index:10; border-bottom:1px solid var(--border); }
+.wave-btn { padding:8px 16px; background:var(--surface); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.8rem; color:var(--text-muted); transition:all 0.2s; white-space:nowrap; }
+.wave-btn:hover { border-color:var(--gold-dim); color:var(--text); }
+.wave-btn.active { background:var(--gold); color:#000; border-color:var(--gold); font-weight:600; }
+.wave-btn .wave-status { display:inline-block; width:6px; height:6px; border-radius:50%; margin-left:4px; vertical-align:middle; }
+
+/* Wave sections */
+.wave { display:none; }
+.wave.active { display:block; }
+
+/* Wave header */
+.wave-header { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; margin-bottom:20px; }
+.wave-header .wave-id { font-size:0.75rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:4px; }
+.wave-header h2 { font-size:1.6rem; font-weight:700; letter-spacing:-0.02em; margin-bottom:8px; }
+.wave-header .wave-desc { color:var(--text-muted); font-size:0.9rem; margin-bottom:16px; }
+.wave-meta { display:flex; flex-wrap:wrap; gap:16px; }
+.wave-meta-item { font-size:0.8rem; }
+.wave-meta-item .label { color:var(--text-dim); }
+.wave-meta-item .value { color:var(--text); font-weight:600; }
+
+/* Sections within wave */
+.wsection { margin-bottom:24px; }
+.wsection h3 { font-size:1.1rem; font-weight:600; margin-bottom:12px; color:var(--gold); }
+.wsection h4 { font-size:0.95rem; font-weight:600; margin-bottom:8px; }
+.wsection p { color:var(--text-muted); font-size:0.9rem; margin-bottom:8px; }
+
+/* Deliverable table */
+.dtable { width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:16px; }
+.dtable th { text-align:left; padding:8px 10px; border-bottom:2px solid var(--border); color:var(--text-muted); font-weight:600; text-transform:uppercase; font-size:0.7rem; letter-spacing:0.05em; }
+.dtable td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.dtable tr:hover { background:var(--surface2); }
+
+/* Checklist */
+.checklist { list-style:none; padding:0; }
+.checklist li { padding:8px 0 8px 28px; border-bottom:1px solid var(--border); font-size:0.9rem; color:var(--text-muted); position:relative; }
+.checklist li::before { content:''; position:absolute; left:0; top:10px; width:16px; height:16px; border:2px solid var(--border-light); border-radius:4px; }
+.checklist li.done::before { background:var(--green); border-color:var(--green); }
+.checklist li.done::after { content:'?'; position:absolute; left:3px; top:8px; font-size:0.7rem; color:#000; font-weight:700; }
+.checklist li strong { color:var(--text); }
+
+/* Cards */
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin-bottom:16px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; }
+.card h4 { font-size:0.9rem; font-weight:600; margin-bottom:4px; }
+.card p, .card .desc { font-size:0.85rem; color:var(--text-muted); }
+
+/* Callout */
+.callout { border-radius:10px; padding:16px 20px; margin-bottom:16px; }
+.callout.gold { background:linear-gradient(135deg, rgba(201,169,110,0.1), rgba(201,169,110,0.03)); border:1px solid var(--gold-dim); }
+.callout.blue { background:linear-gradient(135deg, rgba(96,165,250,0.1), rgba(96,165,250,0.03)); border:1px solid rgba(96,165,250,0.3); }
+.callout.green { background:linear-gradient(135deg, rgba(74,222,128,0.08), rgba(74,222,128,0.02)); border:1px solid rgba(74,222,128,0.3); }
+.callout h4 { margin-bottom:4px; font-size:0.9rem; }
+.callout.gold h4 { color:var(--gold); }
+.callout.blue h4 { color:var(--blue); }
+.callout.green h4 { color:var(--green); }
+.callout p { font-size:0.85rem; color:var(--text-muted); }
+
+/* Code */
+code { background:var(--surface2); padding:1px 5px; border-radius:3px; font-size:0.83em; color:var(--gold); }
+pre { background:var(--surface2); padding:16px; border-radius:8px; font-size:0.8rem; overflow-x:auto; color:var(--text-muted); margin:8px 0 16px; }
+
+/* Tags */
+.tag { font-size:0.7rem; padding:2px 7px; border-radius:3px; font-weight:500; display:inline-block; }
+.tag.p1 { background:var(--red-dim); color:var(--red); }
+.tag.p2 { background:var(--orange-dim); color:var(--orange); }
+.tag.pages { background:var(--blue-dim); color:var(--blue); }
+.tag.time { background:var(--purple-dim); color:var(--purple); }
+.tag.intl { background:var(--cyan-dim); color:var(--cyan); }
+.tag.tech { background:var(--green-dim); color:var(--green); }
+
+/* Dependencies */
+.deps { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.dep { font-size:0.75rem; padding:3px 8px; background:var(--surface2); border:1px solid var(--border); border-radius:4px; color:var(--text-muted); }
+.dep.done { border-color:var(--green-dim); color:var(--green); }
+
+ul { padding-left:18px; }
+li { margin-bottom:3px; font-size:0.9rem; color:var(--text-muted); }
+li strong { color:var(--text); }
+
+/* Two col */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:768px) { .two-col { grid-template-columns:1fr; } }
+
+/* Separator */
+.separator { border:none; border-top:1px solid var(--border); margin:24px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <h1>Campaign <span>Execution Plan</span></h1>
+  <p>Island View Retreat content engine � 9 sequential waves, 135+ pages, 600+ keywords. Each wave is a self-contained implementation plan with deliverables, dependencies, and checklists.</p>
+</div>
+
+<!-- ==================== PROGRESS ==================== -->
+<div class="campaign-progress">
+  <h3>Campaign Progress</h3>
+  <div class="progress-track">
+    <div class="progress-seg" style="width:6%;background:var(--green);" onclick="showWave(0)"><span class="seg-label">W0</span></div>
+    <div class="progress-seg" style="width:16%;background:var(--gold);" onclick="showWave(1)"><span class="seg-label">W1: Money</span></div>
+    <div class="progress-seg" style="width:12%;background:var(--blue);" onclick="showWave(2)"><span class="seg-label">W2: Location</span></div>
+    <div class="progress-seg" style="width:10%;background:var(--cyan);" onclick="showWave(3)"><span class="seg-label">W3: Intl</span></div>
+    <div class="progress-seg" style="width:15%;background:var(--purple);" onclick="showWave(4)"><span class="seg-label">W4: Activity</span></div>
+    <div class="progress-seg" style="width:13%;background:var(--orange);" onclick="showWave(5)"><span class="seg-label">W5: Planning</span></div>
+    <div class="progress-seg" style="width:12%;background:var(--pink);" onclick="showWave(6)"><span class="seg-label">W6: Seasonal</span></div>
+    <div class="progress-seg" style="width:10%;background:var(--red);" onclick="showWave(7)"><span class="seg-label">W7: Compare</span></div>
+    <div class="progress-seg" style="width:6%;background:var(--green);" onclick="showWave(8)"><span class="seg-label">W8</span></div>
+  </div>
+  <div class="progress-legend">
+    <span><span class="dot" style="background:var(--green)"></span> Wave 0: Foundation (4 fixes)</span>
+    <span><span class="dot" style="background:var(--gold)"></span> Wave 1: Money Pages (32 pages)</span>
+    <span><span class="dot" style="background:var(--blue)"></span> Wave 2: Location (16 pages)</span>
+    <span><span class="dot" style="background:var(--cyan)"></span> Wave 3: International (13 pages)</span>
+    <span><span class="dot" style="background:var(--purple)"></span> Wave 4: Activities (16 pages)</span>
+    <span><span class="dot" style="background:var(--orange)"></span> Wave 5: Planning (17 pages)</span>
+    <span><span class="dot" style="background:var(--pink)"></span> Wave 6: Seasonal (16 pages)</span>
+    <span><span class="dot" style="background:var(--red)"></span> Wave 7: Comparison (14 pages)</span>
+    <span><span class="dot" style="background:var(--green)"></span> Wave 8: Polish (optimization)</span>
+  </div>
+</div>
+
+<!-- ==================== NAV ==================== -->
+<div class="wave-nav" id="waveNav">
+  <div class="wave-btn active" onclick="showWave(0)">W0: Foundation</div>
+  <div class="wave-btn" onclick="showWave(1)">W1: Money Pages</div>
+  <div class="wave-btn" onclick="showWave(2)">W2: Location</div>
+  <div class="wave-btn" onclick="showWave(3)">W3: International</div>
+  <div class="wave-btn" onclick="showWave(4)">W4: Activities</div>
+  <div class="wave-btn" onclick="showWave(5)">W5: Planning</div>
+  <div class="wave-btn" onclick="showWave(6)">W6: Seasonal</div>
+  <div class="wave-btn" onclick="showWave(7)">W7: Comparison</div>
+  <div class="wave-btn" onclick="showWave(8)">W8: Polish</div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 0: FOUNDATION FIXES                                    -->
+<!-- ========================================================== -->
+<div class="wave active" id="wave0">
+  <div class="wave-header">
+    <div class="wave-id">Wave 0</div>
+    <h2>Foundation Fixes</h2>
+    <div class="wave-desc">Quick technical wins that should ship before any new content. These fix existing SEO leaks and establish the baseline for everything that follows.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">0 new</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~2 hours</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">None</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">Immediate indexing + ranking boost</span></div>
+    </div>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables</h3>
+    <ul class="checklist">
+      <li><strong>Fix sitemap.ts</strong> � Add <code>/big-gull-lake/fishing</code> and <code>/camps-bay-marina</code> (both exist but aren't submitted to Google)</li>
+      <li><strong>Optimize homepage title tag</strong> � Change from "Island View Retreat" to <code>Large Cottage Rental on Big Gull Lake (Sleeps 16) | Island View Retreat</code></li>
+      <li><strong>Optimize homepage H1</strong> � Ensure primary keyword "Large Lakefront Cottage Rental on Big Gull Lake" appears in H1</li>
+      <li><strong>Add FAQ schema</strong> � Add <code>FAQPage</code> JSON-LD to existing blog posts and guide pages that contain Q&A content</li>
+      <li><strong>Internal link audit</strong> � Ensure every blog post links to <code>/pricing</code> and <code>/contact</code> (currently many are dead ends)</li>
+      <li><strong>Submit sitemap to Google Search Console</strong> � Verify ownership and submit updated sitemap.xml</li>
+    </ul>
+  </div>
+
+  <div class="wsection">
+    <h3>Files to Modify</h3>
+    <table class="dtable">
+      <tr><th>File</th><th>Change</th></tr>
+      <tr><td><code>apps/frontend/src/app/sitemap.ts</code></td><td>Add 2 missing URLs + all future new pages</td></tr>
+      <tr><td><code>apps/frontend/src/app/layout.tsx</code></td><td>Update metadata.title default</td></tr>
+      <tr><td><code>apps/frontend/src/app/page.tsx</code></td><td>Update H1 text for primary keyword</td></tr>
+      <tr><td><code>apps/frontend/src/components/marketing/json-ld.tsx</code></td><td>Add FAQPage schema variant</td></tr>
+      <tr><td><code>apps/frontend/src/app/(Marketing)/blog/*/page.tsx</code></td><td>Add CTA links to /pricing and /contact in each post</td></tr>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <h4>Success Criteria</h4>
+    <p>Sitemap.xml returns all existing pages when fetched. Google Search Console shows no indexing errors. All blog posts contain at least one link to /pricing or /contact.</p>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 1: MONEY PAGES                                         -->
+<!-- ========================================================== -->
+<div class="wave" id="wave1">
+  <div class="wave-header">
+    <div class="wave-id">Wave 1</div>
+    <h2>Money Pages � Use-Case + Proximity</h2>
+    <div class="wave-desc">The highest-converting pages in the entire campaign. Use-case pages match ready-to-book searchers ("family reunion cottage Ontario"). Proximity pages capture city-based searches ("cottage near Toronto"). Both use template architecture for rapid production.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">32 new</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~1-2 weeks</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">Wave 0 complete</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">Direct bookings from high-intent search</span></div>
+    </div>
+  </div>
+
+  <div class="wsection">
+    <h3>Architecture: Build Templates First</h3>
+    <p>Before writing 32 individual pages, build 2 reusable templates. Each page becomes a data file + shared layout.</p>
+    <div class="two-col">
+      <div class="card">
+        <h4>Use-Case Page Template</h4>
+        <p>Single template, 18 data variations. Shared structure: hero ? who it's for ? why Big Gull ? activities ? testimonials (filtered) ? FAQ ? CTA.</p>
+        <pre>{
+  slug: "family-reunion-cottage",
+  title: "Family Reunion Cottage Rental Ontario",
+  h1: "The Perfect Family Reunion Cottage",
+  metaDescription: "...",
+  keywords: ["family reunion cottage Ontario", ...],
+  whoItsFor: "Multi-generational families, 8-16 guests",
+  whyPoints: ["Private beach safe for all ages", ...],
+  activities: ["Swimming", "Fishing", ...],
+  testimonialTag: "family",
+  faqItems: [{ q: "...", a: "..." }, ...],
+  ctaText: "Book Your Family Reunion",
+  relatedPosts: ["cottage-with-toddlers", ...]
+}</pre>
+      </div>
+      <div class="card">
+        <h4>Proximity Page Template</h4>
+        <p>Single template, 14 data variations. Shared structure: hero ? drive time ? route description ? what's here ? nearby stops ? CTA.</p>
+        <pre>{
+  slug: "cottage-near-toronto",
+  city: "Toronto",
+  driveTime: "3 hours",
+  distance: "280 km",
+  direction: "northeast via Highway 7",
+  routeDescription: "Take the 401 east...",
+  nearbyStops: ["Sharbot Lake", "Bon Echo"],
+  metaDescription: "...",
+  keywords: ["cottage near Toronto", ...],
+  citySpecificCopy: "Escape the GTA...",
+  mapUrl: "https://maps.google.com/..."
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables: Use-Case Pages (18)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Keyword</th><th>Priority</th></tr>
+      <tr><td><code>/large-group-cottage-ontario</code></td><td>large group cottage rental Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/cottage-sleeps-16-ontario</code></td><td>cottage that sleeps 16 Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/family-reunion-cottage</code></td><td>family reunion cottage Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/multi-family-cottage</code></td><td>multi family cottage rental Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/bachelor-party-cottage</code></td><td>bachelor party cottage Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/corporate-retreat-cottage</code></td><td>corporate retreat cottage Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/fishing-cottage-ontario</code></td><td>fishing cottage Ontario walleye</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/waterfront-cottage-private-beach</code></td><td>waterfront cottage private beach Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/lakefront-cottage-ontario</code></td><td>lakefront cottage rental Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/summer-cottage-rental-ontario</code></td><td>summer cottage rental Ontario 2026</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/bachelorette-cottage</code></td><td>bachelorette party cottage Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/cottage-with-kayaks-canoes</code></td><td>cottage with kayaks canoes Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/pet-friendly-large-cottage</code></td><td>pet friendly large cottage Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/cottage-birthday-celebration</code></td><td>birthday party cottage Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/friends-getaway-cottage</code></td><td>friends getaway cottage Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/thanksgiving-cottage-rental</code></td><td>Thanksgiving cottage rental Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/couples-retreat-cottage</code></td><td>couples retreat cottage Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/holiday-cottage-rental</code></td><td>Christmas New Years cottage Ontario</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables: Proximity Pages (14)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Keyword</th><th>Priority</th></tr>
+      <tr><td><code>/cottage-near-toronto</code></td><td>cottage rental 3 hours from Toronto</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/cottage-near-ottawa</code></td><td>cottage rental near Ottawa Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/cottage-near-kingston</code></td><td>cottage rental near Kingston Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/best-lakes-near-toronto</code></td><td>best lakes near Toronto cottage</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/weekend-getaway-from-toronto</code></td><td>weekend getaway from Toronto cottage</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/not-muskoka-alternatives</code></td><td>Muskoka alternatives less crowded</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/cottage-near-montreal</code></td><td>Ontario cottage near Montreal</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/cottage-near-peterborough</code></td><td>cottage rental near Peterborough</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/weekend-getaway-from-ottawa</code></td><td>weekend getaway from Ottawa</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/eastern-ontario-cottage-country</code></td><td>eastern Ontario cottage country</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/driving-directions-toronto</code></td><td>directions Big Gull Lake from Toronto</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/cottage-near-belleville</code></td><td>cottage rental near Belleville</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/driving-directions-ottawa</code></td><td>directions Big Gull Lake from Ottawa</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/kawartha-vs-frontenac</code></td><td>Kawarthas vs Frontenac cottage</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Implementation Checklist</h3>
+    <ul class="checklist">
+      <li><strong>Create use-case page template</strong> � Shared TSX layout component at <code>src/components/marketing/use-case-template.tsx</code></li>
+      <li><strong>Create proximity page template</strong> � Shared TSX layout component at <code>src/components/marketing/proximity-template.tsx</code></li>
+      <li><strong>Create use-case data files</strong> � 18 data objects in <code>src/lib/use-cases.ts</code></li>
+      <li><strong>Create proximity data files</strong> � 14 data objects in <code>src/lib/proximity-pages.ts</code></li>
+      <li><strong>Create route files</strong> � 32 <code>page.tsx</code> files using templates</li>
+      <li><strong>Add JSON-LD schema</strong> � VacationRental + FAQPage on every page</li>
+      <li><strong>Add internal links</strong> � Every page links to /pricing and /contact</li>
+      <li><strong>Update sitemap.ts</strong> � Add all 32 new URLs</li>
+      <li><strong>Update proxy.ts matcher</strong> � Ensure new routes are public (no auth required)</li>
+      <li><strong>Update blog/page.tsx POSTS array</strong> � Add proximity blog posts to the blog index</li>
+    </ul>
+  </div>
+
+  <div class="callout green">
+    <h4>Success Criteria</h4>
+    <p>All 32 pages render correctly, have unique metadata, appear in sitemap.xml, and contain JSON-LD structured data. Each page has at least one CTA linking to /pricing. Run <code>bun run build</code> with zero errors.</p>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 2: LOCATION DOMINATION                                 -->
+<!-- ========================================================== -->
+<div class="wave" id="wave2">
+  <div class="wave-header">
+    <div class="wave-id">Wave 2</div>
+    <h2>Location Domination</h2>
+    <div class="wave-desc">Own every search about Big Gull Lake and North Frontenac. New sub-pages under /big-gull-lake and a new /north-frontenac pillar page. Plus nearby-attraction deep-dives that capture "things to do" traffic.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">16 new</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~1-2 weeks</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">Wave 0</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">Topical authority + local SEO dominance</span></div>
+    </div>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables: Big Gull Lake Sub-Pages (8)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Keyword</th><th>Priority</th></tr>
+      <tr><td><code>/big-gull-lake/hiking-trails</code></td><td>Big Gull Lake hiking trails</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/big-gull-lake/kayaking</code></td><td>Big Gull Lake kayaking routes</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/big-gull-lake/boating-guide</code></td><td>Big Gull Lake boat launch</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/big-gull-lake/swimming-beaches</code></td><td>Big Gull Lake beaches</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/big-gull-lake/wildlife</code></td><td>Big Gull Lake wildlife loons</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/big-gull-lake/stargazing</code></td><td>stargazing Big Gull Lake dark sky</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/big-gull-lake/fall-colours</code></td><td>Big Gull Lake fall colours</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/big-gull-lake/ice-fishing</code></td><td>Big Gull Lake ice fishing winter</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables: North Frontenac + Nearby (8)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Keyword</th><th>Priority</th></tr>
+      <tr><td><code>/north-frontenac</code></td><td>North Frontenac Ontario things to do</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/north-frontenac/trails</code></td><td>North Frontenac Parklands trails</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/north-frontenac/mountain-biking</code></td><td>North Frontenac mountain biking</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/crotch-lake-trail-guide</code></td><td>Crotch Lake Trail guide</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/frontenac-provincial-park</code></td><td>Frontenac Provincial Park guide</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/bon-echo-provincial-park</code></td><td>Bon Echo Provincial Park day trip</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/sharbot-lake-guide</code></td><td>Sharbot Lake things to do</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/land-o-lakes-region</code></td><td>Land O Lakes Ontario travel guide</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Implementation Checklist</h3>
+    <ul class="checklist">
+      <li><strong>Create /north-frontenac route group</strong> � New <code>(Marketing)/north-frontenac/</code> directory with layout.tsx</li>
+      <li><strong>Create 8 Big Gull Lake sub-pages</strong> � Under existing <code>(Marketing)/big-gull-lake/</code></li>
+      <li><strong>Create 3 North Frontenac pages</strong> � Pillar + 2 sub-pages</li>
+      <li><strong>Create 5 blog posts</strong> � Nearby attraction deep-dives</li>
+      <li><strong>Cross-link from /big-gull-lake pillar</strong> � Add cards/links to all new sub-pages</li>
+      <li><strong>Cross-link from /north-frontenac to cottage</strong> � Funnel "things to do" traffic to booking</li>
+      <li><strong>Update sitemap.ts</strong> � Add all 16 new URLs</li>
+      <li><strong>Update blog/page.tsx POSTS array</strong> � Add new blog posts to index</li>
+    </ul>
+  </div>
+
+  <div class="callout green">
+    <h4>Success Criteria</h4>
+    <p>16 new pages live and indexed. /big-gull-lake hub links to all sub-pages. /north-frontenac pillar page exists and links to sub-pages + cottage. All pages have unique metadata and JSON-LD.</p>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 3: INTERNATIONAL / PREMIUM                             -->
+<!-- ========================================================== -->
+<div class="wave" id="wave3">
+  <div class="wave-header">
+    <div class="wave-id">Wave 3</div>
+    <h2>International / Premium</h2>
+    <div class="wave-desc">Capture affluent UK, European, and US visitors with content that frames Island View Retreat as a premium Canadian wilderness experience. Backed by hard data: 435K UK visitors to Ontario (+11.6% YoY), Canada #2 adventure travel destination globally, and a pricing arbitrage that makes the property a genuine bargain by international standards.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">13 new</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~2 weeks</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">Wave 0</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">New revenue stream, higher per-booking value</span></div>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <h4>Dual-Track Positioning</h4>
+    <p>Keep existing domestic "affordable family cottage" positioning untouched. Layer a parallel premium track for international visitors. The same property gets framed as "your private lakefront estate on the Canadian Shield" vs "surprisingly affordable" � different audience, different messaging, no conflict.</p>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables: Flagship Landing Pages (3)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target</th><th>Content</th><th>Status</th></tr>
+      <tr><td><code>/canadian-cottage-experience</code></td><td>UK / EU / US discovery</td><td>What "going to the cottage" means, Canadian Shield landscape, week-at-the-lake narrative, price comparison vs Scotland/Muskoka (1,500-2,000 words)</td><td><span class="tag" style="background:var(--orange-dim);color:var(--orange);">IN PROGRESS</span></td></tr>
+      <tr><td><code>/international-guests</code></td><td>Friction removal</td><td>Flights, car rental, currency, packing, fishing licenses, connectivity, travel insurance, seasonal timing, day trips</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/why-big-gull-lake</code></td><td>Differentiation</td><td>Big Gull vs Muskoka (6,000 acres vs 3.2M annual visitors), Canadian Shield geology, North Frontenac Parklands, privacy/authenticity angle</td><td><span class="tag p1">P1</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables: International Blog Posts (10)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Market</th><th>Priority</th></tr>
+      <tr><td><code>/blog/canadian-cottage-holiday-european-guide</code></td><td>UK / EU (uses "holiday" not "vacation")</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/cottage-holiday-cost-european-comparison</code></td><td>UK / EU (flight + car + cottage cost breakdown)</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/planning-canada-trip-from-uk</code></td><td>UK (flights, driving right, voltage, EHIC)</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/heated-rivalry-cottage-country</code></td><td>International (capitalize on cultural moment)</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/canadian-shield-landscape</code></td><td>Nature enthusiasts globally</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/planning-canada-trip-from-europe</code></td><td>EU (broader European market)</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-country-vs-lake-district</code></td><td>UK (direct comparison)</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/canadian-wilderness-vacation-families</code></td><td>US / UK families</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/day-trips-kingston-ottawa</code></td><td>International (add cultural appeal)</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-country-vs-scandinavian-cabin</code></td><td>Nordic market (stuga / hytte comparison)</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Technical SEO Changes</h3>
+    <ul class="checklist">
+      <li><strong>Add x-default hreflang</strong> � In root <code>layout.tsx</code>, signals English content serves all markets</li>
+      <li><strong>Upgrade VacationRental schema</strong> � Add <code>containsPlace</code>, <code>amenityFeature</code>, geo coordinates, <code>AggregateOffer</code> with multi-currency</li>
+      <li><strong>Add TouristAttraction schema</strong> � On international landing pages</li>
+      <li><strong>Add FAQPage schema</strong> � On every international page with Q&A sections</li>
+      <li><strong>Update root layout.tsx keywords</strong> � Add "Canadian cottage holiday", "cottage country Canada vacation"</li>
+      <li><strong>Show prices in EUR/GBP/USD</strong> � On international-facing pages alongside CAD</li>
+      <li><strong>Add WebSite schema with SearchAction</strong> � For AI search optimization</li>
+      <li><strong>Update sitemap.ts</strong> � Add all 13 new URLs</li>
+      <li><strong>Update proxy.ts matcher</strong> � Ensure new routes are public</li>
+    </ul>
+  </div>
+
+  <div class="callout green">
+    <h4>Success Criteria</h4>
+    <p>13 pages live with international keyword targeting. Prices shown in 4 currencies on international pages. Structured data validates in Google Rich Results Test. x-default hreflang present in page source.</p>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 4: ACTIVITY & EXPERIENCE                               -->
+<!-- ========================================================== -->
+<div class="wave" id="wave4">
+  <div class="wave-header">
+    <div class="wave-id">Wave 4</div>
+    <h2>Activity & Experience Guides</h2>
+    <div class="wave-desc">Capture people researching activities before booking accommodation. Species-specific fishing guides, water sport guides, and nature guides that funnel activity researchers to your cottage.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">16 new</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~1-2 weeks</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">Wave 0</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">Top-of-funnel traffic engine</span></div>
+    </div>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables (16 Blog Posts)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Keyword</th><th>Priority</th></tr>
+      <tr><td><code>/blog/fmz-18-fishing-regulations</code></td><td>FMZ 18 fishing regulations Ontario 2026</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/ontario-fishing-license-guide</code></td><td>how to get fishing license Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/walleye-fishing-ontario-spring</code></td><td>walleye fishing Ontario spring</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/bass-fishing-ontario-summer</code></td><td>bass fishing Ontario summer</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/dock-fishing-kids-guide</code></td><td>dock fishing kids Ontario beginners</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/pike-fishing-ontario</code></td><td>pike fishing Ontario techniques</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/canoe-trip-planning-ontario</code></td><td>canoe trip Ontario planning</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/swimming-lakes-ontario-cleanest</code></td><td>cleanest swimming lakes Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-cooking-16-people</code></td><td>cooking for large group cottage</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/paddleboarding-ontario-lakes</code></td><td>paddleboarding Ontario lakes</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/dark-sky-stargazing-ontario</code></td><td>best stargazing Ontario dark sky</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/wildlife-watching-eastern-ontario</code></td><td>wildlife watching eastern Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/campfire-cooking-guide</code></td><td>campfire cooking recipes cottage</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/family-cottage-games</code></td><td>best cottage games families rainy day</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/winter-activities-cottage-ontario</code></td><td>winter cottage activities Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/photography-tips-cottage-lake</code></td><td>lake photography tips cottage</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Implementation Checklist</h3>
+    <ul class="checklist">
+      <li><strong>Write 16 blog posts</strong> � 800-1,500 words each with FAQ sections</li>
+      <li><strong>Add Article + FAQPage JSON-LD</strong> � On every post</li>
+      <li><strong>Cross-link to /big-gull-lake/fishing</strong> � From fishing posts</li>
+      <li><strong>Cross-link to /cottage</strong> � From all activity posts (funnel to property)</li>
+      <li><strong>Add CTA blocks</strong> � Each post ends with link to /pricing</li>
+      <li><strong>Update blog/page.tsx POSTS array</strong> � Add all new posts to index</li>
+      <li><strong>Update sitemap.ts</strong> � Add 16 new URLs</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 5: PLANNING & PRACTICAL                                -->
+<!-- ========================================================== -->
+<div class="wave" id="wave5">
+  <div class="wave-header">
+    <div class="wave-id">Wave 5</div>
+    <h2>Planning & Practical Guides</h2>
+    <div class="wave-desc">Answer every question people Google before booking a cottage. Packing lists, grocery lists, itineraries, cost-splitting guides, and age-specific travel tips. These rank fast in "People Also Ask" and build trust.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">17 new</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~1-2 weeks</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">Wave 0</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">Trust building, high engagement, PAA snippets</span></div>
+    </div>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables (17 Blog Posts)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Keyword</th><th>Priority</th></tr>
+      <tr><td><code>/blog/cottage-packing-list</code></td><td>what to pack for cottage trip Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/cottage-grocery-list-16-people</code></td><td>cottage grocery list large group</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/first-time-cottage-renter</code></td><td>first time renting a cottage Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/best-time-rent-cottage-ontario</code></td><td>best time to rent cottage Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/3-day-cottage-itinerary</code></td><td>3 day cottage itinerary Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/7-day-cottage-itinerary</code></td><td>week at the cottage itinerary</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/splitting-cottage-cost-friends</code></td><td>how to split cottage cost friends</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-with-toddlers</code></td><td>cottage trip with toddlers tips</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-with-teenagers</code></td><td>cottage activities teenagers</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-wifi-remote-work</code></td><td>working remotely from cottage Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/airbnb-vs-direct-booking-cottage</code></td><td>Airbnb vs booking direct cottage</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-country-restaurants-pubs</code></td><td>best restaurants near North Frontenac</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-safety-guide</code></td><td>cottage safety tips water fire</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-etiquette-guide</code></td><td>cottage etiquette rules guests</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-with-elderly-parents</code></td><td>cottage with elderly parents</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-checklist-arrival</code></td><td>cottage check in checklist</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-insurance-what-to-know</code></td><td>cottage rental insurance</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Implementation Checklist</h3>
+    <ul class="checklist">
+      <li><strong>Write 17 blog posts</strong> � List-format and FAQ-heavy for featured snippet capture</li>
+      <li><strong>Add HowTo or FAQPage JSON-LD</strong> � On checklist/list posts (packing, grocery, itinerary)</li>
+      <li><strong>Cross-link to /guest-info</strong> � From practical guides</li>
+      <li><strong>Cross-link to /pricing</strong> � CTA block on every post</li>
+      <li><strong>Update blog index + sitemap</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 6: SEASONAL                                            -->
+<!-- ========================================================== -->
+<div class="wave" id="wave6">
+  <div class="wave-header">
+    <div class="wave-id">Wave 6</div>
+    <h2>Seasonal & Trend Content</h2>
+    <div class="wave-desc">Seasonal content catches massive search spikes during holiday and fishing-opener planning periods. Publish 2-3 months before each season's peak for maximum ranking when demand surges.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">16 new</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~1-2 weeks</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">Wave 0</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">Seasonal traffic spikes, time-sensitive bookings</span></div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <h4>Timing Matters</h4>
+    <p>Publish Victoria Day and summer content by March. Fall colours by July. Thanksgiving by August. Walleye opener by March. Google needs 4-8 weeks to rank new pages, so publish well ahead of demand.</p>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables (16 Blog Posts)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Keyword</th><th>Publish By</th><th>Priority</th></tr>
+      <tr><td><code>/blog/summer-cottage-guide</code></td><td>summer cottage Ontario 2026</td><td>ASAP</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/victoria-day-cottage</code></td><td>Victoria Day cottage Ontario</td><td>ASAP</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/canada-day-cottage</code></td><td>Canada Day cottage Ontario</td><td>May</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/walleye-opener-ontario</code></td><td>walleye opener Ontario 2026</td><td>ASAP</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/last-minute-summer-cottage</code></td><td>last minute cottage Ontario</td><td>May</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/spring-cottage-ontario</code></td><td>spring cottage getaway Ontario</td><td>ASAP</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/civic-holiday-cottage</code></td><td>Civic Holiday cottage Ontario</td><td>Jun</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/labour-day-cottage</code></td><td>Labour Day cottage Ontario</td><td>Jul</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/fall-cottage-getaway</code></td><td>fall cottage getaway Ontario</td><td>Jul</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/thanksgiving-cottage-ontario</code></td><td>Thanksgiving cottage Ontario</td><td>Aug</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-opening-weekend</code></td><td>cottage opening weekend tips</td><td>ASAP</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/bass-opener-ontario</code></td><td>bass opener Ontario 2026</td><td>Apr</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/winter-cottage-ontario</code></td><td>winter cottage Ontario</td><td>Sep</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cottage-closing-weekend</code></td><td>closing cottage for winter</td><td>Aug</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/ice-fishing-season-ontario</code></td><td>ice fishing season Ontario</td><td>Oct</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/early-bird-cottage-booking</code></td><td>book cottage early 2027</td><td>Oct</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Implementation Checklist</h3>
+    <ul class="checklist">
+      <li><strong>Prioritize by publish date</strong> � Write time-sensitive posts first (summer, Victoria Day, walleye opener)</li>
+      <li><strong>Include year in title + content</strong> � "2026" in title enables annual refresh for re-ranking</li>
+      <li><strong>Add Event or Article JSON-LD</strong> � With date-specific structured data</li>
+      <li><strong>Cross-link to /pricing</strong> � Seasonal urgency CTAs ("Summer weeks fill fast")</li>
+      <li><strong>Plan annual refresh</strong> � Calendar reminder to update dates/regulations each year</li>
+      <li><strong>Update blog index + sitemap</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 7: COMPARISON                                          -->
+<!-- ========================================================== -->
+<div class="wave" id="wave7">
+  <div class="wave-header">
+    <div class="wave-id">Wave 7</div>
+    <h2>Comparison & "Best Of" Articles</h2>
+    <div class="wave-desc">Listicle and comparison content ranks fast, gets shared, and captures top-of-funnel traffic from people comparing options. Position Big Gull Lake as the natural winner in every comparison.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">14 new</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~1-2 weeks</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">Wave 0, ideally after Wave 2 (location content to link to)</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">Authority building, shareable content, backlink magnets</span></div>
+    </div>
+  </div>
+
+  <div class="wsection">
+    <h3>Deliverables (14 Blog Posts)</h3>
+    <table class="dtable">
+      <tr><th>Route</th><th>Target Keyword</th><th>Priority</th></tr>
+      <tr><td><code>/blog/big-gull-lake-vs-muskoka</code></td><td>Big Gull Lake vs Muskoka</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/best-fishing-lakes-ontario</code></td><td>best fishing lakes Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/best-lakes-ontario-swimming</code></td><td>best swimming lakes Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/best-cottage-lakes-ontario</code></td><td>best cottage lakes Ontario hidden</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/best-family-cottages-ontario</code></td><td>best family cottages Ontario</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/cottage-vs-hotel-large-group</code></td><td>cottage vs hotel large group cost</td><td><span class="tag p1">P1</span></td></tr>
+      <tr><td><code>/blog/big-gull-lake-vs-kawartha</code></td><td>Big Gull Lake vs Kawarthas</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/big-gull-lake-vs-haliburton</code></td><td>Big Gull Lake vs Haliburton</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/best-lakes-canoeing-ontario</code></td><td>best lakes canoeing Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/best-affordable-cottage-ontario</code></td><td>affordable cottage Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/top-10-cottage-country-ontario</code></td><td>top cottage regions Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/airbnb-vs-cottage-direct</code></td><td>Airbnb vs direct cottage rental</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/cheapest-cottage-regions-ontario</code></td><td>cheapest cottage regions Ontario</td><td><span class="tag p2">P2</span></td></tr>
+      <tr><td><code>/blog/ontario-cottage-country-ranked</code></td><td>Ontario cottage country ranked</td><td><span class="tag p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="wsection">
+    <h3>Implementation Checklist</h3>
+    <ul class="checklist">
+      <li><strong>Write honest, balanced comparisons</strong> � Acknowledge Muskoka pros (restaurants, cachet) then counter with Big Gull strengths (privacy, value, authenticity)</li>
+      <li><strong>Include data tables</strong> � Price comparisons, feature matrices, distance charts</li>
+      <li><strong>Cross-link heavily</strong> � "Best Of" posts link to specific Big Gull Lake sub-pages and cottage page</li>
+      <li><strong>Add Article JSON-LD</strong></li>
+      <li><strong>Optimize for featured snippets</strong> � Use numbered/bulleted lists, concise definitions</li>
+      <li><strong>Update blog index + sitemap</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- WAVE 8: POLISH & AMPLIFY                                    -->
+<!-- ========================================================== -->
+<div class="wave" id="wave8">
+  <div class="wave-header">
+    <div class="wave-id">Wave 8</div>
+    <h2>Polish & Amplify</h2>
+    <div class="wave-desc">The final wave brings everything together � comprehensive internal linking, schema markup pass, Google Business Profile, and backlink outreach. This is where the compound effect kicks in.</div>
+    <div class="wave-meta">
+      <div class="wave-meta-item"><span class="label">Pages: </span><span class="value">0 new (optimization)</span></div>
+      <div class="wave-meta-item"><span class="label">Effort: </span><span class="value">~1 week + ongoing</span></div>
+      <div class="wave-meta-item"><span class="label">Dependencies: </span><span class="value">All waves complete</span></div>
+      <div class="wave-meta-item"><span class="label">Impact: </span><span class="value">10-30% ranking boost across all pages</span></div>
+    </div>
+  </div>
+
+  <div class="wsection">
+    <h3>Internal Linking Audit</h3>
+    <ul class="checklist">
+      <li><strong>Every page links to /pricing</strong> � Primary CTA</li>
+      <li><strong>Every page links to /contact</strong> � Secondary CTA</li>
+      <li><strong>Every blog post links to 2-3 related posts</strong> � "Related reads" section</li>
+      <li><strong>Hub pages link to all sub-pages</strong> � /big-gull-lake ? all sub-pages, /north-frontenac ? all sub-pages</li>
+      <li><strong>Use-case pages link to relevant blog posts</strong> � e.g., /family-reunion-cottage ? cottage-with-toddlers, cottage-grocery-list</li>
+      <li><strong>Blog posts link to relevant use-case pages</strong> � e.g., walleye-fishing ? /fishing-cottage-ontario</li>
+      <li><strong>International pages cross-link to domestic content</strong> � e.g., canadian-cottage-experience ? /big-gull-lake, /cottage</li>
+    </ul>
+  </div>
+
+  <div class="wsection">
+    <h3>Schema Markup Pass</h3>
+    <ul class="checklist">
+      <li><strong>BreadcrumbList on all pages</strong> � Site hierarchy for Google</li>
+      <li><strong>Article schema on all blog posts</strong> � author, datePublished, dateModified</li>
+      <li><strong>FAQPage on pages with Q&A content</strong></li>
+      <li><strong>HowTo on checklist/guide posts</strong> � packing list, grocery list, itineraries</li>
+      <li><strong>Organization schema on home page</strong> � Brand identity for AI search</li>
+      <li><strong>Validate all schema</strong> � Google Rich Results Test on every page type</li>
+    </ul>
+  </div>
+
+  <div class="wsection">
+    <h3>Off-Site SEO</h3>
+    <ul class="checklist">
+      <li><strong>Set up Google Business Profile</strong> � Category "Vacation Home Rental", photos, description with keywords</li>
+      <li><strong>Update Booking.com listing</strong> � International-friendly description</li>
+      <li><strong>Update Vrbo listing</strong> � .co.uk and .de domains</li>
+      <li><strong>Update CottagesInCanada listing</strong> � Add international keywords</li>
+      <li><strong>Backlink outreach: Ontario travel blogs</strong> � "Best cottages" articles</li>
+      <li><strong>Backlink outreach: BBC Travel / NatGeo</strong> � "Beyond Muskoka" pitch angle</li>
+      <li><strong>Backlink outreach: Conde Nast Traveller UK</strong> � Hidden gem destinations</li>
+      <li><strong>Contact Destination Ontario</strong> � Inclusion in "Outdoor Explorer" segment marketing</li>
+    </ul>
+  </div>
+
+  <div class="wsection">
+    <h3>Ongoing Maintenance</h3>
+    <ul class="checklist">
+      <li><strong>Monthly: Review Search Console data</strong> � Identify new keyword opportunities, fix crawl errors</li>
+      <li><strong>Monthly: Publish 2-4 new articles</strong> � Based on search demand data</li>
+      <li><strong>Quarterly: Refresh seasonal content</strong> � Update dates, regulations, pricing</li>
+      <li><strong>Annually: Update year-specific content</strong> � "2026" ? "2027" in titles and content</li>
+      <li><strong>Annually: Review and refresh underperforming pages</strong> � Based on analytics</li>
+    </ul>
+  </div>
+
+  <div class="callout green">
+    <h4>Campaign Complete Criteria</h4>
+    <p>135+ pages live and indexed. All pages have unique metadata, JSON-LD structured data, and internal links to /pricing. Google Business Profile active. Sitemap.xml contains all URLs. Search Console shows clean indexing with zero errors. Backlink outreach initiated to 5+ publications.</p>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function showWave(n) {
+  document.querySelectorAll('.wave').forEach(w => w.classList.remove('active'));
+  document.querySelectorAll('.wave-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('wave' + n).classList.add('active');
+  document.querySelectorAll('.wave-btn')[n].classList.add('active');
+}
+</script>
+</body>
+</html>

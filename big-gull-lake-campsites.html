@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Gull Lake Campsites — North Frontenac Parklands</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c1117;
+    --surface: #151d28;
+    --surface2: #1e2a38;
+    --surface3: #263344;
+    --border: #2d3f56;
+    --text: #e8edf3;
+    --text-dim: #8899aa;
+    --text-muted: #5a6d80;
+    --accent: #10b981;
+    --accent-light: #34d399;
+    --accent-bg: rgba(16,185,129,0.12);
+    --blue: #3b82f6;
+    --blue-bg: rgba(59,130,246,0.12);
+    --amber: #f59e0b;
+    --amber-bg: rgba(245,158,11,0.12);
+    --red: #ef4444;
+    --purple: #8b5cf6;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--accent-light); }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    padding: 80px 24px 60px;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(16,185,129,0.08) 0%, transparent 60%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(16,185,129,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: var(--accent-bg);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #e8edf3 0%, #a0b4c8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 700px;
+    margin: 0 auto 32px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .hero-stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Quick Links */
+  .quick-links {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .quick-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .quick-link:hover {
+    background: var(--surface3);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .quick-link svg { width: 16px; height: 16px; }
+
+  /* Container */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Section */
+  .section {
+    padding: 60px 0;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .section-header p {
+    color: var(--text-dim);
+    font-size: 15px;
+  }
+
+  /* Map Section */
+  .map-section {
+    padding: 40px 0;
+  }
+  .map-wrapper {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .map-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .map-toolbar h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .map-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  #map {
+    height: 600px;
+    width: 100%;
+    background: var(--surface2);
+  }
+  .map-legend {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 20px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* Campsite Grid */
+  .campsite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+
+  .campsite-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .campsite-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .campsite-card-header {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .campsite-card-header-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.4;
+  }
+  .campsite-card-header-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+  .campsite-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .campsite-type-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+  }
+  .badge-island {
+    background: var(--blue-bg);
+    color: var(--blue);
+    border: 1px solid rgba(59,130,246,0.2);
+  }
+  .badge-mainland {
+    background: var(--amber-bg);
+    color: var(--amber);
+    border: 1px solid rgba(245,158,11,0.2);
+  }
+  .badge-package {
+    background: rgba(139,92,246,0.12);
+    color: var(--purple);
+    border: 1px solid rgba(139,92,246,0.2);
+  }
+
+  .campsite-card-body {
+    padding: 20px;
+  }
+  .campsite-card-body h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .campsite-description {
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .campsite-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .feature-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: var(--surface2);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .feature-tag svg { width: 14px; height: 14px; }
+
+  .campsite-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .campsite-coords {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+  .campsite-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .action-btn:hover {
+    background: var(--accent-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .action-btn svg { width: 14px; height: 14px; }
+
+  /* Campsite Detail Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    z-index: 10;
+    transition: all 0.2s;
+  }
+  .modal-close:hover {
+    background: var(--surface3);
+    color: var(--text);
+  }
+  .modal-header {
+    padding: 32px 32px 0;
+  }
+  .modal-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+  .modal-header .subtitle {
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+  .modal-body {
+    padding: 24px 32px 32px;
+  }
+  .detail-section {
+    margin-bottom: 24px;
+  }
+  .detail-section h4 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .detail-item {
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .detail-item-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .detail-item-value {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .modal-cta {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .modal-cta a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .cta-primary {
+    background: var(--accent);
+    color: #000;
+  }
+  .cta-primary:hover {
+    background: var(--accent-light);
+    color: #000;
+  }
+  .cta-secondary {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .cta-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Info Cards */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .info-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+  .info-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .info-card p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .info-card ul {
+    list-style: none;
+    margin-top: 8px;
+  }
+  .info-card ul li {
+    font-size: 14px;
+    color: var(--text-dim);
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+  .info-card ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* Footer */
+  .footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .footer p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .footer a { color: var(--accent); }
+
+  /* Leaflet Popup Customization */
+  .leaflet-popup-content-wrapper {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+  }
+  .leaflet-popup-tip {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-top: none !important;
+    border-left: none !important;
+  }
+  .leaflet-popup-content {
+    margin: 14px 16px !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+  .popup-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  .popup-desc {
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .popup-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .popup-feature {
+    padding: 2px 8px;
+    background: var(--surface2);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .popup-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--accent);
+    color: #000;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: background 0.2s;
+  }
+  .popup-btn:hover { background: var(--accent-light); color: #000; }
+
+  /* Search */
+  .search-bar {
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto 32px;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 12px 16px 12px 42px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-bar input:focus {
+    border-color: var(--accent);
+  }
+  .search-bar input::placeholder { color: var(--text-muted); }
+  .search-bar svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+  }
+
+  /* Rating */
+  .rating-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .rating-good {
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid rgba(16,185,129,0.2);
+  }
+  .rating-fair {
+    background: var(--amber-bg);
+    color: var(--amber);
+    border: 1px solid rgba(245,158,11,0.2);
+  }
+  .rating-rugged {
+    background: rgba(239,68,68,0.1);
+    color: var(--red);
+    border: 1px solid rgba(239,68,68,0.2);
+  }
+
+  @media (max-width: 768px) {
+    .campsite-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-stats { gap: 24px; }
+    .map-toolbar { flex-direction: column; align-items: flex-start; }
+    .detail-grid { grid-template-columns: 1fr; }
+    .modal { margin: 12px; }
+    .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
+    #map { height: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    North Frontenac Parklands
+  </div>
+  <h1>Big Gull Lake Campsites</h1>
+  <p>25 backcountry island campsites on a pristine 21 km shield lake in Eastern Ontario. Paddle in, set up camp, and disconnect from the world.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-value">25</div>
+      <div class="hero-stat-label">Campsites</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">21 km</div>
+      <div class="hero-stat-label">Lake Length</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">30+</div>
+      <div class="hero-stat-label">Islands</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">$25</div>
+      <div class="hero-stat-label">Per Night</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">85 ft</div>
+      <div class="hero-stat-label">Max Depth</div>
+    </div>
+  </div>
+  <div class="quick-links">
+    <a href="https://www.northfrontenacparklands.com/book-your-reservations/book-a-campsite/big-gull-lake/" target="_blank" class="quick-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Book a Campsite
+    </a>
+    <a href="https://www.northfrontenacparklands.com/our-parklands/campsites-maps/big-gull-lake/" target="_blank" class="quick-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Official Website
+    </a>
+    <a href="https://www.northfrontenacparklands.com/campsite-maps/" target="_blank" class="quick-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+      Download Map (PDF)
+    </a>
+    <a href="https://www.northfrontenacparklands.com/our-parklands/rules-regulations/" target="_blank" class="quick-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Rules & Fees
+    </a>
+  </div>
+</div>
+
+<!-- Map Section -->
+<div class="container map-section">
+  <div class="map-wrapper">
+    <div class="map-toolbar">
+      <h3>Interactive Campsite Map</h3>
+      <div class="map-filters">
+        <button class="filter-btn active" onclick="filterSites('all')">All Sites</button>
+        <button class="filter-btn" onclick="filterSites('island')">Island</button>
+        <button class="filter-btn" onclick="filterSites('mainland')">Mainland</button>
+        <button class="filter-btn" onclick="filterSites('package')">Paired Sites</button>
+        <button class="filter-btn" onclick="filterSites('privy')">Has Privy</button>
+      </div>
+    </div>
+    <div id="map"></div>
+    <div class="map-legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#10b981;"></div>
+        Campsite
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#3b82f6;"></div>
+        Island Site
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#8b5cf6;"></div>
+        Paired Package
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#f59e0b;"></div>
+        Boat Launch
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Campsite Profiles -->
+<div class="container section">
+  <div class="section-header">
+    <h2>Campsite Profiles</h2>
+    <p>Detailed information for each of the 25 Big Gull Lake campsites</p>
+  </div>
+
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="siteSearch" placeholder="Search campsites (e.g. 'island', 'privy', 'flat', '21')..." oninput="searchSites(this.value)">
+  </div>
+
+  <div class="campsite-grid" id="campsiteGrid"></div>
+</div>
+
+<!-- Info Section -->
+<div class="container section">
+  <div class="section-header">
+    <h2>Essential Information</h2>
+    <p>Everything you need to plan your Big Gull Lake camping trip</p>
+  </div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:var(--accent-bg); color:var(--accent);">&#9977;</div>
+      <h3>Getting There</h3>
+      <p>Two boat launches provide access. All sites require watercraft (canoe, kayak, or motorboat).</p>
+      <ul>
+        <li><strong>East:</strong> Helen Lane (1044 Helen Lane), off Ardoch Road near Coxvale</li>
+        <li><strong>West:</strong> Thompson Road, off Big Gull Lake Road near Harlowe</li>
+        <li><strong>No road permit required</strong> for Big Gull Lake</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:var(--blue-bg); color:var(--blue);">&#128176;</div>
+      <h3>Fees & Booking</h3>
+      <p>Book online through the North Frontenac Parklands reservation system.</p>
+      <ul>
+        <li><strong>$25.00/night</strong> per site (max 6 people)</li>
+        <li>Includes one vehicle road access permit</li>
+        <li>Season: <strong>May 1 – October 31</strong></li>
+        <li>Max consecutive stay: <strong>21 nights</strong></li>
+        <li>Bookings open <strong>November 1</strong> each year</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:var(--amber-bg); color:var(--amber);">&#127795;</div>
+      <h3>Campsite Rules</h3>
+      <p>Follow these rules to help preserve the backcountry experience.</p>
+      <ul>
+        <li>Fires only in designated fire pits or portable stoves</li>
+        <li>Keep fires small — use only fallen branches and twigs</li>
+        <li>Never cut standing trees or damage vegetation</li>
+        <li>Pack out all garbage — leave no trace</li>
+        <li>Use provided privies for waste</li>
+        <li>Quiet hours — no loud music or unruly behaviour</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(139,92,246,0.12); color:var(--purple);">&#128031;</div>
+      <h3>Fishing & Wildlife</h3>
+      <p>Big Gull Lake is a bird watcher's paradise and excellent fishing destination.</p>
+      <ul>
+        <li><strong>Fish:</strong> Walleye, Northern Pike, Largemouth & Smallmouth Bass, Perch</li>
+        <li><strong>Birds:</strong> Hawks, Ospreys, Loons, Great Blue Herons, Bald Eagles</li>
+        <li>Fishing zone: <strong>FMZ 18</strong></li>
+        <li>Walleye slot size: <strong>40-50 cm</strong></li>
+        <li>Ontario fishing license required for adults</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(239,68,68,0.1); color:var(--red);">&#10060;</div>
+      <h3>Cancellation Policy</h3>
+      <p>Flexible cancellations with reasonable notice.</p>
+      <ul>
+        <li><strong>3+ days before:</strong> Full refund minus $3.00 admin fee</li>
+        <li><strong>Within 3 days:</strong> 50% penalty + $3.00 admin fee</li>
+        <li><strong>On/after date:</strong> No refund</li>
+        <li>Refunds processed to original credit card (3-5 business days)</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:var(--accent-bg); color:var(--accent);">&#128205;</div>
+      <h3>About the Lake</h3>
+      <p>Big Gull Lake is located in the southern portion of North Frontenac Parklands.</p>
+      <ul>
+        <li><strong>Length:</strong> 21 km (13 miles)</li>
+        <li><strong>Surface area:</strong> ~6,000 acres</li>
+        <li><strong>Max depth:</strong> 85 ft (26 metres)</li>
+        <li><strong>30+ islands</strong> — most campsites are island-based</li>
+        <li>Spring-fed, crystal-clear Canadian Shield lake</li>
+        <li>~2 hrs from Ottawa, ~3 hrs from Toronto</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="container footer">
+  <p>
+    Data sourced from <a href="https://www.northfrontenacparklands.com/" target="_blank">North Frontenac Parklands</a>
+    and <a href="https://camperaid.com/" target="_blank">CamperAid</a>. GPS coordinates are approximate.
+    <br>For official booking and information, visit
+    <a href="https://www.northfrontenacparklands.com/book-your-reservations/book-a-campsite/big-gull-lake/" target="_blank">northfrontenacparklands.com</a>
+  </p>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const campsites = [
+  { id: 1, name: "Campsite 1", lat: 44.8286, lng: -77.0576, description: "Rugged site with sloped rock shoreline. A wild, untamed feel for experienced campers.", features: ["fireplace", "privy", "boat access"], type: "mainland", terrain: "rugged", capacity: "1 tent", package: null },
+  { id: 2, name: "Campsite 2", lat: 44.8289, lng: -77.0571, description: "Gradual sloped shoreline to water. Easy access from the water makes landing straightforward.", features: ["fireplace", "boat access"], type: "mainland", terrain: "moderate", capacity: "1-2 tents", package: null },
+  { id: 3, name: "Campsite 3", lat: 44.8266, lng: -77.0490, description: "Island site with sloped rock shoreline. Level tent areas with a rock ledge for swimming access and good fishing.", features: ["fireplace", "island", "boat access"], type: "island", terrain: "moderate", capacity: "2 tents", package: null },
+  { id: 4, name: "Campsite 4", lat: 44.8287, lng: -77.0392, description: "Flat and gradual sloped shoreline. One of the more accessible sites near the west end of the lake.", features: ["fireplace", "privy", "boat access"], type: "mainland", terrain: "easy", capacity: "2 tents", package: null },
+  { id: 5, name: "Campsite 5", lat: 44.8270, lng: -77.0230, description: "Located on the western portion of the lake between the two main clusters of sites.", features: ["boat access"], type: "mainland", terrain: "moderate", capacity: "1-2 tents", package: null, approx: true },
+  { id: 6, name: "Campsite 6", lat: 44.8252, lng: -77.0067, description: "Gradual slope to water with rocky shoreline. Good access and nice views across the lake.", features: ["fireplace", "privy", "boat access"], type: "mainland", terrain: "moderate", capacity: "1-2 tents", package: null },
+  { id: "7", name: "Campsite 7 / 7A", lat: 44.8248, lng: -77.0015, description: "Flat shoreline with good boat parking. Choice of site 7A or 7B — a flexible option for groups.", features: ["fireplace", "boat access"], type: "mainland", terrain: "easy", capacity: "2 tents", package: "7B" },
+  { id: "7B", name: "Campsite 7B", lat: 44.8216, lng: -76.9810, description: "Island portion of the Campsite 7 package. Book site 7 for access to both 7A and 7B.", features: ["island", "boat access"], type: "island", terrain: "moderate", capacity: "1 tent", package: "7" },
+  { id: 8, name: "Campsite 8", lat: 44.8211, lng: -76.9790, description: "Sloped rock shoreline to water. Rugged but fairly large island site. Room for 1 tent on level ground. Nice popular site.", features: ["fireplace", "island", "privy", "boat access"], type: "island", terrain: "rugged", capacity: "1 tent", package: null },
+  { id: 9, name: "Campsite 9", lat: 44.8204, lng: -76.9793, description: "Steep sloped shoreline. Fairly uneven terrain with a flat surface for 1 tent. For those who like a challenge.", features: ["fireplace", "boat access"], type: "mainland", terrain: "rugged", capacity: "1 tent", package: null },
+  { id: 10, name: "Campsite 10", lat: 44.8264, lng: -76.9419, description: "Flat rock shoreline. Nice flat, large campsite — one of the most spacious island sites on the lake.", features: ["fireplace", "island", "privy", "boat access"], type: "island", terrain: "easy", capacity: "2-3 tents", package: null },
+  { id: 11, name: "Campsite 11", lat: 44.8263, lng: -76.9410, description: "Steep rock shoreline with rough terrain. A smaller, more intimate site suited for solo campers.", features: ["island", "boat access"], type: "island", terrain: "rugged", capacity: "1 tent", package: null },
+  { id: 12, name: "Campsite 12", lat: 44.8269, lng: -76.9380, description: "Steep rock shoreline but a flat campsite that can easily accommodate 2 or 3 tents. A nice campsite.", features: ["fireplace", "boat access"], type: "mainland", terrain: "moderate", capacity: "2-3 tents", package: null },
+  { id: 13, name: "Campsite 13", lat: 44.8289, lng: -76.9354, description: "Island site with a flat place to pitch a tent. Good facilities with fireplace and privy.", features: ["fireplace", "island", "privy", "boat access"], type: "island", terrain: "moderate", capacity: "1-2 tents", package: null },
+  { id: 14, name: "Campsite 14", lat: 44.8310, lng: -76.9410, description: "Located in the central cluster of islands on Big Gull Lake.", features: ["boat access"], type: "mainland", terrain: "moderate", capacity: "1-2 tents", package: null, approx: true },
+  { id: 15, name: "Campsite 15", lat: 44.8328, lng: -76.9468, description: "Large flat site with steep rock shoreline to water. Beautiful panoramic view of the lake — a premium site.", features: ["fireplace", "island", "privy", "boat access"], type: "island", terrain: "moderate", capacity: "2-3 tents", package: null },
+  { id: 16, name: "Campsite 16", lat: 44.8339, lng: -76.9409, description: "Small site on a point with a nice view. Flat shoreline to water for easy landing.", features: ["fireplace", "island", "boat access"], type: "island", terrain: "easy", capacity: "1 tent", package: null },
+  { id: 17, name: "Campsite 17", lat: 44.8298, lng: -76.9360, description: "Shoreline slopes to water. Large site but best suited for one tent. A popular and well-visited site.", features: ["fireplace", "island", "privy", "boat access"], type: "island", terrain: "moderate", capacity: "1 tent", package: null },
+  { id: 18, name: "Campsite 18", lat: 44.8285, lng: -76.9310, description: "Located in the central portion of the lake among the island cluster.", features: ["boat access"], type: "mainland", terrain: "moderate", capacity: "1-2 tents", package: null, approx: true },
+  { id: 19, name: "Campsite 19", lat: 44.8280, lng: -76.9280, description: "Situated in the central island area of Big Gull Lake.", features: ["boat access"], type: "mainland", terrain: "moderate", capacity: "1-2 tents", package: null, approx: true },
+  { id: 20, name: "Campsite 20", lat: 44.8273, lng: -76.9258, description: "Large, flat site with room enough for 2 or 3 tents. Gentle rock slope shoreline to water. Great for groups.", features: ["fireplace", "island", "privy", "boat access"], type: "island", terrain: "easy", capacity: "2-3 tents", package: null },
+  { id: 21, name: "Campsite 21", lat: 44.8320, lng: -76.9057, description: "Large, flat mainland site. Combined with island site 21A as a package — choose where to set up camp when you arrive.", features: ["fireplace", "privy", "boat access"], type: "mainland", terrain: "easy", capacity: "2-3 tents", package: "21A" },
+  { id: "21A", name: "Campsite 21A", lat: 44.8353, lng: -76.9093, description: "Large flat island with gentle slope to water. Described as 'one of the best sites on Big Gull' — spacious with excellent sunset views and hammock spots. Package with mainland site 21.", features: ["fireplace", "island", "privy", "boat access"], type: "island", terrain: "easy", capacity: "3+ tents", package: "21" },
+  { id: 22, name: "Campsite 22", lat: 44.8363, lng: -76.9042, description: "Gentle rock slope to water. Nice flat site. Combined with island site 22A as a package — choose your preferred setup.", features: ["fireplace", "privy", "boat access"], type: "mainland", terrain: "easy", capacity: "2 tents", package: "22A" },
+  { id: "22A", name: "Campsite 22A", lat: 44.8390, lng: -76.8993, description: "Beautiful island site with large, flat rock shoreline. One of the most scenic package sites on the lake. Book site 22 to access this one.", features: ["fireplace", "island", "privy", "boat access"], type: "island", terrain: "easy", capacity: "2-3 tents", package: "22" },
+  { id: 23, name: "Campsite 23", lat: 44.8449, lng: -76.9127, description: "Level rock shoreline and nice flat campsite. Rated as a very nice campsite — an excellent choice on the east end.", features: ["fireplace", "privy", "boat access"], type: "mainland", terrain: "easy", capacity: "2 tents", package: null },
+  { id: 24, name: "Campsite 24", lat: 44.8480, lng: -76.8942, description: "Small rugged island site with room for one small tent. Sloped rock shoreline to water. Best for solo adventurers.", features: ["island", "boat access"], type: "island", terrain: "rugged", capacity: "1 small tent", package: null },
+  { id: 25, name: "Campsite 25", lat: 44.8500, lng: -76.8900, description: "Located on the far eastern end of Big Gull Lake, near the Helen Lane boat launch.", features: ["boat access"], type: "mainland", terrain: "moderate", capacity: "1-2 tents", package: null, approx: true }
+];
+
+const boatLaunches = [
+  { name: "Thompson Road Boat Launch", lat: 44.8300, lng: -77.0700, end: "West End", description: "Off Big Gull Lake Road near Harlowe. Primary access for campsites 1-7." },
+  { name: "Helen Lane Boat Launch", lat: 44.8520, lng: -76.8850, end: "East End", description: "1044 Helen Lane, off Ardoch Road near Coxvale. Primary access for eastern campsites." }
+];
+
+let map, markers = [], currentFilter = 'all';
+
+function initMap() {
+  map = L.map('map', {
+    center: [44.833, -76.975],
+    zoom: 12,
+    zoomControl: true,
+    scrollWheelZoom: true
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 18
+  }).addTo(map);
+
+  boatLaunches.forEach(bl => {
+    const icon = L.divIcon({
+      className: 'custom-marker',
+      html: `<div style="width:32px;height:32px;background:#f59e0b;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:14px;color:#000;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,0.4);">&#9875;</div>`,
+      iconSize: [32, 32],
+      iconAnchor: [16, 16]
+    });
+    L.marker([bl.lat, bl.lng], { icon })
+      .addTo(map)
+      .bindPopup(`
+        <div class="popup-title">${bl.name}</div>
+        <div class="popup-desc">${bl.end} — ${bl.description}</div>
+        <a href="https://www.google.com/maps/place/${bl.lat},${bl.lng}" target="_blank" class="popup-btn">Open in Google Maps</a>
+      `);
+  });
+
+  addCampsiteMarkers();
+}
+
+function getMarkerColor(site) {
+  if (site.package) return '#8b5cf6';
+  if (site.type === 'island') return '#3b82f6';
+  return '#10b981';
+}
+
+function addCampsiteMarkers() {
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+
+  const filtered = campsites.filter(site => {
+    if (currentFilter === 'all') return true;
+    if (currentFilter === 'island') return site.type === 'island';
+    if (currentFilter === 'mainland') return site.type === 'mainland';
+    if (currentFilter === 'package') return site.package !== null;
+    if (currentFilter === 'privy') return site.features.includes('privy');
+    return true;
+  });
+
+  filtered.forEach(site => {
+    const color = getMarkerColor(site);
+    const icon = L.divIcon({
+      className: 'custom-marker',
+      html: `<div style="width:28px;height:28px;background:${color};border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,0.4);cursor:pointer;">${site.id}</div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+
+    const featuresHtml = site.features.map(f => `<span class="popup-feature">${f}</span>`).join('');
+
+    const marker = L.marker([site.lat, site.lng], { icon })
+      .addTo(map)
+      .bindPopup(`
+        <div class="popup-title">${site.name}</div>
+        <div class="popup-desc">${site.description}</div>
+        <div class="popup-features">${featuresHtml}</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="popup-btn" onclick="openModal('${site.id}')">View Profile</button>
+          <a href="https://www.google.com/maps/place/${site.lat},${site.lng}" target="_blank" class="popup-btn" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);">Google Maps</a>
+        </div>
+      `, { maxWidth: 280 });
+
+    markers.push(marker);
+  });
+}
+
+function filterSites(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  addCampsiteMarkers();
+}
+
+function getTerrainBadge(terrain) {
+  const map = {
+    easy: { class: 'rating-good', label: 'Easy Terrain' },
+    moderate: { class: 'rating-fair', label: 'Moderate Terrain' },
+    rugged: { class: 'rating-rugged', label: 'Rugged Terrain' }
+  };
+  const t = map[terrain] || map.moderate;
+  return `<span class="rating-badge ${t.class}">${t.label}</span>`;
+}
+
+function getTypeBadge(site) {
+  if (site.package) return '<span class="campsite-type-badge badge-package">Paired Package</span>';
+  if (site.type === 'island') return '<span class="campsite-type-badge badge-island">Island Site</span>';
+  return '<span class="campsite-type-badge badge-mainland">Mainland/Shoreline</span>';
+}
+
+function getHeaderGradient(site) {
+  if (site.package) return 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)';
+  if (site.type === 'island') return 'linear-gradient(135deg, #0c2d48 0%, #145374 50%, #2e86ab 100%)';
+  return 'linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%)';
+}
+
+function featureIcon(feature) {
+  const icons = {
+    fireplace: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg>',
+    privy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+    island: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>',
+    'boat access': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M4 16l2-8h12l2 8"/></svg>'
+  };
+  return icons[feature] || '';
+}
+
+function renderCards() {
+  const grid = document.getElementById('campsiteGrid');
+  grid.innerHTML = campsites.map(site => `
+    <div class="campsite-card" data-id="${site.id}" data-features="${site.features.join(',')}" data-type="${site.type}" data-terrain="${site.terrain}" onclick="openModal('${site.id}')">
+      <div class="campsite-card-header">
+        <div class="campsite-card-header-bg" style="background:${getHeaderGradient(site)};"></div>
+        <div class="campsite-card-header-content">
+          <div class="campsite-number">${site.id}</div>
+          ${getTypeBadge(site)}
+        </div>
+      </div>
+      <div class="campsite-card-body">
+        <h3>${site.name}</h3>
+        <p class="campsite-description">${site.description}</p>
+        <div class="rating-row">
+          ${getTerrainBadge(site.terrain)}
+          <span class="rating-badge rating-good" style="background:var(--surface2);color:var(--text-dim);border-color:var(--border);">${site.capacity}</span>
+        </div>
+        <div class="campsite-features">
+          ${site.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
+        </div>
+        <div class="campsite-meta">
+          <span class="campsite-coords">${site.lat.toFixed(4)}°N, ${Math.abs(site.lng).toFixed(4)}°W${site.approx ? ' (approx)' : ''}</span>
+          <div class="campsite-actions">
+            <a href="https://www.google.com/maps/place/${site.lat},${site.lng}" target="_blank" class="action-btn" onclick="event.stopPropagation()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openModal(siteId) {
+  const site = campsites.find(s => String(s.id) === String(siteId));
+  if (!site) return;
+
+  const packageSite = site.package ? campsites.find(s => String(s.id) === String(site.package)) : null;
+  const packageHtml = packageSite ? `
+    <div class="detail-section">
+      <h4>Paired With</h4>
+      <div class="detail-item" style="cursor:pointer;" onclick="openModal('${packageSite.id}')">
+        <div class="detail-item-label">Partner Site</div>
+        <div class="detail-item-value" style="color:var(--purple);">${packageSite.name} →</div>
+        <div style="font-size:12px;color:var(--text-dim);margin-top:4px;">${packageSite.description.substring(0, 80)}...</div>
+      </div>
+    </div>
+  ` : '';
+
+  const modal = document.getElementById('modal');
+  modal.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+        ${getTypeBadge(site)}
+        ${getTerrainBadge(site.terrain)}
+      </div>
+      <h2>${site.name}</h2>
+      <p class="subtitle">Big Gull Lake, North Frontenac Parklands</p>
+    </div>
+    <div class="modal-body">
+      <div class="detail-section">
+        <h4>Description</h4>
+        <p style="color:var(--text-dim);line-height:1.6;">${site.description}</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Site Details</h4>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-item-label">Type</div>
+            <div class="detail-item-value">${site.type === 'island' ? 'Island' : 'Mainland / Shoreline'}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-item-label">Capacity</div>
+            <div class="detail-item-value">${site.capacity}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-item-label">Terrain</div>
+            <div class="detail-item-value">${site.terrain.charAt(0).toUpperCase() + site.terrain.slice(1)}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-item-label">Rate</div>
+            <div class="detail-item-value" style="color:var(--accent);">$25/night</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h4>Amenities</h4>
+        <div class="campsite-features" style="margin-bottom:0;">
+          ${site.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h4>GPS Coordinates</h4>
+        <div class="detail-item">
+          <div class="detail-item-label">${site.approx ? 'Approximate Location' : 'Location'}</div>
+          <div class="detail-item-value" style="font-family:monospace;font-size:14px;">${site.lat.toFixed(4)}°N, ${Math.abs(site.lng).toFixed(4)}°W</div>
+        </div>
+      </div>
+
+      ${packageHtml}
+
+      <div class="modal-cta">
+        <a href="https://www.northfrontenacparklands.com/book-your-reservations/book-a-campsite/big-gull-lake/" target="_blank" class="cta-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book This Site
+        </a>
+        <a href="https://www.google.com/maps/place/${site.lat},${site.lng}" target="_blank" class="cta-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          View on Map
+        </a>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function searchSites(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.campsite-card').forEach(card => {
+    const id = card.dataset.id;
+    const site = campsites.find(s => String(s.id) === String(id));
+    if (!site) return;
+    const searchable = `${site.id} ${site.name} ${site.description} ${site.features.join(' ')} ${site.type} ${site.terrain} ${site.capacity}`.toLowerCase();
+    card.style.display = searchable.includes(q) ? '' : 'none';
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  initMap();
+  renderCards();
+});
+</script>
+</body>
+</html>

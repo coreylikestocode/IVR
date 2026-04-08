@@ -1273,33 +1273,29 @@ function generateAllPosts() {
   // ICP: YOUNG FAMILIES
   // ==========================
 
-  // Emotional — beach & gentle water
   if (springGaps.length > 0) {
     const g = springGaps[0];
     posts.push({ icp: "families", tone: "emotional", season: getSeasonKey(g.month),
-      copy: `There\u2019s a moment every parent waits for.\n\nYour little one standing ankle-deep in warm, sandy shallows\u2026 squealing because a minnow just tickled their toes.\n\nIsland View Retreat sits on a private sandy beach with the gentlest water entry on Big Gull Lake. No boats roaring past. No crowds. Just your family (or a few families together) on 1.2 acres of lakefront with a screened porch for nap time and a firepit for after bedtime.\n\nSleeps 16. Two canoes, two paddleboards, two fishing kayaks included. Camp\u2019s Bay Marina next door for ice cream runs.\n\nSpring weeks from $${g.now.toLocaleString()}/week \u2014 that\u2019s ~$${perFamilyNight(g.now, 3)}/night per family if you split three ways.\n\n\uD83D\uDC49 ${LINK}\n\n34 five-star reviews. 5th season. The kind of place where kids ask to come back.`,
+      copy: `Our cottage on Big Gull Lake has a sandy beach with really gentle water entry \u2014 no sudden drop-offs, just shallow sandy bottom that goes out gradually. It\u2019s honestly the best feature for families with little kids.\n\nWe\u2019ve had groups come with toddlers and they spend the entire day in the shallows catching minnows. The screened porch is great too \u2014 kids can nap in there while the adults sit on the deck.\n\n5 bedrooms + waterfront bunkie, sleeps 16. Two canoes, two paddleboards, two fishing kayaks \u2014 all included. Camp\u2019s Bay Marina is right next door for ice cream and boat rentals.\n\nSpring weeks start at $${g.now.toLocaleString()}/week. Split that across 3 families and it\u2019s about $${perFamilyNight(g.now, 3)}/night each.\n\nMore details and availability:\n${LINK}`,
       postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
-  // Factual — logistics & amenities
   posts.push({ icp: "families", tone: "factual", season: "spring",
-    copy: `Planning a group cottage trip with young kids? Here\u2019s the checklist.\n\n\u2705 Sandy beach with gradual entry (no drop-off)\n\u2705 Screened porch (bugs stay out, toddlers stay in)\n\u2705 2 full fridges + chest freezer (no grocery runs)\n\u2705 WiFi + Smart TVs in every room (rainy day backup)\n\u2705 2 canoes, 2 SUPs, 2 fishing kayaks (all included)\n\u2705 Camp\u2019s Bay Marina next door: ice cream, bait, boat rentals, fuel\n\u2705 A/C in all bedrooms (actual sleep)\n\u2705 Fire pit with 8 Muskoka chairs (adult time after bedtime)\n\u2705 Sleeps 16 across 5 bedrooms + waterfront bunkie\n\n3 hours from the GTA. 2 from Ottawa or Kingston.\n\nMay/June weeks from $2,950. Split across 3 families = ~$140/night each.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    copy: `If you\u2019re planning a group cottage trip with kids, here\u2019s what our place has:\n\n\u2022 Sandy beach with gradual entry (safe for little ones)\n\u2022 Screened porch \u2014 keeps the bugs out\n\u2022 2 full-size fridges + chest freezer\n\u2022 WiFi and Smart TVs in every room for rainy days\n\u2022 2 canoes, 2 SUPs, 2 fishing kayaks \u2014 all included\n\u2022 Camp\u2019s Bay Marina next door \u2014 ice cream, bait, boat rentals\n\u2022 A/C in all bedrooms\n\u2022 Fire pit with Muskoka chairs\n\u2022 5 bedrooms + waterfront bunkie, sleeps 16\n\nWe\u2019re about 3 hours from the GTA, 2 from Ottawa or Kingston.\n\nMay and June weeks start at $2,950. Split across 3 families that\u2019s about $140/night each.\n\n${LINK}`,
     postDate: new Date(2026, 2, 25), promotes: "All spring gap weeks"
   });
 
-  // Experiential — imagination & memory
   if (summerGaps.length > 0) {
     const g = summerGaps[0];
-    posts.push({ icp: "families", tone: "experiential", season: "summer",
-      copy: `Day 1: They\u2019re glued to the iPad.\nDay 2: They\u2019re catching frogs off the dock.\nDay 3: They\u2019re building a \u201Cfort\u201D out of driftwood and declaring it their kingdom.\n\nBig Gull Lake has 30+ islands to explore by canoe, 88 km of wild shoreline, and exactly zero waterslides. The entertainment is the lake itself.\n\nIsland View Retreat \u2014 5 bedrooms, private sandy beach, sleeps 16. Everything you need for a week where the kids actually play outside.\n\n${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${LINK}`,
+    posts.push({ icp: "families", tone: "experiential", season: "peakSummer",
+      copy: `I always hear the same thing from families who stay with us. Day one, the kids are a bit restless. Day two, they find the fishing rods and start catching sunfish off the dock. By day three, they\u2019ve completely forgotten about screens and they\u2019re building things out of driftwood on the beach.\n\nBig Gull Lake has over 30 islands you can paddle to, and the water is clean and warm by July. We\u2019ve got canoes, kayaks, paddleboards, a sandy beach, and a dock the kids will basically live on.\n\n5 bedrooms, sleeps 16. ${weekRange(g)} is open \u2014 $${g.now.toLocaleString()}/week.\n\n${LINK}`,
       postDate: getPostDate(g.dates26, 4), promotes: weekRange(g)
     });
   }
 
-  // Testimonial — families
-  posts.push({ icp: "families", tone: "testimonial", season: "summer",
-    copy: `\u201C${REVIEWS[0].quote}\u201D\n\u2014 ${REVIEWS[0].guest}, ${REVIEWS[0].date}\n\nThat\u2019s from one of 34 five-star reviews.\n\nIsland View Retreat is the kind of cottage where three families show up as friends and leave as the people who \u201Calways do that lake trip together.\u201D\n\nPrivate sandy beach. Screened porch. Fire pit under the stars. Room for 16.\n\nWe\u2019ve been hosting families for 5 seasons. The ones who come back? They usually book their next year before they leave.\n\nSpring & early summer weeks still open \u2014 starting at $2,950/week.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+  posts.push({ icp: "families", tone: "testimonial", season: "peakSummer",
+    copy: `One of our guests from last summer wrote this:\n\n\u201C${REVIEWS[0].quote}\u201D\n\u2014 ${REVIEWS[0].guest}, ${REVIEWS[0].date}\n\nThat\u2019s pretty much what our place is built for \u2014 multiple families sharing a week on the lake. We\u2019ve been doing this for 5 seasons now, and a lot of our guests rebook before they even leave.\n\nPrivate sandy beach, screened porch, fire pit, sleeps 16.\n\nSpring and early summer weeks still available starting at $2,950/week.\n\n${LINK}`,
     postDate: new Date(2026, 3, 1), promotes: "All gap weeks"
   });
 
@@ -1307,32 +1303,28 @@ function generateAllPosts() {
   // ICP: FISHING CREWS
   // ==========================
 
-  // Factual — species, gear, logistics
   posts.push({ icp: "anglers", tone: "factual", season: "spring",
-    copy: `Big Gull Lake fishing briefing:\n\n\uD83D\uDCCD 21 km long. 88 km of shoreline. Headwater lake \u2014 clean, deep, productive.\n\uD83C\uDFA3 Species: walleye, smallmouth bass, largemouth bass, northern pike, perch, lake whitefish\n\uD83D\uDEA3 2 fishing kayaks included. Camp\u2019s Bay Marina next door for 14\u2019 fisherman boats ($99/day), pontoons, fuel, bait, tackle\n\uD83E\uDDCA Fish cleaning station + fish freezing at Camp\u2019s Bay\n\uD83C\uDFE0 Sleeps 16. Five bedrooms + bunkie. Dock fits 4 boats.\n\nSpring walleye fishing is prime \u2014 rocky shoals, river mouths, and shallow bays warm up fast.\n\nMay/June weeks from $2,950. Split a crew of 6\u20138 and you\u2019re looking at $60\u2013$70/night each.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    copy: `For anyone looking for a fishing trip \u2014 our cottage is on Big Gull Lake, which is a 21 km headwater lake with walleye, smallmouth and largemouth bass, northern pike, perch, and lake whitefish.\n\nWe include two fishing kayaks with the rental. Camp\u2019s Bay Marina is literally next door \u2014 they rent 14\u2019 fisherman boats for $99/day, sell bait and tackle, and have a fish cleaning station.\n\nThe dock fits 4 boats if you\u2019re bringing your own. We sleep 16 across 5 bedrooms plus a bunkie, so a crew of 6\u20138 is really comfortable.\n\nSpring walleye fishing is excellent here \u2014 the shoals warm up early.\n\nMay/June weeks from $2,950. Split with your crew that\u2019s $60\u201370/night each.\n\n${LINK}`,
     postDate: new Date(2026, 2, 20), promotes: "Spring gap weeks"
   });
 
-  // Emotional — the pull of the water
   if (springGaps.length > 0) {
     const g = springGaps[0];
     posts.push({ icp: "anglers", tone: "emotional", season: "spring",
-      copy: `4:47 AM. Coffee\u2019s already on.\n\nYou step onto the dock and the lake is glass. Not a boat. Not a sound. Just mist lifting off 21 km of Canadian Shield water and the quiet knowledge that the walleye are stacked on the shoals.\n\nBig Gull Lake is one of Eastern Ontario\u2019s best-kept fishing lakes. Walleye, smallmouth, pike, perch \u2014 all within casting distance of your dock.\n\nIsland View Retreat sleeps up to 16, sits on a private sandy beach, and has Camp\u2019s Bay Marina right next door for boats, bait, fuel, and a fish cleaning station.\n\nBring your crew. ${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${LINK}`,
+      copy: `Spring mornings on Big Gull Lake are something else. Up before the sun, coffee in hand, and the lake is completely still. No boats, no noise \u2014 just you and 21 km of water.\n\nThe walleye fishing in May and June is honestly the best time of year out here. The shoals warm up fast and the fish are active. Great smallmouth bass and pike throughout the season too.\n\nOur place sleeps up to 16 and has Camp\u2019s Bay Marina right next door for boat rentals, fuel, bait, and a fish cleaning station.\n\n${weekRange(g)} is still open \u2014 $${g.now.toLocaleString()}/week.\n\n${LINK}`,
       postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
-  // Experiential — the fishing trip story
-  posts.push({ icp: "anglers", tone: "experiential", season: "summer",
-    copy: `The trip doesn\u2019t start when you cast your first line.\n\nIt starts when someone says \u201Cwhat if we actually did a fishing trip this year?\u201D and instead of letting it die in the group chat, you just\u2026 book it.\n\nBig Gull Lake. 21 km of Canadian Shield water. Walleye, bass, pike. 30+ islands to explore. A marina next door with boats, bait, and a fish freezer.\n\nIsland View Retreat has 5 bedrooms + a waterfront bunkie. Dock fits 4 boats. Fire pit. BBQ. Two full-size fridges (one for beer, one for everything else).\n\nSleeps 16 but 6\u20138 is the sweet spot for a fishing crew.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361\n\n5 seasons. 34 five-star reviews. The group chat is waiting.`,
+  posts.push({ icp: "anglers", tone: "experiential", season: "peakSummer",
+    copy: `If your group chat has been talking about doing a fishing trip for the last few years \u2014 just book it.\n\nOur cottage is on Big Gull Lake. Walleye, bass, pike. 30+ islands to explore. Camp\u2019s Bay Marina next door with boat rentals, bait, fuel, and a fish cleaning station.\n\n5 bedrooms + a waterfront bunkie. Dock fits 4 boats. Fire pit. BBQ. Two full-size fridges. Sleeps 16 but 6\u20138 is the sweet spot for a fishing crew.\n\n34 five-star reviews over 5 seasons.\n\n${LINK}`,
     postDate: new Date(2026, 3, 15), promotes: "All gap weeks"
   });
 
-  // Urgency — spring opener
   if (springGaps.length > 0) {
     const g = springGaps[springGaps.length - 1];
     posts.push({ icp: "anglers", tone: "urgency", season: "spring",
-      copy: `Spring walleye season on Big Gull Lake.\n\nThe water\u2019s warming. The shoals are active. And ${weekRange(g)} is still open.\n\n$${g.now.toLocaleString()}/week for a 5-bedroom lakefront cottage that sleeps 16. Dock fits 4 boats. Camp\u2019s Bay Marina next door \u2014 14\u2019 fisherman boats from $99/day, fuel, bait, tackle, cleaning station.\n\nThis is the week your crew has been talking about.\n\n\uD83D\uDC49 ${LINK}`,
+      copy: `Walleye season on Big Gull Lake \u2014 the water\u2019s warming up and ${weekRange(g)} is still open.\n\n$${g.now.toLocaleString()}/week for our 5-bedroom lakefront cottage. Sleeps 16. Dock fits 4 boats. Camp\u2019s Bay Marina next door for 14\u2019 fisherman boats ($99/day), fuel, bait, tackle, and cleaning station.\n\nSplit with a crew of 6\u20138 and you\u2019re at $60\u201370/night each.\n\n${LINK}`,
       postDate: getPostDate(g.dates26, 2), promotes: weekRange(g)
     });
   }
@@ -1341,23 +1333,20 @@ function generateAllPosts() {
   // ICP: NATURE LOVERS & PADDLERS
   // ==========================
 
-  // Emotional — the islands
-  posts.push({ icp: "nature", tone: "emotional", season: "summer",
-    copy: `Big Gull Lake has over 30 islands.\n\nSome have campsites. Some have nothing but granite and pine. All of them feel like they belong to you when you\u2019re the only kayak on the water.\n\n88 km of shoreline. Hawks and ospreys nesting overhead. Loons calling across the bay at dusk. The occasional deer drinking at the waterline.\n\nThis isn\u2019t Muskoka. There are no jet skis. North Frontenac has 1.7 people per square kilometre \u2014 one of the lowest population densities in Eastern Ontario.\n\nIsland View Retreat sits on 1.2 private acres with a sandy beach, 2 canoes, 2 SUPs, and 2 kayaks. Paddle out in the morning. Come back when you\u2019re ready.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+  posts.push({ icp: "nature", tone: "emotional", season: "peakSummer",
+    copy: `Big Gull Lake has over 30 islands, and most of them feel completely untouched. We include 2 canoes, 2 SUPs, and 2 kayaks with the rental \u2014 you can spend days exploring and never see the same shoreline twice.\n\nThe wildlife out here is amazing. Loons on the lake every evening, ospreys and hawks overhead, deer at the waterline. North Frontenac is genuinely remote \u2014 on clear nights you can see the Milky Way from the dock.\n\nOur cottage sits on a private sandy beach with a fire pit. 5 bedrooms, sleeps 16 \u2014 but it\u2019s a great spot for smaller groups too.\n\n${LINK}`,
     postDate: new Date(2026, 3, 8), promotes: "All gap weeks"
   });
 
-  // Factual — paddling & exploration guide
-  posts.push({ icp: "nature", tone: "factual", season: "summer",
-    copy: `If you paddle, this is your lake.\n\n\uD83D\uDDFA Big Gull Lake: 21 km long, 88 km of shoreline, 30+ islands\n\uD83D\uDEF6 Included with stay: 2 canoes, 2 SUPs, 2 kayaks\n\uD83C\uDFD5 25\u201330 island campsites (day-trip or overnight)\n\uD83E\uDDBB Wildlife: nesting ospreys, hawks, loons, herons\n\uD83E\uDEA8 Geology: 2.5 billion year old Canadian Shield granite\n\uD83E\uDDED 20 km Crotch Lake Trail connects to Big Gull Lake for hiking\n\uD83C\uDF0C Dark sky zone \u2014 Milky Way visible on clear nights\n\n1.2 private acres. Sandy beach. Fire pit. Sleeps 16.\n\nNorth Frontenac: 1.7 people/km\u00B2. The kind of quiet that doesn\u2019t exist closer to the city.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+  posts.push({ icp: "nature", tone: "factual", season: "peakSummer",
+    copy: `If you\u2019re into paddling, I think you\u2019d really like our lake.\n\nBig Gull Lake is 21 km long with 30+ islands and about 25\u201330 island campsites you can day-trip to. We include 2 canoes, 2 SUPs, and 2 kayaks with every stay.\n\nThere\u2019s a 20 km hiking trail (Crotch Lake Trail) that connects to the lake too. The whole area is Canadian Shield \u2014 granite shoreline, pine forests, very few people.\n\nOur cottage has 5 bedrooms, a private sandy beach, and a fire pit. Sleeps 16.\n\n${LINK}`,
     postDate: new Date(2026, 4, 1), promotes: "All gap weeks"
   });
 
-  // Experiential — the day on the water
   if (summerGaps.length > 0) {
     const g = summerGaps[0];
-    posts.push({ icp: "nature", tone: "experiential", season: "summer",
-      copy: `Morning: Coffee on the dock. A heron standing motionless in the shallows.\n\nMid-morning: Kayak to the closest island. Find a granite ledge. Read for an hour with your feet in the water.\n\nAfternoon: Canoe deeper into the lake. 30+ islands to explore. Some with campsites, some completely untouched. An osprey circling overhead.\n\nEvening: Back at the cottage. Fire pit. The Milky Way coming into focus. A loon somewhere across the bay.\n\nIsland View Retreat on Big Gull Lake. ${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${LINK}`,
+    posts.push({ icp: "nature", tone: "experiential", season: "peakSummer",
+      copy: `A typical day at our place if you like being on the water:\n\nMorning \u2014 coffee on the dock, watch the mist lift off the lake.\nMid-morning \u2014 take a kayak out to one of the islands. Find a rock ledge and just sit for a while.\nAfternoon \u2014 paddle further out. 30+ islands to explore, some with campsites, some completely wild.\nEvening \u2014 fire pit. Stars come out early because there\u2019s no light pollution.\n\n${weekRange(g)} is open. $${g.now.toLocaleString()}/week.\n\n${LINK}`,
       postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
@@ -1366,21 +1355,18 @@ function generateAllPosts() {
   // ICP: REUNION & MILESTONE
   // ==========================
 
-  // Emotional — togetherness
-  posts.push({ icp: "reunion", tone: "emotional", season: "summer",
-    copy: `\u201CWe should all get together this summer.\u201D\n\nYou\u2019ve said it every year. This year, actually do it.\n\nIsland View Retreat sleeps 16 people across 5 bedrooms + a waterfront bunkie. Big dining table. Two full-size fridges. Fire pit with 8 Muskoka chairs. A private sandy beach where the cousins will spend all day and the adults can actually sit down.\n\nBig Gull Lake: 21 km of Canadian Shield water. 30+ islands. No crowds, no noise, no cell towers competing for your attention.\n\nThis is the place your family talks about for years.\n\n5 seasons. 34 five-star reviews. Spring weeks from $2,950.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+  posts.push({ icp: "reunion", tone: "emotional", season: "peakSummer",
+    copy: `Every year someone in the family says \u201Cwe should all do a cottage trip together this summer.\u201D If that\u2019s your family \u2014 our place fits 16.\n\n5 bedrooms plus a waterfront bunkie. Big dining area for group meals. Two full-size fridges so you\u2019re not fighting for shelf space. Fire pit with Muskoka chairs for the evenings. Private sandy beach where the kids will spend all day.\n\nBig Gull Lake is about 3 hours from the GTA, 2 from Ottawa or Kingston. Quiet lake, no crowds.\n\nSpring weeks from $2,950. Summer weeks available too.\n\n${LINK}`,
     postDate: new Date(2026, 2, 28), promotes: "All gap weeks"
   });
 
-  // Factual — logistics for large groups
-  posts.push({ icp: "reunion", tone: "factual", season: "summer",
-    copy: `Planning a family reunion or milestone trip? Here\u2019s why Island View Retreat works.\n\n\uD83C\uDFE0 5 bedrooms + waterfront bunkie = sleeps 16\n\uD83C\uDF7D Big dining area + 2 full-size fridges + chest freezer\n\uD83C\uDFD6 Private sandy beach on Big Gull Lake (no shared waterfront)\n\uD83D\uDD25 Fire pit with 8 Muskoka chairs\n\u2615 Screened porch + covered deck with panoramic lake views\n\uD83D\uDEA3 2 canoes, 2 SUPs, 2 kayaks included\n\uD83C\uDFA3 Fishing off the dock \u2014 bass, pike, sunfish\n\uD83D\uDEBB 2 full bathrooms + outdoor shower\n\uD83D\uDCF6 WiFi + Smart TVs in all rooms\n\uD83D\uDE97 3 hrs from GTA, 2 hrs from Ottawa/Kingston\n\nDock fits 4 boats. Camp\u2019s Bay Marina next door for rentals.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+  posts.push({ icp: "reunion", tone: "factual", season: "peakSummer",
+    copy: `Planning a family reunion or big group trip this summer? Here\u2019s what our cottage offers:\n\n\u2022 5 bedrooms + waterfront bunkie (sleeps 16)\n\u2022 Big dining area + 2 full fridges + chest freezer\n\u2022 Private sandy beach on Big Gull Lake\n\u2022 Fire pit with Muskoka chairs\n\u2022 Screened porch + covered deck with lake views\n\u2022 2 canoes, 2 SUPs, 2 kayaks included\n\u2022 Fishing off the dock \u2014 bass, pike, sunfish\n\u2022 2 full bathrooms + outdoor shower\n\u2022 WiFi + Smart TVs\n\u2022 About 3 hours from GTA, 2 from Ottawa/Kingston\n\nDock fits 4 boats. Camp\u2019s Bay Marina next door for boat rentals.\n\n${LINK}`,
     postDate: new Date(2026, 3, 5), promotes: "All gap weeks"
   });
 
-  // Testimonial — reunion
-  posts.push({ icp: "reunion", tone: "testimonial", season: "summer",
-    copy: `\u201C${REVIEWS[1].quote}\u201D\n\u2014 ${REVIEWS[1].guest}, ${REVIEWS[1].date}\n\n\u201C${REVIEWS[2].quote}\u201D\n\u2014 ${REVIEWS[2].guest}, ${REVIEWS[2].date}\n\nIsland View Retreat has hosted families, friend groups, and reunions for 5 seasons. 34 reviews. All five stars.\n\nThe cottage sleeps 16 on a private sandy beach. Big Gull Lake stretches 21 km through the Canadian Shield with 30+ islands to explore.\n\nThe families who book here don\u2019t just come once.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+  posts.push({ icp: "reunion", tone: "testimonial", season: "peakSummer",
+    copy: `A couple of reviews from last summer:\n\n\u201C${REVIEWS[1].quote}\u201D\n\u2014 ${REVIEWS[1].guest}, ${REVIEWS[1].date}\n\n\u201C${REVIEWS[2].quote}\u201D\n\u2014 ${REVIEWS[2].guest}, ${REVIEWS[2].date}\n\nWe\u2019ve hosted families, friend groups, and reunions for 5 seasons now \u2014 34 reviews, all five stars. Our cottage sleeps 16 on a private sandy beach on Big Gull Lake.\n\n${LINK}`,
     postDate: new Date(2026, 3, 20), promotes: "All gap weeks"
   });
 
@@ -1388,26 +1374,23 @@ function generateAllPosts() {
   // ICP: BUDGET-SMART / VALUE
   // ==========================
 
-  // Factual — the math
   if (springGaps.length > 0) {
     const g = springGaps[0];
     posts.push({ icp: "value", tone: "factual", season: "spring",
-      copy: `Cottage math:\n\nMuskoka lakefront (sleeps 8): $5,000\u2013$8,000/week\nPrince Edward County (sleeps 6): $3,500\u2013$6,000/week\nIsland View Retreat, Big Gull Lake (sleeps 16): $${g.now.toLocaleString()}/week\n\n\u2705 5 bedrooms + waterfront bunkie\n\u2705 Private sandy beach\n\u2705 2 canoes, 2 SUPs, 2 kayaks included\n\u2705 A/C, WiFi, Smart TVs, laundry\n\u2705 21 km lake, 30+ islands, Camp\u2019s Bay Marina next door\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\nSplit 4 families = ~$${perFamilyNight(g.now, 4)}/night each.\n\nSame lake. Same stars. Twice the space. Half the price.\n\n\uD83D\uDC49 ${LINK}`,
+      copy: `I always get asked how our pricing compares, so here\u2019s the honest math:\n\nMuskoka lakefront (sleeps 8): $5,000\u2013$8,000/week\nPrince Edward County (sleeps 6): $3,500\u2013$6,000/week\nOur cottage, Big Gull Lake (sleeps 16): $${g.now.toLocaleString()}/week\n\n5 bedrooms, private sandy beach, canoes, kayaks, paddleboards, A/C, WiFi, Smart TVs, laundry \u2014 all included.\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\nSplit 4 families = ~$${perFamilyNight(g.now, 4)}/night each.\n\nAbout 3 hours from the GTA. Same kind of lake experience, honestly, but a fraction of the price.\n\n${LINK}`,
       postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
-  // Emotional — value without compromise
   posts.push({ icp: "value", tone: "emotional", season: "spring",
-    copy: `You don\u2019t need to spend $7,000 to give your family a week on the lake.\n\nIsland View Retreat on Big Gull Lake \u2014 5 bedrooms, private sandy beach, sleeps 16 \u2014 starts at $2,950/week in May and June.\n\nThat\u2019s up to 62% less than our own peak summer rates. And significantly less than comparable cottages in Muskoka that sleep half as many people.\n\nThe lake is 21 km long with 30+ islands. The water is clean. The beach is real sand. The fishing is excellent. The neighbours are trees.\n\nSplit the cost with another family or two and you\u2019re looking at $140\u2013$175/night each for a week your kids won\u2019t stop talking about.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    copy: `You don\u2019t need to spend $7,000 to get your family a week on the lake.\n\nOur cottage on Big Gull Lake starts at $2,950/week in May and June \u2014 that\u2019s up to 62% less than our own peak summer rates, and way less than comparable places in Muskoka that sleep half as many people.\n\nThe lake is beautiful, the beach is real sand, and the fishing is great. Split the cost with another family or two and you\u2019re looking at $140\u2013$175/night each.\n\n5 seasons. 34 five-star reviews.\n\n${LINK}`,
     postDate: new Date(2026, 3, 12), promotes: "Spring gap weeks"
   });
 
-  // Urgency — last chance value
   if (springGaps.length > 1) {
     const g = springGaps[springGaps.length - 1];
     posts.push({ icp: "value", tone: "urgency", season: "spring",
-      copy: `Last spring weeks at off-peak pricing.\n\n${weekRange(g)}: $${g.now.toLocaleString()}/week for a 5-bedroom lakefront cottage on Big Gull Lake.\n\nSummer rates are $5,850\u2013$7,850/week for the same cottage. This is 40\u201362% less.\n\n3 families splitting = ~$${perFamilyNight(g.now, 3)}/night each.\n\nPrivate sandy beach. 16 beds. 30+ islands. Camp\u2019s Bay Marina next door.\n\n\uD83D\uDC49 ${LINK}`,
+      copy: `Last spring weeks at our lowest rates.\n\n${weekRange(g)}: $${g.now.toLocaleString()}/week for our 5-bedroom lakefront cottage on Big Gull Lake. Summer rates for the same place are $5,850\u2013$7,850/week.\n\n3 families splitting it = ~$${perFamilyNight(g.now, 3)}/night each.\n\nPrivate sandy beach, sleeps 16, all gear included.\n\n${LINK}`,
       postDate: getPostDate(g.dates26, 1), promotes: weekRange(g)
     });
   }
@@ -1416,30 +1399,28 @@ function generateAllPosts() {
   // ICP: DIGITAL DETOX / COUPLES
   // ==========================
 
-  // Emotional — the silence
   posts.push({ icp: "disconnect", tone: "emotional", season: "spring",
-    copy: `When was the last time you heard nothing?\n\nNot quiet. Nothing. No highway hum. No notification ping. No neighbour\u2019s music.\n\nJust water lapping against the dock. A loon calling across the bay. Wind through the pines.\n\nNorth Frontenac has 1.7 people per square kilometre. Big Gull Lake has 30+ islands, 88 km of shoreline, and the kind of darkness where you can actually see the Milky Way.\n\nIsland View Retreat is 1.2 acres of private lakefront with a sandy beach, a fire pit, and the space to remember what it feels like to breathe.\n\nYou don\u2019t need 16 people to book it. Two of you is enough.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    copy: `If you\u2019re looking for somewhere genuinely quiet \u2014 not \u201Ccottage country quiet\u201D where you can still hear the highway \u2014 our place on Big Gull Lake is worth a look.\n\nNorth Frontenac is one of the least populated areas in Eastern Ontario. The lake has 30+ islands, and most nights the only sound is loons. On clear nights you can see the Milky Way from the dock.\n\n5 bedrooms, sleeps 16, but you don\u2019t need a big group. It\u2019s a great spot for a couple who just wants a few days of actual quiet.\n\n${LINK}`,
     postDate: new Date(2026, 3, 18), promotes: "All gap weeks"
   });
 
-  // Experiential — 48 hours unplugged
   if (fallGaps.length > 0) {
     const g = fallGaps[0];
     posts.push({ icp: "disconnect", tone: "experiential", season: "fall",
-      copy: `48 hours at Island View Retreat:\n\nFriday evening: Arrive. Unload. Open the door to the screened porch and hear the lake for the first time. Pour something. Sit.\n\nSaturday morning: Coffee on the dock. Mist on the water. Paddle a kayak to the nearest island. Come back when you\u2019re hungry.\n\nSaturday afternoon: Read on the beach. Swim. Nap in the bunkie with the window open.\n\nSaturday night: Fire pit. Stars you forgot existed. The Milky Way reflected on the lake.\n\nSunday: One more coffee on the dock. Drive home feeling like it\u2019s been a week.\n\nFall colour weeks available. ${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n\uD83D\uDC49 ${LINK}`,
+      copy: `What a long weekend at our place actually looks like:\n\nFriday evening \u2014 arrive, unload, open the screened porch and hear the lake. Pour a drink and sit.\n\nSaturday morning \u2014 coffee on the dock. Paddle a kayak to the nearest island. Come back when you\u2019re hungry.\n\nSaturday afternoon \u2014 read on the beach. Swim. Nap in the bunkie.\n\nSaturday night \u2014 fire pit. More stars than you\u2019ve seen in years.\n\nSunday \u2014 one more coffee on the dock, then drive home feeling like it\u2019s been a week.\n\nFall colour weeks available. ${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week.\n\n${LINK}`,
       postDate: getPostDate(g.dates26, 3), promotes: weekRange(g)
     });
   }
 
   // ==========================
-  // GAP-SPECIFIC URGENCY POSTS (all ICPs)
+  // GAP-SPECIFIC AVAILABILITY POSTS
   // ==========================
   gaps.forEach(g => {
     const sk = getSeasonKey(g.month);
     const pri = g.pri;
     if (pri === "CRITICAL" || pri === "HIGH") {
       posts.push({ icp: "value", tone: "urgency", season: sk,
-        copy: `${weekRange(g)} on Big Gull Lake.\n\n$${g.now.toLocaleString()}/week for a 5-bedroom, 16-person lakefront cottage with a private sandy beach.\n\nIncludes: 2 canoes, 2 SUPs, 2 fishing kayaks, fire pit, BBQ, screened porch, A/C, WiFi, Smart TVs, laundry.\n\nCamp\u2019s Bay Marina next door: boat rentals from $99/day, fuel, bait, tackle, fish cleaning station, ice cream.\n\nSplit 3 families = ~$${perFamilyNight(g.now, 3)}/night each.\n\n34 five-star reviews. 5th season.\n\n\uD83D\uDC49 ${LINK}`,
+        copy: `${weekRange(g)} on Big Gull Lake is still open.\n\n$${g.now.toLocaleString()}/week for our 5-bedroom lakefront cottage. Sleeps 16. Private sandy beach, canoes, kayaks, paddleboards, fire pit, BBQ, screened porch, A/C, WiFi \u2014 everything\u2019s included.\n\nCamp\u2019s Bay Marina is next door for boat rentals, bait, and fuel.\n\nSplit between 3 families that\u2019s about $${perFamilyNight(g.now, 3)}/night each.\n\n34 five-star reviews over 5 seasons.\n\n${LINK}`,
         postDate: getPostDate(g.dates26, 2), promotes: weekRange(g)
       });
     }
@@ -1449,21 +1430,20 @@ function generateAllPosts() {
   // SEASONAL CAMPAIGN POSTS
   // ==========================
 
-  // Fall colour post
   if (fallGaps.length > 0) {
     posts.push({ icp: "nature", tone: "experiential", season: "fall",
-      copy: `The Canadian Shield in autumn.\n\nMaple, birch, and oak reflected in water so still it looks like a painting. The air is cool. The lake is yours.\n\nBig Gull Lake: 21 km long, 30+ islands, 88 km of shoreline \u2014 all of it turning gold and crimson. Paddle through it in one of two included canoes. Hike the 20 km Crotch Lake Trail. Sit on the dock and watch the colours shift.\n\nIsland View Retreat: 5 bedrooms, private sandy beach, fire pit, sleeps 16.\n\nFall weeks from $${Math.min(...fallGaps.map(g=>g.now)).toLocaleString()}/week.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+      copy: `Fall is honestly one of my favourite times to be at the cottage. The trees around Big Gull Lake are incredible this time of year, the fishing is still great, there are no bugs, and the lake is quiet and peaceful.\n\nIf you\u2019ve never done a fall cottage trip, I\u2019d really recommend it. The colours on the islands are stunning and you\u2019ll pretty much have the lake to yourself.\n\n5 bedrooms, private sandy beach, fire pit, sleeps 16.\n\nFall weeks from $${Math.min(...fallGaps.map(g=>g.now)).toLocaleString()}/week.\n\n${LINK}`,
       postDate: new Date(2026, 7, 15), promotes: "All fall gap weeks"
     });
   }
 
-  // Summer family campaign
   if (summerGaps.length > 0) {
-    posts.push({ icp: "families", tone: "urgency", season: "summer",
-      copy: `Summer weeks going fast.\n\nBig Gull Lake \u2014 21 km of Canadian Shield water, private sandy beach, 30+ islands to explore with the kids. No crowds. No jet skis. Just lake.\n\nIsland View Retreat: 5 bedrooms + bunkie, sleeps 16, everything included.\n\nOpen weeks:\n${summerGaps.map(g => `\u2022 ${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week`).join('\n')}\n\n34 five-star reviews. Families come back year after year.\n\n\uD83D\uDC49 https://www.cottagesincanada.com/32361`,
+    posts.push({ icp: "families", tone: "urgency", season: "peakSummer",
+      copy: `Summer weeks are filling up \u2014 here\u2019s what we still have open at our cottage on Big Gull Lake:\n\n${summerGaps.map(g => `\u2022 ${weekRange(g)} \u2014 $${g.now.toLocaleString()}/week`).join('\n')}\n\nPrivate sandy beach, 5 bedrooms + bunkie, sleeps 16. 30+ islands to explore. Everything\u2019s included.\n\n34 five-star reviews. A lot of our families come back year after year.\n\n${LINK}`,
       postDate: new Date(2026, 4, 15), promotes: "Summer gap weeks"
     });
   }
+
 
   return posts.sort((a, b) => {
     const da = a.postDate instanceof Date ? a.postDate : new Date(a.postDate);

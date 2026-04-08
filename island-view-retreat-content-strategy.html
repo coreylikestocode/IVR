@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Island View Retreat — Mass Content Strategy</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e5e5e5;
+    --text-muted: #888;
+    --gold: #C9A96E;
+    --gold-dim: #8a7345;
+    --green: #4ade80;
+    --green-dim: #166534;
+    --blue: #60a5fa;
+    --blue-dim: #1e3a5f;
+    --red: #f87171;
+    --red-dim: #7f1d1d;
+    --purple: #a78bfa;
+    --purple-dim: #4c1d95;
+    --orange: #fb923c;
+    --orange-dim: #7c2d12;
+    --cyan: #22d3ee;
+    --cyan-dim: #164e63;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Header */
+  .hero { text-align: center; padding: 48px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+  .hero h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto; }
+
+  /* Metrics bar */
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .metric { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .metric .number { font-size: 2rem; font-weight: 700; color: var(--gold); }
+  .metric .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+  .tab { padding: 10px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 0.9rem; color: var(--text-muted); transition: all 0.2s; }
+  .tab:hover { border-color: var(--gold-dim); color: var(--text); }
+  .tab.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
+
+  /* Panels */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Section */
+  .section { margin-bottom: 32px; }
+  .section h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 16px; letter-spacing: -0.02em; }
+  .section h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: var(--gold); }
+  .section p { color: var(--text-muted); margin-bottom: 12px; }
+
+  /* Cards */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s; }
+  .card:hover { border-color: var(--gold-dim); }
+  .card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+  .card .desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
+
+  /* Tags */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: 500; }
+  .tag.high { background: var(--green-dim); color: var(--green); }
+  .tag.med { background: var(--blue-dim); color: var(--blue); }
+  .tag.low { background: var(--purple-dim); color: var(--purple); }
+  .tag.money { background: var(--gold); color: #000; font-weight: 700; }
+  .tag.traffic { background: var(--cyan-dim); color: var(--cyan); }
+  .tag.done { background: var(--green-dim); color: var(--green); }
+  .tag.planned { background: var(--orange-dim); color: var(--orange); }
+  .tag.new { background: var(--red-dim); color: var(--red); }
+  .tag.wip { background: var(--orange-dim); color: var(--orange); }
+
+  /* Table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .data-table th { text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border); color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em; }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .data-table tr:hover { background: var(--surface2); }
+
+  /* Cluster map */
+  .cluster { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+  .cluster-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; cursor: pointer; }
+  .cluster-header h3 { margin: 0; font-size: 1.1rem; }
+  .cluster-count { background: var(--gold); color: #000; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .cluster-body { display: none; }
+  .cluster.open .cluster-body { display: block; }
+  .cluster-arrow { color: var(--text-muted); transition: transform 0.2s; }
+  .cluster.open .cluster-arrow { transform: rotate(90deg); }
+
+  /* Priority badge */
+  .priority { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .priority.p1 { background: var(--red-dim); color: var(--red); }
+  .priority.p2 { background: var(--orange-dim); color: var(--orange); }
+  .priority.p3 { background: var(--blue-dim); color: var(--blue); }
+  .priority.p4 { background: var(--purple-dim); color: var(--purple); }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 24px; }
+  .timeline-item::before { content: ''; position: absolute; left: -20px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); border: 2px solid var(--bg); }
+  .timeline-item h4 { font-size: 0.95rem; font-weight: 600; }
+  .timeline-item .when { font-size: 0.8rem; color: var(--gold); margin-bottom: 4px; }
+  .timeline-item .what { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* Filter bar */
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .filter-bar label { font-size: 0.8rem; color: var(--text-muted); }
+  .filter-bar select { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; }
+
+  /* Stats bar */
+  .stat-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 8px 0; }
+  .stat-bar .seg { transition: width 0.3s; }
+
+  /* Search */
+  .search-box { width: 100%; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; margin-bottom: 16px; }
+  .search-box:focus { outline: none; border-color: var(--gold); }
+
+  /* Callout */
+  .callout { background: linear-gradient(135deg, rgba(201,169,110,0.1), rgba(201,169,110,0.03)); border: 1px solid var(--gold-dim); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .callout h4 { color: var(--gold); margin-bottom: 6px; }
+  .callout p { font-size: 0.9rem; color: var(--text-muted); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 4px; font-size: 0.9rem; color: var(--text-muted); }
+  code { background: var(--surface2); padding: 1px 5px; border-radius: 3px; font-size: 0.85em; color: var(--gold); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <h1>Island View Retreat <span>Content Engine</span></h1>
+  <p>Mass content strategy to dominate the Ontario cottage rental search ecosystem — domestic AND international. 135+ pages targeting 600+ keywords across 8 content clusters.</p>
+</div>
+
+<div class="metrics">
+  <div class="metric"><div class="number">15</div><div class="label">Pages Live Now</div></div>
+  <div class="metric"><div class="number">135+</div><div class="label">Target Pages</div></div>
+  <div class="metric"><div class="number">8</div><div class="label">Content Clusters</div></div>
+  <div class="metric"><div class="number">600+</div><div class="label">Target Keywords</div></div>
+  <div class="metric"><div class="number">8</div><div class="label">Blog Posts Live</div></div>
+  <div class="metric"><div class="number">~30</div><div class="label">Keywords Today</div></div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="overview">Overview</div>
+  <div class="tab" data-tab="clusters">Content Clusters</div>
+  <div class="tab" data-tab="topics">Full Topic List</div>
+  <div class="tab" data-tab="keywords">Keyword Map</div>
+  <div class="tab" data-tab="timeline">Execution Plan</div>
+  <div class="tab" data-tab="technical">Technical Implementation</div>
+</div>
+
+<!-- ============ OVERVIEW ============ -->
+<div class="panel active" id="overview">
+
+  <div class="callout">
+    <h4>The Core Insight</h4>
+    <p>You don't win SEO by ranking your listing page. You win by owning the entire search ecosystem around Big Gull Lake, large-group cottages in Ontario, and every activity a family plans before booking. Case studies show vacation rental sites achieving <strong>400K+ monthly traffic increases</strong> and <strong>412-564% organic revenue gains</strong> through this exact approach.</p>
+  </div>
+
+  <div class="section">
+    <h2>Current State Assessment</h2>
+    <div class="two-col">
+      <div class="card">
+        <h4>What's Working</h4>
+        <ul>
+          <li>Strong technical SEO foundation (Next.js SSR, metadata, JSON-LD, sitemap, robots.txt)</li>
+          <li>Good on-page SEO structure (canonical URLs, OpenGraph, keywords)</li>
+          <li>8 well-written blog posts covering fishing, camping, history, swimming</li>
+          <li>Dedicated pages: cottage, big-gull-lake, pricing, reviews, guest-info, camps-bay-marina</li>
+          <li>Dynamic campsite pages from database (programmatic SEO already in DNA)</li>
+          <li>Schema markup (VacationRental, LodgingBusiness) on key pages</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>What's Missing</h4>
+        <ul>
+          <li><strong>No use-case pages</strong> — "family reunion cottage", "bachelor party", "corporate retreat"</li>
+          <li><strong>No proximity pages</strong> — "cottage near Toronto", "3 hours from Ottawa"</li>
+          <li><strong>No seasonal content</strong> — "summer cottage Ontario", "fall getaway"</li>
+          <li><strong>No comparison content</strong> — "Big Gull Lake vs Muskoka", "best lakes"</li>
+          <li><strong>No activity hub pages</strong> — hiking, kayaking, stargazing, wildlife</li>
+          <li><strong>Missing from sitemap:</strong> /big-gull-lake/fishing, /camps-bay-marina</li>
+          <li><strong>No Google Business Profile</strong> optimization evident</li>
+          <li><strong>Thin content volume</strong> — 15 pages competing for ~30 keywords</li>
+          <li><strong>No international content</strong> — zero pages targeting UK/EU/US visitors</li>
+          <li><strong>No hreflang tags</strong> — invisible to international Google indexes</li>
+          <li><strong>Budget positioning only</strong> — "Surprisingly Affordable" misses premium international market</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Traffic Model</h2>
+    <p>Based on vacation rental SEO case studies and Ontario cottage search data:</p>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Today (15 pages)</h4>
+        <div class="desc">Estimated organic monthly visits</div>
+        <div style="font-size:2rem;font-weight:700;color:var(--red);">50-200</div>
+        <p style="font-size:0.8rem;">Mostly branded searches + direct traffic. No long-tail capture.</p>
+      </div>
+      <div class="card">
+        <h4>Phase 1 (50 pages, Month 3)</h4>
+        <div class="desc">Projected after initial content push</div>
+        <div style="font-size:2rem;font-weight:700;color:var(--orange);">500-1,500</div>
+        <p style="font-size:0.8rem;">Long-tail local keywords start ranking. "Big Gull Lake" ecosystem builds.</p>
+      </div>
+      <div class="card">
+        <h4>Phase 2 (100+ pages, Month 6)</h4>
+        <div class="desc">Content flywheel + internal linking</div>
+        <div style="font-size:2rem;font-weight:700;color:var(--green);">2,000-5,000</div>
+        <p style="font-size:0.8rem;">Topical authority established. Ontario cottage queries start converting.</p>
+      </div>
+      <div class="card">
+        <h4>Phase 3 (120+ pages, Month 12)</h4>
+        <div class="desc">Full content engine + backlinks</div>
+        <div style="font-size:2rem;font-weight:700;color:var(--gold);">5,000-15,000</div>
+        <p style="font-size:0.8rem;">Dominating niche. Outranking Airbnb/VRBO for long-tail queries.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Why This Works (The Compounding Effect)</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Topical Authority</h4>
+        <div class="desc">Google rewards sites that thoroughly cover a topic. 120 pages about Big Gull Lake, Ontario cottages, and outdoor activities tells Google you ARE the authority.</div>
+      </div>
+      <div class="card">
+        <h4>Internal Link Network</h4>
+        <div class="desc">Every blog post links to your booking page. Every activity page links to your cottage. The link juice compounds across all pages.</div>
+      </div>
+      <div class="card">
+        <h4>Long-Tail Domination</h4>
+        <div class="desc">High-volume keywords are dominated by Airbnb/VRBO. But "best walleye fishing Big Gull Lake spring" or "cottage that sleeps 16 near Kingston" — that's yours.</div>
+      </div>
+      <div class="card">
+        <h4>Content Velocity</h4>
+        <div class="desc">Google rewards consistent publishing. 10+ pages/month signals an active, authoritative site. Most cottage owners publish 3 posts and stop.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>International Premium Market (Parallel Track)</h2>
+    <div class="callout" style="border-color:#60a5fa40;background:linear-gradient(135deg, rgba(96,165,250,0.1), rgba(96,165,250,0.03));">
+      <h4 style="color:var(--blue);">The Pricing Arbitrage Nobody Sees</h4>
+      <p>Island View Retreat at $6,850 CAD/week peak (~£3,800 GBP) is a <strong>genuine bargain</strong> for international visitors. Comparable Muskoka properties charge $30,000-50,000/week. A Scottish Highlands loch house for 16 runs £4,750/week with no private beach or included water toys. Your property is underpriced by international standards — but nobody outside Canada knows it exists.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <h4>European Demand is Real</h4>
+        <ul>
+          <li><strong>435K UK visitors</strong> to Ontario in 2025 (+11.6% YoY)</li>
+          <li><strong>140K German</strong> + <strong>101K French</strong> arrivals (+6-8% YoY)</li>
+          <li><strong>54% of UK/German/French</strong> travellers considering Ontario trip</li>
+          <li><strong>62% say US political climate</strong> makes them less likely to visit the US — Canada is the beneficiary</li>
+          <li>Canada is <strong>#2 adventure travel destination globally</strong> (Virtuoso 2026)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>The "Heated Rivalry" Effect</h4>
+        <ul>
+          <li>Canadian cottage bookings spiked <strong>110%</strong> after the show's finale</li>
+          <li>15% of new bookings from US/international visitors</li>
+          <li>BBC Travel, NatGeo, CBC all ran cottage culture features in 2026</li>
+          <li>"Cottage country" is on the international radar for the first time</li>
+          <li>This cultural moment won't last — capture it now</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Price Comparison (The Killer Slide)</h4>
+        <ul>
+          <li><strong>Island View Retreat:</strong> $6,850 CAD/week (~£3,800 / €4,300)</li>
+          <li><strong>Muskoka equivalent:</strong> $29,000-51,000 CAD/week (4-7x more)</li>
+          <li><strong>Scottish Highlands:</strong> £4,750/week (~$8,550 CAD, 25% more)</li>
+          <li><strong>Per person/night at full capacity:</strong> ~£34 / €38 / $61 CAD</li>
+          <li>Included water toys worth €50-100/day rental in Europe</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Strategy: Dual-Track Positioning</h4>
+        <ul>
+          <li>Keep domestic "affordable family cottage" positioning untouched</li>
+          <li>Layer parallel premium track for international visitors</li>
+          <li>Frame as "private lakefront estate on the Canadian Shield"</li>
+          <li>Show prices in EUR/GBP/USD alongside CAD</li>
+          <li>Add concierge add-ons (grocery pre-stocking, fishing guide, linen service)</li>
+          <li>Target publications: BBC Travel, NatGeo, Conde Nast Traveller</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CLUSTERS ============ -->
+<div class="panel" id="clusters">
+
+  <div class="section">
+    <h2>8 Content Clusters</h2>
+    <p>Each cluster is a self-reinforcing topic silo with its own pillar page, supporting articles, and internal linking structure. Click to expand. Cluster 8 (International) runs as a parallel track.</p>
+  </div>
+
+  <div class="cluster open" onclick="this.classList.toggle('open')">
+    <div class="cluster-header">
+      <span class="cluster-arrow">&#9654;</span>
+      <h3>1. Location Domination</h3>
+      <span class="cluster-count">22 pages</span>
+      <span class="priority p1">P1 — Highest ROI</span>
+    </div>
+    <div class="cluster-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">Own every search about Big Gull Lake, North Frontenac, and the surrounding area. People search by place first — this is your highest-converting cluster.</p>
+      <table class="data-table">
+        <tr><th>Page</th><th>Target Keyword</th><th>Intent</th><th>Status</th></tr>
+        <tr><td>/big-gull-lake</td><td>Big Gull Lake Ontario</td><td>Informational</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/big-gull-lake/fishing</td><td>Big Gull Lake fishing</td><td>Informational</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/big-gull-lake/campsites</td><td>Big Gull Lake camping</td><td>Informational</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/blog/big-gull-lake-history</td><td>history of Big Gull Lake</td><td>Informational</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/blog/big-gull-lake-water-quality-swimming</td><td>Big Gull Lake swimming safe</td><td>Question</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/blog/big-gull-lake-islands-canoeing</td><td>Big Gull Lake islands canoe</td><td>Informational</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/big-gull-lake/hiking-trails</td><td>Big Gull Lake hiking trails</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/big-gull-lake/wildlife</td><td>Big Gull Lake wildlife birds loons</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/big-gull-lake/boating-guide</td><td>Big Gull Lake boat launch boating</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/big-gull-lake/ice-fishing</td><td>Big Gull Lake ice fishing winter</td><td>Seasonal</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/big-gull-lake/kayaking</td><td>Big Gull Lake kayaking routes</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/big-gull-lake/stargazing</td><td>stargazing Big Gull Lake dark sky</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/big-gull-lake/swimming-beaches</td><td>Big Gull Lake beaches swimming spots</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/big-gull-lake/fall-colours</td><td>Big Gull Lake fall colours autumn</td><td>Seasonal</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/north-frontenac</td><td>North Frontenac Ontario things to do</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/north-frontenac/trails</td><td>North Frontenac Parklands trails hiking</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/north-frontenac/mountain-biking</td><td>North Frontenac mountain biking</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/crotch-lake-trail-guide</td><td>Crotch Lake Trail North Frontenac</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/frontenac-provincial-park</td><td>Frontenac Provincial Park guide</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/bon-echo-provincial-park</td><td>Bon Echo Provincial Park day trip</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/sharbot-lake-guide</td><td>Sharbot Lake things to do</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/land-o-lakes-region</td><td>Land O Lakes Ontario travel guide</td><td>Informational</td><td><span class="tag new">NEW</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="cluster" onclick="this.classList.toggle('open')">
+    <div class="cluster-header">
+      <span class="cluster-arrow">&#9654;</span>
+      <h3>2. Use-Case / Intent Pages</h3>
+      <span class="cluster-count">18 pages</span>
+      <span class="priority p1">P1 — Money Pages</span>
+    </div>
+    <div class="cluster-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">People don't search for "cottage" — they search for what they want to DO. These pages match ready-to-book users with high conversion intent.</p>
+      <table class="data-table">
+        <tr><th>Page</th><th>Target Keyword</th><th>Intent</th><th>Status</th></tr>
+        <tr><td>/large-group-cottage-ontario</td><td>large group cottage rental Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/cottage-sleeps-16-ontario</td><td>cottage that sleeps 16 Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/family-reunion-cottage</td><td>family reunion cottage Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/multi-family-cottage</td><td>multi family cottage rental Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/bachelor-party-cottage</td><td>bachelor party cottage Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/bachelorette-cottage</td><td>bachelorette party cottage Ontario lakefront</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/corporate-retreat-cottage</td><td>corporate retreat cottage Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/fishing-cottage-ontario</td><td>fishing cottage Ontario walleye</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/waterfront-cottage-private-beach</td><td>waterfront cottage private beach Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/lakefront-cottage-ontario</td><td>lakefront cottage rental Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/cottage-with-kayaks-canoes</td><td>cottage with kayaks canoes Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/pet-friendly-large-cottage</td><td>pet friendly large cottage Ontario</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/cottage-birthday-celebration</td><td>birthday party cottage Ontario large group</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/friends-getaway-cottage</td><td>friends getaway cottage Ontario large</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/couples-retreat-cottage</td><td>couples retreat cottage Ontario lake</td><td>Transactional</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/thanksgiving-cottage-rental</td><td>Thanksgiving cottage rental Ontario</td><td>Seasonal/Trans</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/holiday-cottage-rental</td><td>Christmas New Years cottage rental Ontario</td><td>Seasonal/Trans</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/summer-cottage-rental-ontario</td><td>summer cottage rental Ontario 2026</td><td>Seasonal/Trans</td><td><span class="tag new">NEW</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="cluster" onclick="this.classList.toggle('open')">
+    <div class="cluster-header">
+      <span class="cluster-arrow">&#9654;</span>
+      <h3>3. Proximity / "Near Me" Pages</h3>
+      <span class="cluster-count">14 pages</span>
+      <span class="priority p1">P1 — High Conversion</span>
+    </div>
+    <div class="cluster-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">Proximity searches convert extremely well. These pages capture people searching from specific cities who are ready to book.</p>
+      <table class="data-table">
+        <tr><th>Page</th><th>Target Keyword</th><th>Search City</th><th>Status</th></tr>
+        <tr><td>/cottage-near-toronto</td><td>cottage rental 3 hours from Toronto</td><td>Toronto / GTA</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/cottage-near-ottawa</td><td>cottage rental near Ottawa Ontario</td><td>Ottawa</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/cottage-near-kingston</td><td>cottage rental near Kingston Ontario</td><td>Kingston</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/cottage-near-montreal</td><td>Ontario cottage rental near Montreal</td><td>Montreal</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/cottage-near-peterborough</td><td>cottage rental near Peterborough</td><td>Peterborough</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/cottage-near-belleville</td><td>cottage rental near Belleville Ontario</td><td>Belleville</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/best-lakes-near-toronto</td><td>best lakes near Toronto cottage</td><td>Toronto</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/weekend-getaway-from-toronto</td><td>weekend getaway from Toronto cottage</td><td>Toronto</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/weekend-getaway-from-ottawa</td><td>weekend getaway from Ottawa cottage</td><td>Ottawa</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/eastern-ontario-cottage-country</td><td>eastern Ontario cottage country guide</td><td>General</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/driving-directions-toronto</td><td>directions to Big Gull Lake from Toronto</td><td>Toronto</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/driving-directions-ottawa</td><td>directions to Big Gull Lake from Ottawa</td><td>Ottawa</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/not-muskoka-alternatives</td><td>Muskoka alternatives less crowded Ontario</td><td>GTA</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/kawartha-vs-frontenac</td><td>Kawarthas vs Frontenac cottage comparison</td><td>General</td><td><span class="tag new">NEW</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="cluster" onclick="this.classList.toggle('open')">
+    <div class="cluster-header">
+      <span class="cluster-arrow">&#9654;</span>
+      <h3>4. Activity & Experience Guides</h3>
+      <span class="cluster-count">20 pages</span>
+      <span class="priority p2">P2 — Traffic Engine</span>
+    </div>
+    <div class="cluster-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">People plan activities before booking accommodation. Capture them at the research stage and funnel them to your cottage.</p>
+      <table class="data-table">
+        <tr><th>Page</th><th>Target Keyword</th><th>Status</th></tr>
+        <tr><td>/blog/big-gull-lake-fishing-guide</td><td>Big Gull Lake fishing guide</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/blog/big-gull-lake-depth-fishing-spots</td><td>Big Gull Lake depth map fishing spots</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/blog/big-gull-lake-camping-guide</td><td>Big Gull Lake camping guide</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/blog/things-to-do-north-frontenac</td><td>things to do North Frontenac</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/blog/walleye-fishing-ontario-spring</td><td>walleye fishing Ontario spring tips</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/bass-fishing-ontario-summer</td><td>bass fishing Ontario summer tips</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/pike-fishing-ontario</td><td>pike fishing Ontario techniques</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/fmz-18-fishing-regulations</td><td>FMZ 18 fishing regulations Ontario 2026</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/ontario-fishing-license-guide</td><td>how to get fishing license Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/canoe-trip-planning-ontario</td><td>canoe trip Ontario planning guide</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/paddleboarding-ontario-lakes</td><td>stand up paddleboarding Ontario lakes</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/campfire-cooking-guide</td><td>campfire cooking recipes cottage</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/wildlife-watching-eastern-ontario</td><td>wildlife watching eastern Ontario loons</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/dark-sky-stargazing-ontario</td><td>best stargazing spots Ontario dark sky</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/swimming-lakes-ontario-cleanest</td><td>cleanest swimming lakes Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/family-cottage-games</td><td>best cottage games families rainy day</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-cooking-16-people</td><td>cooking for large group cottage meal plan</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/winter-activities-cottage-ontario</td><td>winter cottage activities Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/dock-fishing-kids-guide</td><td>dock fishing kids Ontario beginners</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/photography-tips-cottage-lake</td><td>lake photography tips cottage vacation</td><td><span class="tag new">NEW</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="cluster" onclick="this.classList.toggle('open')">
+    <div class="cluster-header">
+      <span class="cluster-arrow">&#9654;</span>
+      <h3>5. Planning & Practical Guides</h3>
+      <span class="cluster-count">18 pages</span>
+      <span class="priority p2">P2 — High Engagement</span>
+    </div>
+    <div class="cluster-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">People Google questions before they book. Answer every question, become the trusted source, and they book with you.</p>
+      <table class="data-table">
+        <tr><th>Page</th><th>Target Keyword</th><th>Status</th></tr>
+        <tr><td>/blog/best-large-group-cottages-ontario</td><td>best large group cottages Ontario</td><td><span class="tag done">LIVE</span></td></tr>
+        <tr><td>/blog/cottage-packing-list</td><td>what to pack for cottage trip Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-grocery-list-16-people</td><td>cottage grocery list large group</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/splitting-cottage-cost-friends</td><td>how to split cottage cost friends</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-etiquette-guide</td><td>cottage etiquette rules guests</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/first-time-cottage-renter</td><td>first time renting a cottage Ontario tips</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-with-toddlers</td><td>cottage trip with toddlers tips safety</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-with-teenagers</td><td>cottage activities teenagers entertainment</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-with-elderly-parents</td><td>accessible cottage for elderly parents</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/best-time-rent-cottage-ontario</td><td>best time to rent a cottage Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/3-day-cottage-itinerary</td><td>3 day cottage itinerary Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/7-day-cottage-itinerary</td><td>week at the cottage itinerary Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-checklist-arrival</td><td>cottage check in checklist what to do first</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-wifi-remote-work</td><td>working remotely from cottage Ontario wifi</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-insurance-what-to-know</td><td>cottage rental insurance what to know</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/airbnb-vs-direct-booking-cottage</td><td>Airbnb vs booking direct cottage Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-country-restaurants-pubs</td><td>best restaurants near North Frontenac</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-safety-guide</td><td>cottage safety tips water fire</td><td><span class="tag new">NEW</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="cluster" onclick="this.classList.toggle('open')">
+    <div class="cluster-header">
+      <span class="cluster-arrow">&#9654;</span>
+      <h3>6. Seasonal & Trend Content</h3>
+      <span class="cluster-count">16 pages</span>
+      <span class="priority p2">P2 — Traffic Spikes</span>
+    </div>
+    <div class="cluster-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">Seasonal content catches massive search spikes. Publish 2-3 months before the season for maximum ranking when demand peaks.</p>
+      <table class="data-table">
+        <tr><th>Page</th><th>Target Keyword</th><th>Peak Season</th><th>Status</th></tr>
+        <tr><td>/blog/spring-cottage-ontario</td><td>spring cottage getaway Ontario</td><td>Feb-Apr</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/summer-cottage-guide</td><td>summer cottage trip Ontario 2026</td><td>Apr-Jun</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/fall-cottage-getaway</td><td>fall cottage getaway Ontario colours</td><td>Aug-Sep</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/winter-cottage-ontario</td><td>winter cottage Ontario activities</td><td>Oct-Dec</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/victoria-day-cottage</td><td>Victoria Day long weekend cottage Ontario</td><td>Mar-May</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/canada-day-cottage</td><td>Canada Day cottage plans Ontario</td><td>May-Jun</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/civic-holiday-cottage</td><td>Civic Holiday long weekend cottage Ontario</td><td>Jun-Jul</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/labour-day-cottage</td><td>Labour Day weekend cottage Ontario</td><td>Jul-Aug</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/thanksgiving-cottage-ontario</td><td>Thanksgiving cottage Ontario fall</td><td>Aug-Sep</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-opening-weekend</td><td>cottage opening weekend tips spring</td><td>Mar-Apr</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-closing-weekend</td><td>closing cottage for winter checklist</td><td>Sep-Oct</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/walleye-opener-ontario</td><td>walleye season opener Ontario 2026</td><td>Apr-May</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/bass-opener-ontario</td><td>bass season opener Ontario 2026</td><td>May-Jun</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/ice-fishing-season-ontario</td><td>ice fishing season Ontario when</td><td>Nov-Dec</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/last-minute-summer-cottage</td><td>last minute cottage rental Ontario summer</td><td>Jun-Jul</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/early-bird-cottage-booking</td><td>book cottage early 2027 Ontario discounts</td><td>Oct-Dec</td><td><span class="tag new">NEW</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="cluster" onclick="this.classList.toggle('open')">
+    <div class="cluster-header">
+      <span class="cluster-arrow">&#9654;</span>
+      <h3>7. Comparison & "Best Of" Articles</h3>
+      <span class="cluster-count">14 pages</span>
+      <span class="priority p3">P3 — Authority Building</span>
+    </div>
+    <div class="cluster-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">Comparison and listicle content ranks fast, gets shared, and drives massive top-of-funnel traffic. Position your cottage as the natural winner.</p>
+      <table class="data-table">
+        <tr><th>Page</th><th>Target Keyword</th><th>Status</th></tr>
+        <tr><td>/blog/big-gull-lake-vs-muskoka</td><td>Big Gull Lake vs Muskoka cottage</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/big-gull-lake-vs-kawartha</td><td>Big Gull Lake vs Kawarthas</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/big-gull-lake-vs-haliburton</td><td>Big Gull Lake vs Haliburton</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/best-fishing-lakes-ontario</td><td>best fishing lakes Ontario walleye</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/best-lakes-ontario-swimming</td><td>best swimming lakes Ontario clean</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/best-lakes-canoeing-ontario</td><td>best lakes for canoeing Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/best-cottage-lakes-ontario</td><td>best cottage lakes Ontario hidden gem</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/best-family-cottages-ontario</td><td>best family cottages Ontario kids</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/best-affordable-cottage-ontario</td><td>affordable cottage Ontario large group</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/top-10-cottage-country-ontario</td><td>top cottage regions Ontario</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/airbnb-vs-cottage-direct</td><td>Airbnb vs direct cottage rental pros cons</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-vs-hotel-large-group</td><td>cottage vs hotel for large group cost</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/ontario-cottage-country-ranked</td><td>Ontario cottage country regions ranked</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cheapest-cottage-regions-ontario</td><td>cheapest cottage regions Ontario 2026</td><td><span class="tag new">NEW</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="cluster" onclick="this.classList.toggle('open')">
+    <div class="cluster-header">
+      <span class="cluster-arrow">&#9654;</span>
+      <h3>8. International / Premium</h3>
+      <span class="cluster-count">13 pages</span>
+      <span class="priority p1">P1 — New Revenue Stream</span>
+    </div>
+    <div class="cluster-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px;">Capture affluent European and American visitors searching for authentic Canadian cottage experiences. Running in parallel with domestic content strategy. Backed by hard data: 435K UK visitors to Ontario in 2025, 110% cottage booking spike from "Heated Rivalry", and Canada ranked #2 adventure travel destination globally.</p>
+
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;">
+        <h4 style="font-size:0.9rem;color:var(--blue);margin-bottom:8px;">Target Segments (Destination Ontario Research)</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;font-size:0.8rem;color:var(--text-muted);">
+          <div><strong style="color:var(--green);">Outdoor Explorers</strong> — Core audience. Nature, low-barrier adventure.</div>
+          <div><strong style="color:var(--gold);">Refined Globetrotters</strong> — Premium, culturally rich. Cottage + Kingston day trips.</div>
+          <div><strong style="color:var(--purple);">Culture Seekers</strong> — Authentic connections. Canadian Shield geology, indigenous heritage.</div>
+          <div><strong style="color:var(--cyan);">City Trippers</strong> — Toronto gateway. Secondary audience.</div>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <tr><th>Page</th><th>Target Keyword</th><th>Target Market</th><th>Status</th></tr>
+        <tr><td>/canadian-cottage-experience</td><td>Canadian cottage experience / holiday</td><td>UK / EU / US</td><td><span class="tag planned">IN PROGRESS</span></td></tr>
+        <tr><td>/international-guests</td><td>rent cottage Canada tourist / logistics</td><td>UK / EU / US</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/why-big-gull-lake</td><td>Big Gull Lake vs Muskoka hidden gem</td><td>All markets</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/canadian-cottage-holiday-european-guide</td><td>Canadian cottage holiday guide UK</td><td>UK / EU</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-holiday-cost-european-comparison</td><td>Canadian cottage cost vs Scotland Scandinavia</td><td>UK / EU</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/canadian-shield-landscape</td><td>Canadian Shield wilderness landscape geology</td><td>UK / EU / US</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/planning-canada-trip-from-uk</td><td>planning Canada holiday from UK flights</td><td>UK</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/planning-canada-trip-from-europe</td><td>Ontario cottage holiday from Europe</td><td>EU</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-country-vs-lake-district</td><td>Ontario cottage vs Lake District UK comparison</td><td>UK</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/cottage-country-vs-scandinavian-cabin</td><td>Canadian cottage vs Swedish stuga Norway hytte</td><td>EU (Nordic)</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/heated-rivalry-cottage-country</td><td>Heated Rivalry filming locations cottage country</td><td>International</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/canadian-wilderness-vacation-families</td><td>Canadian wilderness family vacation Ontario</td><td>US / UK</td><td><span class="tag new">NEW</span></td></tr>
+        <tr><td>/blog/day-trips-kingston-ottawa</td><td>day trips from cottage country Kingston Ottawa</td><td>International</td><td><span class="tag new">NEW</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ TOPICS ============ -->
+<div class="panel" id="topics">
+
+  <div class="section">
+    <h2>Full Topic Database (135 Pages)</h2>
+    <p>Searchable, filterable list of every page in the content engine. Sorted by priority.</p>
+  </div>
+
+  <input class="search-box" id="topicSearch" placeholder="Search topics... (e.g. fishing, Toronto, family)" oninput="filterTopics()" />
+
+  <div class="filter-bar">
+    <label>Filter by:</label>
+    <select id="clusterFilter" onchange="filterTopics()">
+      <option value="all">All Clusters</option>
+      <option value="location">Location Domination</option>
+      <option value="usecase">Use-Case / Intent</option>
+      <option value="proximity">Proximity</option>
+      <option value="activity">Activity & Experience</option>
+      <option value="planning">Planning & Practical</option>
+      <option value="seasonal">Seasonal</option>
+      <option value="comparison">Comparison & Best Of</option>
+      <option value="international">International / Premium</option>
+    </select>
+    <select id="statusFilter" onchange="filterTopics()">
+      <option value="all">All Status</option>
+      <option value="live">Live</option>
+      <option value="new">New</option>
+      <option value="wip">In Progress</option>
+    </select>
+    <select id="priorityFilter" onchange="filterTopics()">
+      <option value="all">All Priorities</option>
+      <option value="P1">P1 (Do First)</option>
+      <option value="P2">P2 (Next Wave)</option>
+      <option value="P3">P3 (Scale Phase)</option>
+    </select>
+  </div>
+
+  <div id="topicCount" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">Showing 135 of 135 topics</div>
+
+  <table class="data-table" id="topicTable">
+    <thead><tr><th>#</th><th>Route</th><th>Title / Keyword Target</th><th>Cluster</th><th>Priority</th><th>Status</th></tr></thead>
+    <tbody id="topicBody"></tbody>
+  </table>
+</div>
+
+<!-- ============ KEYWORDS ============ -->
+<div class="panel" id="keywords">
+
+  <div class="section">
+    <h2>Keyword Universe</h2>
+    <p>The full keyword map organized by search intent. Each keyword maps to a specific page that will rank for it.</p>
+  </div>
+
+  <div class="callout">
+    <h4>Keyword Strategy: Long-Tail Wins</h4>
+    <p>High-volume keywords like "cottage rental Ontario" (10K+ monthly) are dominated by Airbnb, VRBO, and aggregators. The play is long-tail: hundreds of specific queries (50-500 monthly each) that collectively deliver massive volume with minimal competition. A single-property site can outrank platforms for niche queries because Google favors depth and specificity.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Tier 1: Money Keywords</h4>
+      <div class="desc">High intent, ready to book. Map to use-case and proximity pages.</div>
+      <div class="tags" style="margin-top:10px;">
+        <span class="tag money">large group cottage Ontario</span>
+        <span class="tag money">cottage sleeps 16 Ontario</span>
+        <span class="tag money">family reunion cottage Ontario</span>
+        <span class="tag money">lakefront cottage private beach</span>
+        <span class="tag money">cottage near Toronto 3 hours</span>
+        <span class="tag money">cottage near Ottawa Ontario</span>
+        <span class="tag money">bachelor party cottage Ontario</span>
+        <span class="tag money">corporate retreat cottage Ontario</span>
+        <span class="tag money">fishing cottage Ontario</span>
+        <span class="tag money">waterfront cottage Ontario</span>
+        <span class="tag money">Big Gull Lake cottage rental</span>
+        <span class="tag money">North Frontenac cottage rental</span>
+        <span class="tag money">multi family cottage Ontario</span>
+        <span class="tag money">cottage near Kingston Ontario</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Tier 2: Location Keywords</h4>
+      <div class="desc">People searching by place. Highest conversion for local content.</div>
+      <div class="tags" style="margin-top:10px;">
+        <span class="tag traffic">Big Gull Lake Ontario</span>
+        <span class="tag traffic">Big Gull Lake fishing</span>
+        <span class="tag traffic">Big Gull Lake camping</span>
+        <span class="tag traffic">Big Gull Lake swimming</span>
+        <span class="tag traffic">Big Gull Lake depth map</span>
+        <span class="tag traffic">North Frontenac things to do</span>
+        <span class="tag traffic">North Frontenac trails</span>
+        <span class="tag traffic">Land O Lakes Ontario</span>
+        <span class="tag traffic">Frontenac Provincial Park</span>
+        <span class="tag traffic">Bon Echo Provincial Park</span>
+        <span class="tag traffic">Sharbot Lake Ontario</span>
+        <span class="tag traffic">eastern Ontario cottage country</span>
+        <span class="tag traffic">Crotch Lake Trail</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Tier 3: Activity Keywords</h4>
+      <div class="desc">Top-of-funnel activity research that funnels to your property.</div>
+      <div class="tags" style="margin-top:10px;">
+        <span class="tag med">walleye fishing Ontario spring</span>
+        <span class="tag med">bass fishing Ontario summer</span>
+        <span class="tag med">FMZ 18 fishing regulations</span>
+        <span class="tag med">fishing license Ontario how to</span>
+        <span class="tag med">canoe trip Ontario guide</span>
+        <span class="tag med">kayaking Ontario lakes</span>
+        <span class="tag med">stargazing Ontario dark sky</span>
+        <span class="tag med">cleanest swimming lakes Ontario</span>
+        <span class="tag med">dock fishing kids Ontario</span>
+        <span class="tag med">ice fishing Ontario lakes</span>
+        <span class="tag med">paddleboarding Ontario</span>
+        <span class="tag med">campfire cooking cottage</span>
+        <span class="tag med">wildlife watching eastern Ontario</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Tier 4: Question Keywords</h4>
+      <div class="desc">These rank fast in featured snippets and People Also Ask boxes.</div>
+      <div class="tags" style="margin-top:10px;">
+        <span class="tag low">is Big Gull Lake good for swimming</span>
+        <span class="tag low">best time to rent cottage Ontario</span>
+        <span class="tag low">what to pack for cottage trip</span>
+        <span class="tag low">how to split cottage cost friends</span>
+        <span class="tag low">cottage with toddlers tips</span>
+        <span class="tag low">cottage vs hotel for groups cost</span>
+        <span class="tag low">first time renting cottage Ontario</span>
+        <span class="tag low">can you work remotely from cottage</span>
+        <span class="tag low">Muskoka alternatives less crowded</span>
+        <span class="tag low">cottage rental insurance what to know</span>
+        <span class="tag low">cottage etiquette guests rules</span>
+        <span class="tag low">cottage opening weekend tips</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Tier 5: Seasonal Keywords</h4>
+      <div class="desc">Massive search spikes. Publish 2-3 months before peak.</div>
+      <div class="tags" style="margin-top:10px;">
+        <span class="tag planned">Victoria Day cottage Ontario</span>
+        <span class="tag planned">Canada Day cottage Ontario</span>
+        <span class="tag planned">Labour Day cottage Ontario</span>
+        <span class="tag planned">Thanksgiving cottage Ontario</span>
+        <span class="tag planned">summer cottage Ontario 2026</span>
+        <span class="tag planned">fall cottage getaway Ontario</span>
+        <span class="tag planned">winter cottage Ontario</span>
+        <span class="tag planned">walleye opener Ontario 2026</span>
+        <span class="tag planned">bass opener Ontario 2026</span>
+        <span class="tag planned">last minute cottage Ontario</span>
+        <span class="tag planned">early bird cottage booking 2027</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Tier 6: Comparison Keywords</h4>
+      <div class="desc">Capture people comparing options. Position Big Gull Lake as the winner.</div>
+      <div class="tags" style="margin-top:10px;">
+        <span class="tag low">Big Gull Lake vs Muskoka</span>
+        <span class="tag low">Big Gull Lake vs Kawarthas</span>
+        <span class="tag low">Big Gull Lake vs Haliburton</span>
+        <span class="tag low">best fishing lakes Ontario ranked</span>
+        <span class="tag low">best cottage lakes Ontario</span>
+        <span class="tag low">cheapest cottage regions Ontario</span>
+        <span class="tag low">Ontario cottage country ranked</span>
+        <span class="tag low">Airbnb vs direct cottage booking</span>
+        <span class="tag low">best large group cottages Ontario</span>
+        <span class="tag low">most affordable cottage Ontario</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:var(--blue-dim);">
+      <h4 style="color:var(--blue);">Tier 7: International Keywords</h4>
+      <div class="desc">Targeting UK, European, and US visitors searching in English. These searches are growing 10-15% YoY and have near-zero competition from Canadian cottage sites.</div>
+      <div class="tags" style="margin-top:10px;">
+        <span class="tag money">Canadian cottage experience</span>
+        <span class="tag money">Canadian cottage holiday</span>
+        <span class="tag money">rent a cottage in Canada</span>
+        <span class="tag money">cottage country Canada vacation</span>
+        <span class="tag money">Ontario cottage country for tourists</span>
+        <span class="tag traffic">Canadian lake house rental</span>
+        <span class="tag traffic">authentic Canadian wilderness holiday</span>
+        <span class="tag traffic">Heated Rivalry cottage country filming</span>
+        <span class="tag med">Canada holiday from UK</span>
+        <span class="tag med">Ontario vacation from UK</span>
+        <span class="tag med">Ontario cottage holiday from Europe</span>
+        <span class="tag med">Canadian cottage cost vs Scotland</span>
+        <span class="tag med">Canadian cottage vs Lake District</span>
+        <span class="tag med">Canadian cottage vs Swedish stuga</span>
+        <span class="tag med">Canadian Shield landscape geology</span>
+        <span class="tag low">Ontario cottage country hidden gem</span>
+        <span class="tag low">alternative to Muskoka cottage</span>
+        <span class="tag low">uncrowded cottage country Ontario</span>
+        <span class="tag low">Canadian wilderness family vacation</span>
+        <span class="tag low">flights to Ontario cottage country</span>
+        <span class="tag low">non-resident fishing license Ontario</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TIMELINE ============ -->
+<div class="panel" id="timeline">
+
+  <div class="section">
+    <h2>Execution Plan</h2>
+    <p>A phased rollout that prioritizes money pages first, then scales volume. The goal: 120+ pages in 12 weeks.</p>
+  </div>
+
+  <div class="callout">
+    <h4>Content Velocity Target</h4>
+    <p>10-15 pages per week. With your Next.js architecture and a content template system, this is achievable through a mix of hand-written pillar content and AI-assisted long-tail articles (each reviewed and enhanced with local knowledge).</p>
+  </div>
+
+  <div class="callout" style="border-color:#60a5fa40;background:linear-gradient(135deg, rgba(96,165,250,0.1), rgba(96,165,250,0.03));">
+    <h4 style="color:var(--blue);">Parallel Track: International SEO (Running Simultaneously)</h4>
+    <p>The international strategy runs in parallel with domestic content. It doesn't compete for the same timeline slots — it's a separate workstream that adds 13 high-value pages targeting a completely different audience with higher per-booking revenue potential.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="when">Week 1-2: Foundation</div>
+      <h4>Money Pages + Sitemap Fix (15 pages)</h4>
+      <div class="what">
+        <ul>
+          <li>Create all 18 use-case pages (family reunion, bachelor party, corporate retreat, etc.)</li>
+          <li>Fix sitemap: add /big-gull-lake/fishing and /camps-bay-marina</li>
+          <li>Optimize existing page titles and H1s for primary keywords</li>
+          <li>Submit sitemap to Google Search Console</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Week 3-4: Proximity + Location</div>
+      <h4>Proximity Pages + Location Expansion (20 pages)</h4>
+      <div class="what">
+        <ul>
+          <li>Create all proximity pages (near Toronto, Ottawa, Kingston, Montreal, etc.)</li>
+          <li>Create /north-frontenac pillar page with sub-pages</li>
+          <li>New Big Gull Lake sub-pages (hiking, kayaking, boating, wildlife, stargazing)</li>
+          <li>Build internal linking structure between location pages and booking</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Week 5-6: Activity Guides</div>
+      <h4>Activity Content Blitz (15 pages)</h4>
+      <div class="what">
+        <ul>
+          <li>Species-specific fishing guides (walleye, bass, pike)</li>
+          <li>FMZ 18 regulations page, fishing license guide</li>
+          <li>Water activity guides (canoe, kayak, paddleboard)</li>
+          <li>Nature guides (wildlife, stargazing, clean lakes)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Week 7-8: Planning Content</div>
+      <h4>Practical Guides + Question Content (18 pages)</h4>
+      <div class="what">
+        <ul>
+          <li>Packing lists, grocery lists, cost splitting guide</li>
+          <li>Age-specific guides (toddlers, teens, elderly parents)</li>
+          <li>Itineraries (3-day, 7-day)</li>
+          <li>First-timer guides, etiquette, remote work from cottage</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Week 9-10: Seasonal + Comparison</div>
+      <h4>Seasonal Pages + Best-Of Articles (25 pages)</h4>
+      <div class="what">
+        <ul>
+          <li>Holiday-specific pages (Victoria Day, Canada Day, Labour Day, Thanksgiving)</li>
+          <li>Season guides (spring, summer, fall, winter)</li>
+          <li>Comparison articles (vs Muskoka, vs Kawarthas, vs Haliburton)</li>
+          <li>"Best of" listicles (best fishing lakes, best swimming lakes, etc.)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Week 11-12: Polish + Amplify</div>
+      <h4>Internal Linking, Schema, Submission (10 pages + optimization)</h4>
+      <div class="what">
+        <ul>
+          <li>Remaining location deep-dives (Bon Echo, Sharbot Lake, Frontenac Park)</li>
+          <li>Full internal linking audit — every page links to booking/pricing</li>
+          <li>Add schema markup to all new pages (FAQ, Article, HowTo)</li>
+          <li>Submit all new URLs to Google for indexing</li>
+          <li>Set up Google Business Profile</li>
+          <li>Begin backlink outreach (Ontario travel blogs, "best cottages" articles)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Month 4+: Ongoing</div>
+      <h4>Content Maintenance + Expansion</h4>
+      <div class="what">
+        <ul>
+          <li>Update seasonal content annually (fishing openers, regulations, pricing)</li>
+          <li>Publish 2-4 new articles per month based on Search Console data</li>
+          <li>Refresh underperforming pages based on analytics</li>
+          <li>Add user-generated content (guest reviews, trip reports, photos)</li>
+          <li>Create video content for YouTube (embed in articles for dwell time)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:40px;">
+    <h2 style="color:var(--blue);">Parallel Track: International SEO</h2>
+    <p>Running simultaneously with domestic content. These pages target a different audience and different keywords — no conflict with domestic timeline.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item" style="--dot-color:var(--blue);">
+      <div class="when">Intl Week 1-2: Flagship Pages</div>
+      <h4>Core International Landing Pages (3 pages)</h4>
+      <div class="what">
+        <ul>
+          <li><strong>/canadian-cottage-experience</strong> — flagship international entry point (IN PROGRESS)</li>
+          <li><strong>/international-guests</strong> — logistics page (airports, car rental, currency, packing, provisions, fishing licenses)</li>
+          <li><strong>/why-big-gull-lake</strong> — differentiation page (vs Muskoka, hidden gem positioning)</li>
+          <li>Add TouristAttraction + enhanced LodgingBusiness structured data with international areaServed</li>
+          <li>Add x-default hreflang tag to root layout</li>
+          <li>Show prices in EUR/GBP/USD on international-facing pages</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Intl Week 3-4: UK/EU Blog Content</div>
+      <h4>High-Priority International Blog Posts (5 pages)</h4>
+      <div class="what">
+        <ul>
+          <li>"Canadian Cottage Holiday — Complete Guide for European Visitors" (targets "cottage holiday" UK spelling)</li>
+          <li>"What Does a Week at a Canadian Cottage Cost? European Price Guide" (flight + car + cottage + groceries breakdown)</li>
+          <li>"Planning a Canadian Wilderness Vacation from the UK" (flights, driving right, voltage, EHIC)</li>
+          <li>"Heated Rivalry Filming Locations — Visit Cottage Country" (capitalize on the cultural moment)</li>
+          <li>"The Canadian Shield — Why This Landscape Is Unlike Anything in Europe"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Intl Week 5-6: Comparison + Expansion</div>
+      <h4>Comparison Content + Remaining International Articles (5 pages)</h4>
+      <div class="what">
+        <ul>
+          <li>"Ontario Cottage Country vs the Lake District" (UK market comparison)</li>
+          <li>"Canadian Cottage vs Swedish Stuga / Norwegian Hytte" (Nordic market)</li>
+          <li>"Ontario Cottage Holiday from Europe — Planning Guide" (broader EU market)</li>
+          <li>"Canadian Wilderness Family Vacation — Ontario Guide" (US families)</li>
+          <li>"Day Trips from Cottage Country — Kingston & Ottawa" (international appeal)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="when">Intl Week 7+: Technical + Amplify</div>
+      <h4>Technical SEO + Backlink Outreach</h4>
+      <div class="what">
+        <ul>
+          <li>Update existing page metadata with international keywords across all pages</li>
+          <li>Add FAQPage schema to all new international pages (60% more likely to appear in AI Overviews)</li>
+          <li>Add Article schema with author/date to all blog posts</li>
+          <li>Add BreadcrumbList schema sitewide</li>
+          <li>Implement WebSite schema with SearchAction for AI search optimization</li>
+          <li>Update Booking.com, Vrbo (.co.uk/.de), Airbnb listings with international-friendly descriptions</li>
+          <li>Pitch backlinks to: BBC Travel, NatGeo, Conde Nast Traveller UK, The Telegraph Travel</li>
+          <li>Contact Destination Ontario for "Outdoor Explorer" segment marketing inclusion</li>
+          <li>Add concierge add-on packages: grocery pre-stocking ($200), linen service ($250), fishing guide ($300)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TECHNICAL ============ -->
+<div class="panel" id="technical">
+
+  <div class="section">
+    <h2>Technical Implementation</h2>
+    <p>How to build 100+ pages efficiently in your existing Next.js 16 codebase.</p>
+  </div>
+
+  <div class="callout">
+    <h4>Your Architecture is Already Set Up for This</h4>
+    <p>You're running Next.js 16 with App Router, SSR, Prisma/Supabase, and you already have a blog system with per-page TSX files, a dynamic campsite system, and good SEO metadata patterns. The codebase is ready — you just need a content scaling strategy.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Option A: Static TSX Pages (Current Approach)</h4>
+      <div class="desc">
+        <p>Keep writing each page as its own <code>page.tsx</code>. Works for 20-30 pages but doesn't scale to 120+.</p>
+        <p style="color:var(--green);margin-top:8px;"><strong>Pros:</strong> Full control, unique layouts, no CMS needed</p>
+        <p style="color:var(--red);"><strong>Cons:</strong> Slow to produce, hard to maintain consistency, developer bottleneck</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Option B: MDX + Content Layer (Recommended)</h4>
+      <div class="desc">
+        <p>Add MDX support. Write content in markdown, render with shared templates. Metadata in frontmatter, content in markdown, components inline.</p>
+        <p style="color:var(--green);margin-top:8px;"><strong>Pros:</strong> Fast content creation, consistent templates, non-dev can write</p>
+        <p style="color:var(--red);"><strong>Cons:</strong> Initial setup, less layout flexibility per page</p>
+        <p style="margin-top:8px;">Structure: <code>/content/blog/*.mdx</code> → <code>/blog/[slug]/page.tsx</code></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Option C: Database-Driven (Programmatic SEO)</h4>
+      <div class="desc">
+        <p>Store content in Supabase. Dynamic <code>[slug]</code> routes render from DB. You already do this for campsites.</p>
+        <p style="color:var(--green);margin-top:8px;"><strong>Pros:</strong> Maximum scale, CMS-like editing, programmatic generation</p>
+        <p style="color:var(--red);"><strong>Cons:</strong> More setup, need admin UI, content feels templated if not careful</p>
+        <p style="margin-top:8px;">Extend Prisma: <code>model BlogPost { slug, title, content, keywords, cluster, published }</code></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Option D: Hybrid (Best of Both)</h4>
+      <div class="desc">
+        <p>Pillar pages as TSX (full custom design), supporting articles as MDX or DB-driven. Use-case and proximity pages as templates with variable data.</p>
+        <p style="color:var(--green);margin-top:8px;"><strong>Pros:</strong> Quality where it matters, speed where it counts</p>
+        <p style="color:var(--red);"><strong>Cons:</strong> Two systems to maintain</p>
+        <p style="margin-top:8px;">TSX for: home, cottage, big-gull-lake, pricing, reviews<br/>Template for: use-case, proximity, seasonal, comparison articles</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:32px;">
+    <h3>Template Architecture for Mass Content</h3>
+    <p>A single use-case page template can generate 18 pages. A proximity template generates 14. Here's the pattern:</p>
+
+    <div class="card" style="margin-top:12px;">
+      <h4>Use-Case Template Variables</h4>
+      <pre style="background:var(--surface2);padding:16px;border-radius:8px;font-size:0.8rem;overflow-x:auto;color:var(--text-muted);">
+{
+  slug: "family-reunion-cottage",
+  title: "Family Reunion Cottage Rental Ontario — Sleeps 16",
+  h1: "The Perfect Family Reunion Cottage on Big Gull Lake",
+  heroImage: "/images/family-beach.jpg",
+  metaDescription: "Plan your family reunion at a lakefront cottage...",
+  targetKeywords: ["family reunion cottage Ontario", "..."],
+  whoItsFor: "Multi-generational families, 8-16 guests",
+  whyBigGull: ["Private beach safe for all ages", "5 bedrooms...", "..."],
+  activities: ["Swimming", "Fishing", "Campfire stories", "..."],
+  testimonialFilter: "family",  // pull relevant reviews
+  ctaText: "Book Your Family Reunion",
+  faqItems: [{ q: "Is it safe for young kids?", a: "..." }, ...],
+  relatedPosts: ["cottage-with-toddlers", "cottage-grocery-list-16"]
+}
+      </pre>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <h4>Proximity Template Variables</h4>
+      <pre style="background:var(--surface2);padding:16px;border-radius:8px;font-size:0.8rem;overflow-x:auto;color:var(--text-muted);">
+{
+  slug: "cottage-near-toronto",
+  city: "Toronto",
+  driveTime: "3 hours",
+  distance: "280 km",
+  direction: "northeast on Highway 7",
+  routeDescription: "Take the 401 east to Highway 7...",
+  googleMapsUrl: "https://maps.google.com/...",
+  nearbyStops: ["Sharbot Lake general store", "Bon Echo park"],
+  metaDescription: "Lakefront cottage rental just 3 hours from Toronto...",
+  targetKeywords: ["cottage near Toronto", "cottage 3 hours Toronto", "..."],
+  citySpecificCopy: "Escape the GTA and trade Gardiner gridlock for..."
+}
+      </pre>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:32px;">
+    <h3>International Technical SEO</h3>
+    <p>Technical changes required to surface content to international search indexes and AI search engines.</p>
+
+    <div class="card-grid" style="margin-top:12px;">
+      <div class="card" style="border-color:var(--blue-dim);">
+        <h4>Hreflang Strategy</h4>
+        <div class="desc">
+          <p>Add <code>x-default</code> hreflang to root layout.tsx. This signals to Google that English content serves all markets.</p>
+          <p style="margin-top:8px;color:var(--orange);">Skip regional hreflang (en-GB, en-US) — Google requires 20% content differences between versions. For a single-language site, <code>x-default</code> is the correct approach.</p>
+        </div>
+      </div>
+      <div class="card" style="border-color:var(--blue-dim);">
+        <h4>Structured Data Upgrades</h4>
+        <div class="desc">
+          <p>Upgrade home page VacationRental schema with: <code>containsPlace</code>/<code>Accommodation</code> for bed config, <code>amenityFeature</code>, geo coordinates, <code>AggregateOffer</code> with multi-currency pricing.</p>
+          <p style="margin-top:8px;">Add <code>TouristAttraction</code> schema on international pages. Pages with comprehensive structured data are <strong>73% more likely to appear in Google AI Overviews</strong>.</p>
+        </div>
+      </div>
+      <div class="card" style="border-color:var(--blue-dim);">
+        <h4>AI Search Optimization</h4>
+        <div class="desc">
+          <p>ChatGPT handles <strong>12% of Google's search volume</strong>. AI referral traffic grew <strong>527% in H1 2025</strong> and converts at <strong>15.9%</strong> vs 1.76% for traditional organic (9x higher).</p>
+          <p style="margin-top:8px;">Ensure clear headers matching natural language questions, descriptive image alt text, and <code>WebSite</code> schema with <code>SearchAction</code>.</p>
+        </div>
+      </div>
+      <div class="card" style="border-color:var(--blue-dim);">
+        <h4>International Metadata</h4>
+        <div class="desc">
+          <p>Add to root layout.tsx keywords: "Canadian cottage holiday", "Ontario cottage rental international", "cottage country Canada vacation".</p>
+          <p style="margin-top:8px;">Add to pricing page: "cottage rental Canada cost EUR", "Ontario lakefront rental price".</p>
+          <p style="margin-top:8px;">Add to cottage page: "luxury lakefront cottage Ontario", "private beach cottage Canada".</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;border-color:var(--blue-dim);">
+      <h4>International Page Template Variables</h4>
+      <pre style="background:var(--surface2);padding:16px;border-radius:8px;font-size:0.8rem;overflow-x:auto;color:var(--text-muted);">
+{
+  slug: "canadian-cottage-experience",
+  title: "The Canadian Cottage Experience — Your Private Lakefront Estate",
+  h1: "Experience Authentic Canadian Cottage Country",
+  heroImage: "/images/golden-hour-dock.jpg",
+  targetMarkets: ["UK", "EU", "US"],
+  priceDisplay: {
+    cad: "$6,850/week",
+    gbp: "~£3,800/week",
+    eur: "~€4,300/week",
+    usd: "~$4,900/week"
+  },
+  comparisons: [
+    { name: "Muskoka equivalent", price: "$30,000-50,000/week", ratio: "4-7x more" },
+    { name: "Scottish Highlands", price: "£4,750/week", ratio: "25% more" }
+  ],
+  destinationOntarioSegment: "outdoor-explorer",
+  faqItems: [
+    { q: "What is a Canadian cottage?", a: "..." },
+    { q: "How do I get to cottage country from Europe?", a: "..." },
+    { q: "Is cottage country safe for families?", a: "..." }
+  ],
+  structuredData: ["VacationRental", "TouristAttraction", "FAQPage"]
+}
+      </pre>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:32px;">
+    <h3>SEO Fixes to Ship Immediately</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>1. Fix Sitemap Gaps</h4>
+        <div class="desc">Add <code>/big-gull-lake/fishing</code> and <code>/camps-bay-marina</code> to sitemap.ts. These pages exist but aren't being submitted to Google.</div>
+      </div>
+      <div class="card">
+        <h4>2. Optimize Homepage Title</h4>
+        <div class="desc">Current title is likely just "Island View Retreat". Change to: <strong>"Large Cottage Rental on Big Gull Lake (Sleeps 16) | Island View Retreat"</strong></div>
+      </div>
+      <div class="card">
+        <h4>3. Add FAQ Schema</h4>
+        <div class="desc">Add FAQPage schema to blog posts and guide pages. Captures "People Also Ask" featured snippets in Google.</div>
+      </div>
+      <div class="card">
+        <h4>4. Internal Link Audit</h4>
+        <div class="desc">Every content page should link to <code>/pricing</code> and <code>/contact</code>. Currently many blog posts are dead ends.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Topic data
+const topics = [
+  // Location Domination - LIVE
+  { n:1, route:"/big-gull-lake", title:"Big Gull Lake Ontario — Lake Guide", cluster:"location", priority:"P1", status:"live" },
+  { n:2, route:"/big-gull-lake/fishing", title:"Big Gull Lake Fishing — Species, Spots, Regulations", cluster:"location", priority:"P1", status:"live" },
+  { n:3, route:"/big-gull-lake/campsites", title:"Big Gull Lake Campsites — Island Camping Guide", cluster:"location", priority:"P1", status:"live" },
+  { n:4, route:"/blog/big-gull-lake-history", title:"The History of Big Gull Lake", cluster:"location", priority:"P2", status:"live" },
+  { n:5, route:"/blog/big-gull-lake-water-quality-swimming", title:"Big Gull Lake Water Quality — Is It Safe to Swim?", cluster:"location", priority:"P1", status:"live" },
+  { n:6, route:"/blog/big-gull-lake-islands-canoeing", title:"Exploring Big Gull Lake's 30+ Islands by Canoe", cluster:"location", priority:"P2", status:"live" },
+  // Location Domination - NEW
+  { n:7, route:"/big-gull-lake/hiking-trails", title:"Big Gull Lake Hiking Trails Guide", cluster:"location", priority:"P2", status:"new" },
+  { n:8, route:"/big-gull-lake/wildlife", title:"Wildlife & Bird Watching on Big Gull Lake", cluster:"location", priority:"P3", status:"new" },
+  { n:9, route:"/big-gull-lake/boating-guide", title:"Boating Guide: Big Gull Lake Launches & Tips", cluster:"location", priority:"P2", status:"new" },
+  { n:10, route:"/big-gull-lake/ice-fishing", title:"Ice Fishing on Big Gull Lake — Winter Guide", cluster:"location", priority:"P3", status:"new" },
+  { n:11, route:"/big-gull-lake/kayaking", title:"Kayaking Big Gull Lake — Routes & Tips", cluster:"location", priority:"P2", status:"new" },
+  { n:12, route:"/big-gull-lake/stargazing", title:"Stargazing at Big Gull Lake — Dark Sky Guide", cluster:"location", priority:"P3", status:"new" },
+  { n:13, route:"/big-gull-lake/swimming-beaches", title:"Best Swimming Spots & Beaches on Big Gull Lake", cluster:"location", priority:"P2", status:"new" },
+  { n:14, route:"/big-gull-lake/fall-colours", title:"Fall Colours on Big Gull Lake — When & Where", cluster:"location", priority:"P3", status:"new" },
+  { n:15, route:"/north-frontenac", title:"North Frontenac Ontario — Complete Area Guide", cluster:"location", priority:"P1", status:"new" },
+  { n:16, route:"/north-frontenac/trails", title:"North Frontenac Parklands Trails Guide", cluster:"location", priority:"P2", status:"new" },
+  { n:17, route:"/north-frontenac/mountain-biking", title:"Mountain Biking in North Frontenac", cluster:"location", priority:"P3", status:"new" },
+  { n:18, route:"/blog/crotch-lake-trail-guide", title:"Crotch Lake Trail — Complete Hiking Guide", cluster:"location", priority:"P2", status:"new" },
+  { n:19, route:"/blog/frontenac-provincial-park", title:"Frontenac Provincial Park Day Trip Guide", cluster:"location", priority:"P2", status:"new" },
+  { n:20, route:"/blog/bon-echo-provincial-park", title:"Bon Echo Provincial Park — Day Trip from Big Gull", cluster:"location", priority:"P3", status:"new" },
+  { n:21, route:"/blog/sharbot-lake-guide", title:"Sharbot Lake — Things to Do & Services", cluster:"location", priority:"P3", status:"new" },
+  { n:22, route:"/blog/land-o-lakes-region", title:"Land O' Lakes Ontario Travel Guide", cluster:"location", priority:"P2", status:"new" },
+
+  // Use-Case / Intent
+  { n:23, route:"/large-group-cottage-ontario", title:"Large Group Cottage Rental Ontario (Sleeps 16+)", cluster:"usecase", priority:"P1", status:"new" },
+  { n:24, route:"/cottage-sleeps-16-ontario", title:"Cottage That Sleeps 16 in Ontario", cluster:"usecase", priority:"P1", status:"new" },
+  { n:25, route:"/family-reunion-cottage", title:"Family Reunion Cottage Rental Ontario", cluster:"usecase", priority:"P1", status:"new" },
+  { n:26, route:"/multi-family-cottage", title:"Multi-Family Cottage Rental Ontario", cluster:"usecase", priority:"P1", status:"new" },
+  { n:27, route:"/bachelor-party-cottage", title:"Bachelor Party Cottage Ontario — Lakefront", cluster:"usecase", priority:"P1", status:"new" },
+  { n:28, route:"/bachelorette-cottage", title:"Bachelorette Party Cottage Ontario", cluster:"usecase", priority:"P2", status:"new" },
+  { n:29, route:"/corporate-retreat-cottage", title:"Corporate Retreat Cottage Ontario — Lakefront", cluster:"usecase", priority:"P1", status:"new" },
+  { n:30, route:"/fishing-cottage-ontario", title:"Fishing Cottage Rental Ontario — Walleye & Bass", cluster:"usecase", priority:"P1", status:"new" },
+  { n:31, route:"/waterfront-cottage-private-beach", title:"Waterfront Cottage with Private Beach Ontario", cluster:"usecase", priority:"P1", status:"new" },
+  { n:32, route:"/lakefront-cottage-ontario", title:"Lakefront Cottage Rental Ontario", cluster:"usecase", priority:"P1", status:"new" },
+  { n:33, route:"/cottage-with-kayaks-canoes", title:"Cottage with Kayaks & Canoes Ontario", cluster:"usecase", priority:"P2", status:"new" },
+  { n:34, route:"/pet-friendly-large-cottage", title:"Pet-Friendly Large Cottage Ontario", cluster:"usecase", priority:"P2", status:"new" },
+  { n:35, route:"/cottage-birthday-celebration", title:"Birthday Celebration Cottage Ontario", cluster:"usecase", priority:"P2", status:"new" },
+  { n:36, route:"/friends-getaway-cottage", title:"Friends Getaway Cottage Ontario — Large Group", cluster:"usecase", priority:"P2", status:"new" },
+  { n:37, route:"/couples-retreat-cottage", title:"Couples Retreat Cottage Ontario — Lakefront", cluster:"usecase", priority:"P3", status:"new" },
+  { n:38, route:"/thanksgiving-cottage-rental", title:"Thanksgiving Cottage Rental Ontario", cluster:"usecase", priority:"P2", status:"new" },
+  { n:39, route:"/holiday-cottage-rental", title:"Christmas & New Year's Cottage Rental Ontario", cluster:"usecase", priority:"P3", status:"new" },
+  { n:40, route:"/summer-cottage-rental-ontario", title:"Summer Cottage Rental Ontario 2026", cluster:"usecase", priority:"P1", status:"new" },
+
+  // Proximity
+  { n:41, route:"/cottage-near-toronto", title:"Cottage Rental 3 Hours from Toronto", cluster:"proximity", priority:"P1", status:"new" },
+  { n:42, route:"/cottage-near-ottawa", title:"Cottage Rental Near Ottawa Ontario", cluster:"proximity", priority:"P1", status:"new" },
+  { n:43, route:"/cottage-near-kingston", title:"Cottage Rental Near Kingston Ontario", cluster:"proximity", priority:"P1", status:"new" },
+  { n:44, route:"/cottage-near-montreal", title:"Ontario Cottage Rental Near Montreal", cluster:"proximity", priority:"P2", status:"new" },
+  { n:45, route:"/cottage-near-peterborough", title:"Cottage Rental Near Peterborough", cluster:"proximity", priority:"P2", status:"new" },
+  { n:46, route:"/cottage-near-belleville", title:"Cottage Rental Near Belleville Ontario", cluster:"proximity", priority:"P3", status:"new" },
+  { n:47, route:"/blog/best-lakes-near-toronto", title:"Best Lakes Near Toronto for Cottage Getaways", cluster:"proximity", priority:"P1", status:"new" },
+  { n:48, route:"/blog/weekend-getaway-from-toronto", title:"Weekend Getaway from Toronto — Cottage Edition", cluster:"proximity", priority:"P1", status:"new" },
+  { n:49, route:"/blog/weekend-getaway-from-ottawa", title:"Weekend Getaway from Ottawa — Cottage Edition", cluster:"proximity", priority:"P2", status:"new" },
+  { n:50, route:"/blog/eastern-ontario-cottage-country", title:"Eastern Ontario Cottage Country — Complete Guide", cluster:"proximity", priority:"P2", status:"new" },
+  { n:51, route:"/blog/driving-directions-toronto", title:"How to Get to Big Gull Lake from Toronto", cluster:"proximity", priority:"P2", status:"new" },
+  { n:52, route:"/blog/driving-directions-ottawa", title:"How to Get to Big Gull Lake from Ottawa", cluster:"proximity", priority:"P3", status:"new" },
+  { n:53, route:"/blog/not-muskoka-alternatives", title:"Not Muskoka: Less Crowded Ontario Cottage Alternatives", cluster:"proximity", priority:"P1", status:"new" },
+  { n:54, route:"/blog/kawartha-vs-frontenac", title:"Kawarthas vs Frontenac — Cottage Region Comparison", cluster:"proximity", priority:"P3", status:"new" },
+
+  // Activity & Experience - LIVE
+  { n:55, route:"/blog/big-gull-lake-fishing-guide", title:"Big Gull Lake Fishing Guide 2026", cluster:"activity", priority:"P1", status:"live" },
+  { n:56, route:"/blog/big-gull-lake-depth-fishing-spots", title:"Big Gull Lake Depth Map & Best Fishing Spots", cluster:"activity", priority:"P1", status:"live" },
+  { n:57, route:"/blog/big-gull-lake-camping-guide", title:"Big Gull Lake Camping Guide 2026", cluster:"activity", priority:"P1", status:"live" },
+  { n:58, route:"/blog/things-to-do-north-frontenac", title:"Things to Do in North Frontenac", cluster:"activity", priority:"P1", status:"live" },
+  // Activity - NEW
+  { n:59, route:"/blog/walleye-fishing-ontario-spring", title:"Walleye Fishing Ontario — Spring Tips & Tactics", cluster:"activity", priority:"P2", status:"new" },
+  { n:60, route:"/blog/bass-fishing-ontario-summer", title:"Bass Fishing Ontario — Summer Guide", cluster:"activity", priority:"P2", status:"new" },
+  { n:61, route:"/blog/pike-fishing-ontario", title:"Pike Fishing Ontario — Techniques & Best Lakes", cluster:"activity", priority:"P3", status:"new" },
+  { n:62, route:"/blog/fmz-18-fishing-regulations", title:"FMZ 18 Fishing Regulations Ontario 2026", cluster:"activity", priority:"P1", status:"new" },
+  { n:63, route:"/blog/ontario-fishing-license-guide", title:"How to Get a Fishing License in Ontario", cluster:"activity", priority:"P1", status:"new" },
+  { n:64, route:"/blog/canoe-trip-planning-ontario", title:"Canoe Trip Planning Guide — Ontario", cluster:"activity", priority:"P2", status:"new" },
+  { n:65, route:"/blog/paddleboarding-ontario-lakes", title:"Stand-Up Paddleboarding on Ontario Lakes", cluster:"activity", priority:"P3", status:"new" },
+  { n:66, route:"/blog/campfire-cooking-guide", title:"Campfire Cooking Guide — Cottage Edition", cluster:"activity", priority:"P3", status:"new" },
+  { n:67, route:"/blog/wildlife-watching-eastern-ontario", title:"Wildlife Watching in Eastern Ontario", cluster:"activity", priority:"P3", status:"new" },
+  { n:68, route:"/blog/dark-sky-stargazing-ontario", title:"Best Stargazing Spots in Ontario — Dark Sky Guide", cluster:"activity", priority:"P3", status:"new" },
+  { n:69, route:"/blog/swimming-lakes-ontario-cleanest", title:"Cleanest Swimming Lakes in Ontario", cluster:"activity", priority:"P2", status:"new" },
+  { n:70, route:"/blog/family-cottage-games", title:"Best Cottage Games for Families — Rainy Day Guide", cluster:"activity", priority:"P3", status:"new" },
+  { n:71, route:"/blog/cottage-cooking-16-people", title:"Cooking for 16 at the Cottage — Meal Planning Guide", cluster:"activity", priority:"P2", status:"new" },
+  { n:72, route:"/blog/winter-activities-cottage-ontario", title:"Winter Cottage Activities in Ontario", cluster:"activity", priority:"P3", status:"new" },
+  { n:73, route:"/blog/dock-fishing-kids-guide", title:"Dock Fishing with Kids — Beginner's Guide", cluster:"activity", priority:"P2", status:"new" },
+  { n:74, route:"/blog/photography-tips-cottage-lake", title:"Lake & Cottage Photography Tips", cluster:"activity", priority:"P3", status:"new" },
+
+  // Planning & Practical - LIVE
+  { n:75, route:"/blog/best-large-group-cottages-ontario", title:"Best Large Group Cottages in Ontario (Sleeps 16+)", cluster:"planning", priority:"P1", status:"live" },
+  // Planning - NEW
+  { n:76, route:"/blog/cottage-packing-list", title:"Ultimate Cottage Packing List", cluster:"planning", priority:"P1", status:"new" },
+  { n:77, route:"/blog/cottage-grocery-list-16-people", title:"Cottage Grocery List for 16 People", cluster:"planning", priority:"P1", status:"new" },
+  { n:78, route:"/blog/splitting-cottage-cost-friends", title:"How to Split Cottage Costs Fairly", cluster:"planning", priority:"P2", status:"new" },
+  { n:79, route:"/blog/cottage-etiquette-guide", title:"Cottage Etiquette — Rules for Good Guests", cluster:"planning", priority:"P3", status:"new" },
+  { n:80, route:"/blog/first-time-cottage-renter", title:"First Time Renting a Cottage — Complete Guide", cluster:"planning", priority:"P1", status:"new" },
+  { n:81, route:"/blog/cottage-with-toddlers", title:"Cottage Trip with Toddlers — Tips & Safety", cluster:"planning", priority:"P2", status:"new" },
+  { n:82, route:"/blog/cottage-with-teenagers", title:"Keeping Teenagers Entertained at the Cottage", cluster:"planning", priority:"P2", status:"new" },
+  { n:83, route:"/blog/cottage-with-elderly-parents", title:"Cottage Trip with Elderly Parents — Planning Guide", cluster:"planning", priority:"P3", status:"new" },
+  { n:84, route:"/blog/best-time-rent-cottage-ontario", title:"Best Time to Rent a Cottage in Ontario", cluster:"planning", priority:"P1", status:"new" },
+  { n:85, route:"/blog/3-day-cottage-itinerary", title:"3-Day Cottage Itinerary — Ontario", cluster:"planning", priority:"P1", status:"new" },
+  { n:86, route:"/blog/7-day-cottage-itinerary", title:"Week at the Cottage — 7-Day Itinerary", cluster:"planning", priority:"P1", status:"new" },
+  { n:87, route:"/blog/cottage-checklist-arrival", title:"Cottage Arrival Checklist — What to Do First", cluster:"planning", priority:"P3", status:"new" },
+  { n:88, route:"/blog/cottage-wifi-remote-work", title:"Working Remotely from an Ontario Cottage", cluster:"planning", priority:"P2", status:"new" },
+  { n:89, route:"/blog/cottage-insurance-what-to-know", title:"Cottage Rental Insurance — What You Need to Know", cluster:"planning", priority:"P3", status:"new" },
+  { n:90, route:"/blog/airbnb-vs-direct-booking-cottage", title:"Airbnb vs Booking Direct — Cottage Comparison", cluster:"planning", priority:"P2", status:"new" },
+  { n:91, route:"/blog/cottage-country-restaurants-pubs", title:"Best Restaurants Near North Frontenac", cluster:"planning", priority:"P2", status:"new" },
+  { n:92, route:"/blog/cottage-safety-guide", title:"Cottage Safety Guide — Water, Fire & Wildlife", cluster:"planning", priority:"P2", status:"new" },
+
+  // Seasonal
+  { n:93, route:"/blog/spring-cottage-ontario", title:"Spring Cottage Getaway — Ontario Guide", cluster:"seasonal", priority:"P2", status:"new" },
+  { n:94, route:"/blog/summer-cottage-guide", title:"Summer Cottage Trip Ontario 2026", cluster:"seasonal", priority:"P1", status:"new" },
+  { n:95, route:"/blog/fall-cottage-getaway", title:"Fall Cottage Getaway Ontario — Colours & Calm", cluster:"seasonal", priority:"P2", status:"new" },
+  { n:96, route:"/blog/winter-cottage-ontario", title:"Winter Cottage Ontario — Activities & Tips", cluster:"seasonal", priority:"P3", status:"new" },
+  { n:97, route:"/blog/victoria-day-cottage", title:"Victoria Day Cottage Weekend Ontario", cluster:"seasonal", priority:"P1", status:"new" },
+  { n:98, route:"/blog/canada-day-cottage", title:"Canada Day at the Cottage — Plans & Ideas", cluster:"seasonal", priority:"P1", status:"new" },
+  { n:99, route:"/blog/civic-holiday-cottage", title:"Civic Holiday Cottage Weekend Ontario", cluster:"seasonal", priority:"P2", status:"new" },
+  { n:100, route:"/blog/labour-day-cottage", title:"Labour Day Cottage Weekend Ontario", cluster:"seasonal", priority:"P2", status:"new" },
+  { n:101, route:"/blog/thanksgiving-cottage-ontario", title:"Thanksgiving at the Cottage — Ontario", cluster:"seasonal", priority:"P2", status:"new" },
+  { n:102, route:"/blog/cottage-opening-weekend", title:"Cottage Opening Weekend — Spring Tips", cluster:"seasonal", priority:"P2", status:"new" },
+  { n:103, route:"/blog/cottage-closing-weekend", title:"Closing the Cottage for Winter — Checklist", cluster:"seasonal", priority:"P3", status:"new" },
+  { n:104, route:"/blog/walleye-opener-ontario", title:"Walleye Opener Ontario 2026 — Everything You Need", cluster:"seasonal", priority:"P1", status:"new" },
+  { n:105, route:"/blog/bass-opener-ontario", title:"Bass Opener Ontario 2026 — Dates & Tips", cluster:"seasonal", priority:"P2", status:"new" },
+  { n:106, route:"/blog/ice-fishing-season-ontario", title:"Ice Fishing Season Ontario — When & Where", cluster:"seasonal", priority:"P3", status:"new" },
+  { n:107, route:"/blog/last-minute-summer-cottage", title:"Last-Minute Summer Cottage Deals Ontario", cluster:"seasonal", priority:"P1", status:"new" },
+  { n:108, route:"/blog/early-bird-cottage-booking", title:"Book Your 2027 Cottage Early — Save More", cluster:"seasonal", priority:"P3", status:"new" },
+
+  // Comparison
+  { n:109, route:"/blog/big-gull-lake-vs-muskoka", title:"Big Gull Lake vs Muskoka — Honest Comparison", cluster:"comparison", priority:"P1", status:"new" },
+  { n:110, route:"/blog/big-gull-lake-vs-kawartha", title:"Big Gull Lake vs Kawarthas — Which Is Better?", cluster:"comparison", priority:"P2", status:"new" },
+  { n:111, route:"/blog/big-gull-lake-vs-haliburton", title:"Big Gull Lake vs Haliburton Highlands", cluster:"comparison", priority:"P2", status:"new" },
+  { n:112, route:"/blog/best-fishing-lakes-ontario", title:"Best Fishing Lakes in Ontario — Ranked", cluster:"comparison", priority:"P1", status:"new" },
+  { n:113, route:"/blog/best-lakes-ontario-swimming", title:"Best Swimming Lakes in Ontario — Clean & Clear", cluster:"comparison", priority:"P1", status:"new" },
+  { n:114, route:"/blog/best-lakes-canoeing-ontario", title:"Best Lakes for Canoeing in Ontario", cluster:"comparison", priority:"P2", status:"new" },
+  { n:115, route:"/blog/best-cottage-lakes-ontario", title:"Best Cottage Lakes in Ontario — Hidden Gems", cluster:"comparison", priority:"P1", status:"new" },
+  { n:116, route:"/blog/best-family-cottages-ontario", title:"Best Family Cottages in Ontario — Kids Guide", cluster:"comparison", priority:"P1", status:"new" },
+  { n:117, route:"/blog/best-affordable-cottage-ontario", title:"Most Affordable Large Cottage Rentals Ontario", cluster:"comparison", priority:"P2", status:"new" },
+  { n:118, route:"/blog/top-10-cottage-country-ontario", title:"Top 10 Cottage Regions in Ontario — Ranked", cluster:"comparison", priority:"P2", status:"new" },
+  { n:119, route:"/blog/airbnb-vs-cottage-direct", title:"Airbnb vs Direct Cottage Rental — Pros & Cons", cluster:"comparison", priority:"P2", status:"new" },
+  { n:120, route:"/blog/cottage-vs-hotel-large-group", title:"Cottage vs Hotel for Large Groups — Cost Breakdown", cluster:"comparison", priority:"P1", status:"new" },
+  { n:121, route:"/blog/ontario-cottage-country-ranked", title:"Ontario Cottage Country Regions — Ranked", cluster:"comparison", priority:"P3", status:"new" },
+  { n:122, route:"/blog/cheapest-cottage-regions-ontario", title:"Cheapest Cottage Regions in Ontario 2026", cluster:"comparison", priority:"P2", status:"new" },
+
+  // International / Premium
+  { n:123, route:"/canadian-cottage-experience", title:"The Canadian Cottage Experience — Flagship International Landing", cluster:"international", priority:"P1", status:"wip" },
+  { n:124, route:"/international-guests", title:"International Guests — Travel Planning & Logistics", cluster:"international", priority:"P1", status:"new" },
+  { n:125, route:"/why-big-gull-lake", title:"Why Big Gull Lake — Hidden Gem vs Muskoka", cluster:"international", priority:"P1", status:"new" },
+  { n:126, route:"/blog/canadian-cottage-holiday-european-guide", title:"Canadian Cottage Holiday — Complete Guide for European Visitors", cluster:"international", priority:"P1", status:"new" },
+  { n:127, route:"/blog/cottage-holiday-cost-european-comparison", title:"What Does a Week at a Canadian Cottage Cost? European Price Guide", cluster:"international", priority:"P1", status:"new" },
+  { n:128, route:"/blog/canadian-shield-landscape", title:"The Canadian Shield — Why This Landscape Is Unlike Anything in Europe", cluster:"international", priority:"P2", status:"new" },
+  { n:129, route:"/blog/planning-canada-trip-from-uk", title:"Planning a Canadian Wilderness Vacation from the UK", cluster:"international", priority:"P1", status:"new" },
+  { n:130, route:"/blog/planning-canada-trip-from-europe", title:"Ontario Cottage Holiday from Europe — Planning Guide", cluster:"international", priority:"P2", status:"new" },
+  { n:131, route:"/blog/cottage-country-vs-lake-district", title:"Ontario Cottage Country vs the Lake District — Honest Comparison", cluster:"international", priority:"P2", status:"new" },
+  { n:132, route:"/blog/cottage-country-vs-scandinavian-cabin", title:"Canadian Cottage vs Swedish Stuga / Norwegian Hytte", cluster:"international", priority:"P3", status:"new" },
+  { n:133, route:"/blog/heated-rivalry-cottage-country", title:"Heated Rivalry Filming Locations — Visit Cottage Country", cluster:"international", priority:"P1", status:"new" },
+  { n:134, route:"/blog/canadian-wilderness-vacation-families", title:"Canadian Wilderness Family Vacation — Ontario Guide", cluster:"international", priority:"P2", status:"new" },
+  { n:135, route:"/blog/day-trips-kingston-ottawa", title:"Day Trips from Cottage Country — Kingston & Ottawa", cluster:"international", priority:"P2", status:"new" },
+];
+
+function renderTopics(filtered) {
+  const body = document.getElementById('topicBody');
+  body.innerHTML = '';
+  filtered.forEach(t => {
+    const clusterNames = { location: 'Location', usecase: 'Use-Case', proximity: 'Proximity', activity: 'Activity', planning: 'Planning', seasonal: 'Seasonal', comparison: 'Comparison', international: 'International' };
+    const prClass = { P1: 'p1', P2: 'p2', P3: 'p3' };
+    body.innerHTML += `<tr>
+      <td>${t.n}</td>
+      <td><code>${t.route}</code></td>
+      <td>${t.title}</td>
+      <td>${clusterNames[t.cluster] || t.cluster}</td>
+      <td><span class="priority ${prClass[t.priority]}">${t.priority}</span></td>
+      <td><span class="tag ${t.status}">${t.status.toUpperCase()}</span></td>
+    </tr>`;
+  });
+  document.getElementById('topicCount').textContent = `Showing ${filtered.length} of ${topics.length} topics`;
+}
+
+function filterTopics() {
+  const search = document.getElementById('topicSearch').value.toLowerCase();
+  const cluster = document.getElementById('clusterFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  const priority = document.getElementById('priorityFilter').value;
+
+  const filtered = topics.filter(t => {
+    if (search && !t.title.toLowerCase().includes(search) && !t.route.toLowerCase().includes(search)) return false;
+    if (cluster !== 'all' && t.cluster !== cluster) return false;
+    if (status !== 'all' && t.status !== status) return false;
+    if (priority !== 'all' && t.priority !== priority) return false;
+    return true;
+  });
+  renderTopics(filtered);
+}
+
+renderTopics(topics);
+</script>
+
+</body>
+</html>
