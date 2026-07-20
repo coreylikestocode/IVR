@@ -213,6 +213,37 @@ Run end-to-end 2026-07-19 on a throwaway rate, then removed:
 No confirm dialog fires on Delete — it is immediate and unrecoverable. There
 is no undo and no draft state.
 
+### 2026 baseline — the shape 2027/2028 gets built from
+
+Captured 2026-07-19. Seven rows; BASE RATE plus six periods.
+
+| Period | Dates | Nightly | Wknd night | Weekly | Min stay |
+|---|---|---|---|---|---|
+| BASE RATE | *(always)* | $400 | — | $2500 | 3 Nights |
+| EARLY SPRING 2026 | May 19 – Jun 19 | $450 | — | $2950 | 3 Nights |
+| JUNE 26 TO JULY 3 | Jun 26 – Jul 3 | — | — | $2950 | 1 Week |
+| AUG 21 TO AUG 28 | Aug 21 – 28 | $600 | $750 | $4250 | 1 Week |
+| AUG 28 TO SEPT 4 | Aug 28 – Sep 4 | $600 | $750 | $4250 | 1 Week |
+| LABOUR DAY LONG WEEKEND | Sep 4 – 7 | $550 | $600 | — | 3 Nights |
+| FALL 2026 | Sep 8 – Nov 30 | $550 | — | $3450 | 3 Nights |
+
+Notes carried on the rows: the three week-long August/June rows use *"Check in
+Friday at 4:00PM, Check out the following Friday at 10:00AM."*; Labour Day
+carries *"Long Weekend Price $1950"*.
+
+**Coverage is not continuous.** Uncovered in 2026:
+
+- **Jul 3 – Aug 21** — the whole peak of summer, falling through to BASE RATE
+  at $400/night rather than the $600/$4250 the neighbouring August weeks
+  charge. Those weeks were all booked, so they were presumably quoted under
+  rates since deleted — but repeating this shape in 2027 would quote peak
+  weeks at the base rate.
+- **Jun 20 – 25**, and everything after **Nov 30**.
+
+Check the whole year for gaps before saving a new set. The form warns about
+neither gaps nor overlaps, and a gap fails silently — it just quotes the base
+rate.
+
 ### Expiry behaviour
 
 Rates whose end date has passed stay in the list but render
