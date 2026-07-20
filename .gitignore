@@ -9,3 +9,6 @@ cic-inquiries.csv
 .env.*
 .DS_Store
 island-view-retreat/
+
+# Tooling artifacts
+.playwright-mcp/
