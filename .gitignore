@@ -1,0 +1,11 @@
+
+# Guest inquiry exports — contain personal data (names, emails, phones).
+# Never commit: this repo is public.
+cic-inquiries.csv
+*-inquiries.csv
+*.csv
+*.tsv
+.env
+.env.*
+.DS_Store
+island-view-retreat/
