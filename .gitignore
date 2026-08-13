@@ -12,3 +12,9 @@ island-view-retreat/
 
 # Tooling artifacts
 .playwright-mcp/
+
+# Analysis prompts — may reference booking specifics
+ivr-pricing-prompt-*.md
+
+# Private-repo worktrees — never commit to this public repo
+ivr-content-engine/
