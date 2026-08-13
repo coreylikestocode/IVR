@@ -32,6 +32,26 @@ So:
 - Memory is for hard-won context — traps, rationale, why a thing is the way it
   is. That ages well. Operational state does not.
 
+## 1a. "Harmless" is itself a claim worth checking
+
+The same day, the Chief of Staff noted that two test contacts sat in the send
+audience and called it *"harmless, arguably useful as a delivery canary"* — a
+judgement offered without checking. The owning agent checked, and it was wrong on
+both halves:
+
+- `info@islandviewretreat.com` was at **position 69** — it would arrive on **day
+  2** of a 20-day ramp, putting a marketing email addressed "Hi Kevin" into the
+  live booking inbox that handles real guests.
+- `corey.shelson@gmail.com` was at **position 786** — arriving on **day 20**,
+  useless as an early warning. `send_test` already covers that need properly:
+  on demand, any campaign, delivered in seconds, recorded nowhere.
+
+Both are now `HOLD` rather than `doNotContact` — dropped from `MAILABLE` and every
+audience, without implying they misbehaved. Reversible. The audience is **794**.
+
+The rule: dismissing something as harmless is a factual claim about blast radius.
+It costs a query or two to check, and here the check reversed the answer.
+
 ## 2. Facts have owners; consumers do not transcribe
 
 If a fact belongs to another agent, take it from them and cite where it came

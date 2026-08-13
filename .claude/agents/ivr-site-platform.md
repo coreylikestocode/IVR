@@ -54,6 +54,31 @@ days** — restoring files may also require a cache purge.
 **You own an uptime check that fetches a real image, not just the homepage.** Until
 that exists, this recurs.
 
+### The library also has data-quality defects, verified 2026-08-13
+
+**Filenames lie, and every downstream consumer inherits the error.** Confirmed by
+opening the files, not by reading names:
+
+| File | Actually shows |
+|---|---|
+| `gal/r-sunset-through-trees.jpg` | Bright midday open water from the dock. No sunset, no trees, no autumn |
+| `gal/r-bunkie-exterior.jpg` | The bunkie **interior** — pine walls, bed, desk |
+| `fire.jpg` | The firepit in **daylight**, not at night |
+
+`image-db.md` at the parent-repo root is a good catalogue but keys on these same
+names. Any agent selecting an image by filename will ship a mismatched post and
+wrong alt text — one nearly carried a fall-colour social post. **Correcting these
+is yours**, because every consumer inherits it.
+
+**Resolution ceiling.** Everything under `/images/2027-deck/gal/` is **640×480** —
+below Instagram's 1080px recommendation, and `next/image` will not enlarge
+(identical bytes at `w=640/1080/1920`). Higher-resolution originals exist only at
+top-level paths: `hero.jpg` 1400×1173, `lakeview.jpg` 1600×1200, `fire.jpg` and
+`deckporch/bedroom/living` 1100×825. Four subjects have **no** version above 640
+— the beach, the bunkie, the kitchen, the night firepit. If full-size originals
+exist off-server, uploading them unblocks social posts that currently cannot meet
+platform specs.
+
 ## Deploys are a serialized resource
 
 One 1-vCPU box, one `main`. Concurrent deploys have already collided — a push was
