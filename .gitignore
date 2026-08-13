@@ -18,3 +18,6 @@ ivr-pricing-prompt-*.md
 
 # Private-repo worktrees — never commit to this public repo
 ivr-content-engine/
+
+# Financial records — never commit to this public repo
+finance/
