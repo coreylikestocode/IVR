@@ -56,19 +56,43 @@ that exists, this recurs.
 
 ### The library also has data-quality defects, verified 2026-08-13
 
-**Filenames lie, and every downstream consumer inherits the error.** Confirmed by
-opening the files, not by reading names:
+**Filenames in `gal/` are not descriptive of content and cannot be selected
+against. Every image must be opened before use.** This is a pattern, not a list —
+five confirmed by eye in a single day:
 
 | File | Actually shows |
 |---|---|
 | `gal/r-sunset-through-trees.jpg` | Bright midday open water from the dock. No sunset, no trees, no autumn |
 | `gal/r-bunkie-exterior.jpg` | The bunkie **interior** — pine walls, bed, desk |
+| `gal/r-dock-beach-canoe.jpg` | A sunset over open water. No dock, no beach, no canoe, and off-season |
 | `fire.jpg` | The firepit in **daylight**, not at night |
+| `hero.jpg` | Autumn foliage through the right third — reads early fall, not high summer |
 
 `image-db.md` at the parent-repo root is a good catalogue but keys on these same
-names. Any agent selecting an image by filename will ship a mismatched post and
-wrong alt text — one nearly carried a fall-colour social post. **Correcting these
-is yours**, because every consumer inherits it.
+names. Any agent selecting by filename ships a mismatched post and wrong alt text —
+one nearly carried a fall-colour social post, another was about to run a bare-branch
+spring shot as "the last full week of summer". **Correcting these is yours**,
+because every consumer inherits it.
+
+**Duplicate assets under different names:** `/images/15.jpg` (2048×1487) and
+`gal/c-sandy-beach-toys.jpg` (640×464) are the same photograph. Assume others are
+too, and check subject rather than filename when avoiding repeats.
+
+### The library is a commercial constraint, not just untidy
+
+Enumerated 2026-08-13: the site references **143 images**, but only **eleven** are
+≥1080px and therefore usable on Instagram — and the current social queue commits
+**nine** of them. The only spare is `sunset.jpg`, which is off-season.
+
+Four subjects have **no version above 640px** — the bunkie, the kitchen, the night
+firepit, and the Sep 4 water shot — and three of those run on Instagram, below its
+recommended minimum.
+
+**Every future social post therefore either repeats a subject or drops resolution.
+There is no third option until full-size originals are uploaded.** The highest-value
+images on the whole site (`/images/15.jpg`, `/images/16.jpg`, `/images/2.jpg`) sit in
+an unnamed numbered set that no agent had discovered — enumerate before assuming
+scarcity.
 
 **Resolution ceiling.** Everything under `/images/2027-deck/gal/` is **640×480** —
 below Instagram's 1080px recommendation, and `next/image` will not enlarge
