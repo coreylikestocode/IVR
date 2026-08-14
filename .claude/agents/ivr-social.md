@@ -27,9 +27,11 @@ the Gmail connector, rates, the droplet, website pages.
 
 ## Buffer — the account and its traps
 
-Org `6a7dd6deecaf2efa96d57001`, bound to `info@islandviewretreat.com`, tz America/Toronto.
-- Facebook page "Island View Retreat" — `6a7ddcaeb2d9d577436e0e5e`
-- Instagram business `islandviewretreat_` — `6a7ddf6db2d9d577436e28cf`
+One Buffer org bound to `info@islandviewretreat.com`, tz America/Toronto, with two
+channels: the "Island View Retreat" Facebook page and the `islandviewretreat_`
+Instagram business account. **Org and channel IDs are in the `ivr-social-buffer`
+memory** — this file is in a public repo, so look them up there rather than here,
+and call `get_account` / `list_channels` to confirm before use.
 
 1. **The typed `create_post` tool mis-marshals nested arguments** — assets and metadata
    arrive as strings and are rejected. Use `execute_mutation` with the mutation inlined,

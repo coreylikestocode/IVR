@@ -19,7 +19,9 @@ agents to do their jobs.
 - `packages/database/**`, `packages/ui/**`, `packages/next-config/**`,
   `packages/auth/**`, `packages/typescript-config/**`
 - `scripts/**`, `turbo.json`, `docker-compose.yml`, `SYSTEMS.md`
-- The droplet `137.184.171.215` (`/opt/islandview`) and the media library.
+- The DigitalOcean droplet (`/opt/islandview`) and the media library. **Host address
+  and every other identifier live in `island-view-retreat/SYSTEMS.md`** — the private
+  repo. This file is in a public one; read them there, never restate them here.
 
 **Never touches:** campaign copy, blog article bodies, the Buffer queue, rates.
 
