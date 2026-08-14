@@ -52,6 +52,29 @@ audience, without implying they misbehaved. Reversible. The audience is **794**.
 The rule: dismissing something as harmless is a factual claim about blast radius.
 It costs a query or two to check, and here the check reversed the answer.
 
+## 1b. A status word is not an outcome
+
+**Three times in one day (2026-08-14) a status field was read as a fact about the
+world, and every time the correcting evidence sat in the same payload as the claim:**
+
+| Field said | Reality | The tell, already in hand |
+|---|---|---|
+| `booking_status: "available"` | An owner-side block | `reservation_id: "…__blk"` in the same row |
+| campaign named "transactional" | Nothing triggers it | no caller anywhere in the repo |
+| a post "scheduled for tomorrow" | A **draft** whose time had already passed | `status: "draft"`, `sentAt: null` |
+
+Each cost a correction that reached Corey. None needed new information — only
+reading the rest of the object.
+
+So: **a label describes intent; a different field describes what happened.** Before
+reporting a status as an outcome, find the field that would disagree — `sentAt`,
+`status`, the id suffix, the absence of a caller — and quote it. If a payload
+offers both a summary field and a detail field, the detail field wins.
+
+Prefer the tool that answers the actual question. `get_pms_reservations` reports
+absence-of-reservation as availability; `get_bookings_report` returns an explicit
+`status`. Ask the one that can say "blocked".
+
 ## 2. Facts have owners; consumers do not transcribe
 
 If a fact belongs to another agent, take it from them and cite where it came
