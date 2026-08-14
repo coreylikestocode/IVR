@@ -67,9 +67,19 @@ Each cost a correction that reached Corey. None needed new information — only
 reading the rest of the object.
 
 So: **a label describes intent; a different field describes what happened.** Before
-reporting a status as an outcome, find the field that would disagree — `sentAt`,
-`status`, the id suffix, the absence of a caller — and quote it. If a payload
-offers both a summary field and a detail field, the detail field wins.
+reporting a status as an outcome, find the field that would disagree and quote it.
+If a payload offers both a summary field and a detail field, the detail field wins.
+
+**Those three tells are examples, not a checklist.** They are simply the ones we
+happened to find in one afternoon. The rule is *find the field that would disagree*
+— read as "check `sentAt`, the id suffix, and for a caller", it will sail straight
+past the fourth instance. The value is in the looking.
+
+**And note who caught them: in all three cases it was someone re-checking a peer's
+claim, never the claimant catching their own.** That is the real lesson. A single
+agent re-reading its own payload did not catch these; a second agent asking "is that
+actually true?" caught every one. Which argues for the cross-checking habit far more
+than for any table of fields.
 
 Prefer the tool that answers the actual question. `get_pms_reservations` reports
 absence-of-reservation as availability; `get_bookings_report` returns an explicit
