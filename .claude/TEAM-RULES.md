@@ -104,6 +104,36 @@ actual window — never from a neighbouring band, a season average, or a rate ca
 "basically covers it". Before reporting a round, dramatic figure, check which dates
 the rate you used actually applies to.
 
+## 1d. Before a sentence becomes a headline, ask where its check was run
+
+The single test that catches every error we made on 2026-08-14:
+
+> **Was the check supporting this claim run in this session, or inherited?**
+
+Every one fails it. `welcome-inquiry` "firing" was inherited from a campaign *name*.
+The "$4,250 on CIC" was inherited from a rate row that was true in July and
+superseded by a promo. "Sep 5–20 available" was a field read without its sibling.
+"~$6,000" was a rate applied outside its dates. None needed new access — only
+re-running the check at the moment of asserting it.
+
+This bites hardest at the **summarising** step, and hardest of all on the Chief of
+Staff, because compression *is* that desk. The failures were not in gathering; the
+`__blk` and the $750's date range were both in hand and lost while compressing.
+
+### A related trap, inside the analysis rather than the summary
+
+**Two derivations agreeing can be redundancy, not corroboration.** Five 2026 price
+overrides matched the 2027 card by both `weekly ÷ 7` and `short-stay ÷ 3`. The
+agreement felt like independent confirmation; it was a property of the rate card
+being internally consistent. The matches proved the **source** of the numbers and
+said nothing about the **mechanism** that wrote them — which was then reported as
+though established.
+
+So: when two routes to the same answer agree, ask whether they could ever have
+disagreed. If not, you have one piece of evidence, not two. And keep *source* and
+*mechanism* as separate claims with separate evidence — conflating them closes a
+question that is still open, which is worse than leaving it open.
+
 ## 2. Facts have owners; consumers do not transcribe
 
 If a fact belongs to another agent, take it from them and cite where it came
