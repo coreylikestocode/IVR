@@ -85,6 +85,25 @@ Prefer the tool that answers the actual question. `get_pms_reservations` reports
 absence-of-reservation as availability; `get_bookings_report` returns an explicit
 `status`. Ask the one that can say "blocked".
 
+## 1c. Size a finding from the values it actually covers
+
+Twice on 2026-08-14 a real finding reached Corey with an inflated headline number,
+both times because a rate was carried past the dates it covered:
+
+- **"~$10,000 of unsold September"** — the range was blocked, not open.
+- **"~$6,000 of over-blocked October"** — the eight nights are real, but they are
+  worth **$3,999**. The $750 figure used to size them is an override covering
+  **Oct 2–7 only**; the actual recommended prices for Oct 18–25 run $468–$558.
+
+**The finding survives the correction. It just gets smaller and more credible.**
+That is the trade: an inflated number does not make a problem more persuasive, it
+makes the next number you report less trusted.
+
+So: price a range from the values for **those dates** — `get_listing_prices` for the
+actual window — never from a neighbouring band, a season average, or a rate card that
+"basically covers it". Before reporting a round, dramatic figure, check which dates
+the rate you used actually applies to.
+
 ## 2. Facts have owners; consumers do not transcribe
 
 If a fact belongs to another agent, take it from them and cite where it came
