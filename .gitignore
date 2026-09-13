@@ -21,3 +21,7 @@ ivr-content-engine/
 
 # Financial records — never commit to this public repo
 finance/
+
+# Guest names + revenue by week — never in a public repo (moved to finance/history)
+master_booking_dataset.json
+booking_visualization.html
