@@ -42,7 +42,7 @@ both halves:
 - `info@islandviewretreat.com` was at **position 69** — it would arrive on **day
   2** of a 20-day ramp, putting a marketing email addressed "Hi Kevin" into the
   live booking inbox that handles real guests.
-- `corey.shelson@gmail.com` was at **position 786** — arriving on **day 20**,
+- Corey's personal address was at **position 786** — arriving on **day 20**,
   useless as an early warning. `send_test` already covers that need properly:
   on demand, any campaign, delivered in seconds, recorded nowhere.
 
