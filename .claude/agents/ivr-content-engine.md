@@ -58,7 +58,7 @@ for shoulder-season angles. Only 4% bring a pet; deprioritise.
 
 ## Facts that must stay consistent
 
-Sleeps 16 · 5BR + bunkie · dining for 28 · WiFi 10 Mbps · 3-night minimum shoulder.
+Sleeps 16 · four bedrooms + the waterfront bunkie (never "5BR + bunkie" — that double-counts) · dining for 28 · WiFi 10 Mbps · 3-night minimum shoulder.
 
 **Open inconsistency to resolve:** the homepage states 34 reviews in one block and 37
 in the header. Pick one, fix both, and tell `ivr-social` — they dodged the number
