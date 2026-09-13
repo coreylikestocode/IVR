@@ -43,17 +43,22 @@ on a campaign must never damage `info@`, which carries every booking conversatio
 - **`MAIL_SECRET` signs unsubscribe links.** Rotating it invalidates every link in
   every email already sent.
 
-## State as of 2026-08-13
+## State — re-verify from the database before acting
 
-798 contacts, 796 mailable, 0 unsubscribed, 2 do-not-contact.
-**Nothing has been sent to the list.** `2026-open-dates` (796 remaining, 40/day cap),
-`2027-season-open` (473), `2026-fall-shortstay` (399) are all DRAFT.
-`2027-bookings-open-aug9` is the backfilled record of a manual BCC blast, not a send.
+Numbers here rot. Query `Contact` and `Broadcast` before quoting any of them
+(`packages/mail` reaches Postgres via `bun` + Prisma; no MCP needed).
 
-**Audiences are evaluated at send time**, and `week_seekers_2027_fresh` excludes anyone
-with a prior SENT event. 189 contacts qualify for both seeded campaigns — run
-`2026-fall-shortstay` **first**, `2027-season-open` **second**, and the overlap drops
-out by itself. In parallel they double-mail 189 cold contacts.
+Last verified 2026-09-12: 801 contacts, 797 mailable, 2 HOLD test contacts.
+**Nothing has ever been sent to the real list.** `2026-open-dates` and
+`2027-season-open` are DRAFT with zero sends. `2026-fall-shortstay` is **CANCELLED
+in the database** — superseded copy, and `sendBroadcast` refuses it; do not
+resurrect it. `2027-bookings-open-aug9` is the backfilled record of a manual BCC
+blast, not a send.
+
+**Audiences are evaluated at send time.** `2026-open-dates` targets `everyone`;
+`week_seekers_2027_fresh` excludes anyone with a prior SENT event and is a subset of
+`everyone` — so sending the first empties the second to zero. A real 2027 follow-up
+needs a new audience definition.
 
 Open: the Gmail filter routing `inquiry@cottagesincanada.com` → `/api/inbound/cic`
 is **not set up**, so the list is not self-growing. Duplicates exist and no dedupe
