@@ -24,7 +24,7 @@ directory plus a short suffix. That mapping survives restarts; the `[ref]` may n
 | Role | Worktree directory (match on this) | Working directory |
 |---|---|---|
 | **Revenue Desk** | `beautiful-borg-ff7ff6` | `island-view-retreat` |
-| **Site & Platform** | `happy-herschel-472c7a` | `island-view-retreat` |
+| **Site & Platform** | `gifted-hamilton-a2841d` (moved from `happy-herschel-472c7a`) | `island-view-retreat` |
 | **Content & SEO** | `angry-goodall-744f66` | `island-view-retreat` |
 | **Channels & Listings** | `island-view-website-mgmt-7eb3f4` ⚠️ legacy name | `IV` |
 | **Finance** | `dreamy-tesla-ca9182` ⚠️ legacy name | `IV` |
